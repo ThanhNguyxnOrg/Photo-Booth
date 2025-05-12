@@ -12,7 +12,7 @@
     <div class="login-page">
         <div class="login-container">
             <h2>✨ Photo Booth ✨</h2>
-            <div id="error-message"></div>
+            <div id="error-message" class="error-message"></div>
             
             <form id="login-form">
                 <div class="form-group">
@@ -27,20 +27,21 @@
                     </label>
                     <input type="password" id="password" required placeholder="Nhập mật khẩu">
                 </div>
-                <button type="submit">
+                <button type="submit" class="primary-button">
                     <i class="fas fa-sign-in-alt"></i> Đăng nhập
                 </button>
             </form>
 
             <div class="login-options">
                 <button id="guest-btn" class="guest-button">
-                    <i class="fas fa-user-alt"></i> Tiếp tục không cần đăng nhập
+                    <i class="fas fa-user-alt"></i> Tiếp tục với tư cách khách
                 </button>
+                <p class="guest-note">* Chế độ khách có thể sử dụng các tính năng cơ bản</p>
             </div>
 
             <div class="login-links">
                 <a href="#" id="register-link">
-                    <i class="fas fa-user-plus"></i> Đăng ký
+                    <i class="fas fa-user-plus"></i> Đăng ký tài khoản mới
                 </a>
             </div>
 
@@ -68,7 +69,7 @@
             document.querySelector('button[type="submit"]').innerHTML = 
                 isRegistering ? '<i class="fas fa-user-plus"></i> Đăng ký' : '<i class="fas fa-sign-in-alt"></i> Đăng nhập';
             registerLink.innerHTML = 
-                isRegistering ? '<i class="fas fa-sign-in-alt"></i> Quay lại đăng nhập' : '<i class="fas fa-user-plus"></i> Đăng ký';
+                isRegistering ? '<i class="fas fa-sign-in-alt"></i> Quay lại đăng nhập' : '<i class="fas fa-user-plus"></i> Đăng ký tài khoản mới';
             errorMessage.style.display = 'none';
         });
 
@@ -89,7 +90,7 @@
                 }
                 window.location.href = 'index.html';
             } catch (error) {
-                errorMessage.textContent = error.message;
+                errorMessage.textContent = getErrorMessage(error.code);
                 errorMessage.style.display = 'block';
             } finally {
                 loadingSpinner.style.display = 'none';
@@ -98,17 +99,37 @@
 
         // Xử lý chế độ khách
         guestBtn.addEventListener('click', () => {
-            // Lưu trạng thái khách vào localStorage
             localStorage.setItem('guestMode', 'true');
             window.location.href = 'index.html';
         });
 
         // Kiểm tra nếu đã đăng nhập
         auth.onAuthStateChanged((user) => {
-            if (user) {
+            const isGuestMode = localStorage.getItem('guestMode') === 'true';
+            if (user || isGuestMode) {
                 window.location.href = 'index.html';
             }
         });
+
+        // Hàm xử lý thông báo lỗi
+        function getErrorMessage(errorCode) {
+            switch (errorCode) {
+                case 'auth/invalid-email':
+                    return 'Email không hợp lệ';
+                case 'auth/user-disabled':
+                    return 'Tài khoản đã bị vô hiệu hóa';
+                case 'auth/user-not-found':
+                    return 'Không tìm thấy tài khoản';
+                case 'auth/wrong-password':
+                    return 'Mật khẩu không đúng';
+                case 'auth/email-already-in-use':
+                    return 'Email đã được sử dụng';
+                case 'auth/weak-password':
+                    return 'Mật khẩu phải có ít nhất 6 ký tự';
+                default:
+                    return 'Đã có lỗi xảy ra. Vui lòng thử lại.';
+            }
+        }
     </script>
 </body>
 </html> 

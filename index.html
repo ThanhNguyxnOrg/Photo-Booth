@@ -300,11 +300,16 @@
 
         // Check authentication
         onAuthStateChanged(auth, (user) => {
-            if (!user) {
+            const isGuestMode = localStorage.getItem('guestMode') === 'true';
+            if (!user && !isGuestMode) {
                 window.location.href = 'login.html';
                 return;
             }
-            document.getElementById('user-email').textContent = user.email;
+            if (user) {
+                document.getElementById('user-email').textContent = user.email;
+            } else {
+                document.getElementById('user-email').textContent = 'Guest User';
+            }
             initializeApp();
         });
 
