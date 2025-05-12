@@ -5,10 +5,69 @@ class Camera {
         this.errorMessage = document.getElementById('error-message');
         this.captureBtn = document.getElementById('capture-btn');
         this.countdown = document.getElementById('countdown');
+        this.settingsBtn = document.getElementById('settings-btn');
+        this.settingsPanel = document.getElementById('settings-panel');
+        this.autoCapture = document.getElementById('auto-capture');
+        this.captureInterval = document.getElementById('capture-interval');
+        this.enableSound = document.getElementById('enable-sound');
         this.isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        
+        this.isAutoCaptureActive = false;
+        this.autoCaptureTimer = null;
+        this.countdownAudio = new Audio('data:audio/mp3;base64,//NExAAAAAANIAAAAAExBTUUzLjk4LjIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+        
+        this.currentFacingMode = 'user'; // Default là camera trước
+        this.switchCameraBtn = document.getElementById('switch-camera');
+        this.cameraIcon = this.switchCameraBtn?.querySelector('.camera-icon');
+        this.cameraText = this.switchCameraBtn?.querySelector('.camera-text');
+        
+        if (this.isMobile) {
+            this.setupCameraSwitching();
+        }
+
+        this.initializeSettings();
         this.initializeProgressBar();
         this.handleVisibilityChange();
         this.handleOrientationChange();
+    }
+
+    initializeSettings() {
+        // Toggle settings panel
+        this.settingsBtn.addEventListener('click', () => {
+            this.settingsPanel.classList.toggle('active');
+        });
+
+        // Close panel when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!this.settingsPanel.contains(e.target) && 
+                !this.settingsBtn.contains(e.target)) {
+                this.settingsPanel.classList.remove('active');
+            }
+        });
+
+        // Load saved settings
+        this.loadSettings();
+
+        // Save settings when changed
+        this.autoCapture.addEventListener('change', () => this.saveSettings());
+        this.captureInterval.addEventListener('change', () => this.saveSettings());
+        this.enableSound.addEventListener('change', () => this.saveSettings());
+    }
+
+    loadSettings() {
+        const settings = JSON.parse(localStorage.getItem('cameraSettings') || '{}');
+        this.autoCapture.checked = settings.autoCapture ?? true;
+        this.captureInterval.value = settings.captureInterval ?? 3;
+        this.enableSound.checked = settings.enableSound ?? true;
+    }
+
+    saveSettings() {
+        const settings = {
+            autoCapture: this.autoCapture.checked,
+            captureInterval: parseInt(this.captureInterval.value),
+            enableSound: this.enableSound.checked
+        };
+        localStorage.setItem('cameraSettings', JSON.stringify(settings));
     }
 
     initializeProgressBar() {
@@ -54,31 +113,24 @@ class Camera {
 
     async getOptimalConstraints() {
         try {
-            const devices = await navigator.mediaDevices.enumerateDevices();
-            const videoDevices = devices.filter(device => device.kind === 'videoinput');
+            // Default constraints cho mobile
+            if (this.isMobile) {
+                return {
+                    video: {
+                        facingMode: { exact: this.currentFacingMode },
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    }
+                };
+            }
             
-            // Default constraints
-            const constraints = {
+            // Constraints cho desktop
+            return {
                 video: {
-                    facingMode: this.isMobile ? "user" : "environment",
-                    width: { ideal: this.isMobile ? 1280 : 1920 },
-                    height: { ideal: this.isMobile ? 720 : 1080 }
+                    width: { ideal: 1920 },
+                    height: { ideal: 1080 }
                 }
             };
-
-            // If we have multiple cameras, try to use the best one
-            if (videoDevices.length > 1) {
-                const bestCamera = videoDevices.find(device => 
-                    device.label.toLowerCase().includes('back') ||
-                    device.label.toLowerCase().includes('rear')
-                );
-                
-                if (bestCamera) {
-                    constraints.video.deviceId = { exact: bestCamera.deviceId };
-                }
-            }
-
-            return constraints;
         } catch (error) {
             console.warn("Error getting optimal constraints:", error);
             return { video: true }; // Fallback to basic constraints
@@ -146,7 +198,7 @@ class Camera {
     }
 
     performCountdown(callback) {
-        const timeLeft = parseInt(document.getElementById('capture-interval')?.value || 3);
+        const timeLeft = parseInt(this.captureInterval.value);
         this.countdown.style.display = "flex";
         this.countdown.textContent = timeLeft;
         this.progressBar.style.width = '0%';
@@ -159,6 +211,10 @@ class Camera {
             elapsed += interval;
             const progress = (elapsed / totalTime) * 100;
             this.progressBar.style.width = `${progress}%`;
+
+            if (this.enableSound.checked && elapsed % 1000 === 0) {
+                this.playCountdownSound();
+            }
         };
 
         const timer = setInterval(updateProgress, interval);
@@ -176,7 +232,22 @@ class Camera {
             this.countdown.style.display = "none";
             this.progressBar.style.width = '0%';
             callback();
+
+            // Start next auto capture if enabled
+            if (this.autoCapture.checked && this.isAutoCaptureActive) {
+                const cooldownTime = 1000; // 1 second cooldown between captures
+                this.autoCaptureTimer = setTimeout(() => {
+                    this.startCountdown(callback);
+                }, cooldownTime);
+            }
         }, totalTime);
+    }
+
+    playCountdownSound() {
+        if (this.enableSound.checked) {
+            this.countdownAudio.currentTime = 0;
+            this.countdownAudio.play().catch(() => {});
+        }
     }
 
     startSingleCapture(callback) {
@@ -199,65 +270,16 @@ class Camera {
     }
 
     startAutoCapture(callback) {
-        this.isCapturing = true;
-        this.remainingPhotos = 3;
-        this.captureBtn.disabled = true;
-        
-        const interval = parseInt(this.captureInterval.value) * 1000;
-        let progress = 0;
-        
-        // Create progress bar
-        const progressBar = document.createElement("div");
-        progressBar.className = "capture-progress";
-        this.captureBtn.appendChild(progressBar);
+        this.isAutoCaptureActive = true;
+        this.startCountdown(callback);
+    }
 
-        const captureWithProgress = () => {
-            if (this.remainingPhotos <= 0) {
-                this.isCapturing = false;
-                this.captureBtn.disabled = false;
-                progressBar.remove();
-                return;
-            }
-
-            // Start countdown
-            let timeLeft = 3;
-            this.countdown.style.display = "flex";
-            this.countdown.textContent = timeLeft;
-
-            const countdownInterval = setInterval(() => {
-                timeLeft--;
-                if (timeLeft > 0) {
-                    this.countdown.textContent = timeLeft;
-                } else {
-                    this.countdown.style.display = "none";
-                    clearInterval(countdownInterval);
-                    callback();
-                    this.remainingPhotos--;
-
-                    if (this.remainingPhotos > 0) {
-                        progress = 0;
-                        progressBar.style.width = "0%";
-                        setTimeout(captureWithProgress, interval);
-                    } else {
-                        this.isCapturing = false;
-                        this.captureBtn.disabled = false;
-                        progressBar.remove();
-                    }
-                }
-            }, 1000);
-        };
-
-        // Update progress bar
-        const progressInterval = setInterval(() => {
-            if (!this.isCapturing) {
-                clearInterval(progressInterval);
-                return;
-            }
-            progress += 1;
-            progressBar.style.width = `${(progress / (interval/100))}%`;
-        }, 100);
-
-        captureWithProgress();
+    stopAutoCapture() {
+        this.isAutoCaptureActive = false;
+        if (this.autoCaptureTimer) {
+            clearTimeout(this.autoCaptureTimer);
+            this.autoCaptureTimer = null;
+        }
     }
 
     stopCamera() {
@@ -328,5 +350,97 @@ class Camera {
         if (this.stream) {
             this.stream.getTracks().forEach(track => track.enabled = true);
         }
+    }
+
+    setupCameraSwitching() {
+        // Kiểm tra xem thiết bị có nhiều camera không
+        this.checkMultipleCameras();
+        
+        this.switchCameraBtn?.addEventListener('click', () => {
+            this.switchCamera();
+        });
+    }
+
+    async checkMultipleCameras() {
+        try {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const videoDevices = devices.filter(device => device.kind === 'videoinput');
+            
+            // Chỉ hiện nút switch nếu có nhiều hơn 1 camera
+            const cameraSwitchGroup = document.getElementById('camera-switch-group');
+            if (cameraSwitchGroup) {
+                cameraSwitchGroup.style.display = videoDevices.length > 1 ? 'block' : 'none';
+            }
+
+            // Lưu danh sách camera
+            this.cameras = videoDevices;
+        } catch (error) {
+            console.error('Không thể kiểm tra camera:', error);
+        }
+    }
+
+    async switchCamera() {
+        if (!this.switchCameraBtn || this.switching) return;
+
+        try {
+            this.switching = true;
+            this.switchCameraBtn.classList.add('switching');
+            
+            // Dừng stream hiện tại
+            if (this.stream) {
+                this.stream.getTracks().forEach(track => track.stop());
+            }
+
+            // Đổi chế độ camera
+            this.currentFacingMode = this.currentFacingMode === 'user' ? 'environment' : 'user';
+            
+            // Cập nhật UI
+            this.updateCameraUI();
+
+            // Khởi tạo lại stream với camera mới
+            await this.initialize();
+
+            // Thông báo thành công
+            this.showSuccessMessage('Đã chuyển camera!');
+
+        } catch (error) {
+            console.error('Lỗi khi chuyển camera:', error);
+            this.showErrorMessage('Không thể chuyển camera. Vui lòng thử lại!');
+            
+            // Thử lại với camera trước
+            this.currentFacingMode = 'user';
+            await this.initialize();
+            
+        } finally {
+            this.switching = false;
+            this.switchCameraBtn.classList.remove('switching');
+        }
+    }
+
+    updateCameraUI() {
+        // Cập nhật icon và text
+        if (this.currentFacingMode === 'user') {
+            this.cameraIcon.textContent = '🤳';
+            this.cameraText.textContent = 'Camera trước';
+        } else {
+            this.cameraIcon.textContent = '📸';
+            this.cameraText.textContent = 'Camera sau';
+        }
+    }
+
+    showSuccessMessage(message) {
+        const toast = document.createElement('div');
+        toast.className = 'camera-toast success';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2000);
+    }
+
+    showErrorMessage(message) {
+        const toast = document.createElement('div');
+        toast.className = 'camera-toast error';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
     }
 }

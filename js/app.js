@@ -8,6 +8,7 @@ class PhotoBooth {
 
         this.initializeElements();
         this.setupEventListeners();
+        this.setupAutoCaptureHandling();
     }
 
     initializeElements() {
@@ -87,8 +88,26 @@ class PhotoBooth {
         });
     }
 
+    setupAutoCaptureHandling() {
+        this.buttons.capture.addEventListener("click", () => {
+            if (this.camera.autoCapture.checked) {
+                if (!this.camera.isAutoCaptureActive) {
+                    this.camera.startAutoCapture(() => this.capturePhoto());
+                    this.buttons.capture.textContent = "Dừng chụp";
+                } else {
+                    this.camera.stopAutoCapture();
+                    this.buttons.capture.textContent = "Chụp ảnh";
+                }
+            } else {
+                this.camera.startCountdown(() => this.capturePhoto());
+            }
+        });
+    }
+
     capturePhoto() {
         const dataURL = this.camera.capturePhoto();
+        if (!dataURL) return;
+
         const img = document.createElement("img");
         img.src = dataURL;
         this.slots[this.currentSlotIndex].innerHTML = "";
@@ -97,6 +116,8 @@ class PhotoBooth {
 
         this.currentSlotIndex++;
         if (this.currentSlotIndex >= this.slots.length) {
+            this.camera.stopAutoCapture(); // Stop auto capture when all slots are filled
+            this.buttons.capture.textContent = "Chụp ảnh";
             this.showSection('upload');
             this.updateSubmitButton();
             this.currentSlotIndex = 0;
