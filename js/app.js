@@ -9,6 +9,7 @@ class PhotoBooth {
         this.initializeElements();
         this.setupEventListeners();
         this.setupAutoCaptureHandling();
+        this.initializeTheme();
     }
 
     initializeElements() {
@@ -303,6 +304,39 @@ class PhotoBooth {
         this.capturedImages = [];
         this.currentSlotIndex = 0;
         this.updateSubmitButton();
+    }
+
+    initializeTheme() {
+        // Load saved theme
+        const savedTheme = localStorage.getItem('photoboothTheme') || 'pink';
+        this.applyTheme(savedTheme);
+
+        // Setup theme switcher
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const theme = btn.dataset.theme;
+                this.applyTheme(theme);
+                localStorage.setItem('photoboothTheme', theme);
+            });
+        });
+    }
+
+    applyTheme(theme) {
+        // Remove all theme classes
+        document.body.classList.remove('theme-pink', 'theme-purple', 'theme-mint');
+        // Add new theme class
+        document.body.classList.add(`theme-${theme}`);
+
+        // Update active state of theme buttons
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.theme === theme);
+        });
+
+        // Animate theme change
+        document.body.style.transition = 'background 0.5s ease';
+        document.querySelectorAll('.container, .photostrip, .button').forEach(el => {
+            el.style.transition = 'all 0.5s ease';
+        });
     }
 }
 

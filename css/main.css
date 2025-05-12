@@ -340,14 +340,14 @@ body {
 
 /* Common styles */
 body {
-    background: linear-gradient(135deg, #ffe6f0 0%, #fff5f8 100%);
-    color: #333;
+    background: var(--bg-gradient);
+    color: var(--text-color);
 }
 
 .container {
-    background: rgba(255, 255, 255, 0.9);
+    background: var(--container-bg);
+    box-shadow: 0 10px 30px var(--shadow-color);
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(255, 153, 204, 0.2);
     backdrop-filter: blur(10px);
     margin: 0 auto;
 }
@@ -365,10 +365,10 @@ body {
 
 /* Photostrip background */
 .photostrip {
-    background-color: #ff99cc !important; /* Default pink background */
+    background-color: var(--primary-color) !important; /* Default pink background */
     padding: 15px;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(255, 153, 204, 0.3);
+    box-shadow: 0 4px 15px var(--shadow-color);
 }
 
 .photostrip img {
@@ -377,4 +377,114 @@ body {
     margin-bottom: 10px;
     max-width: 100%;
     height: auto;
+}
+
+/* Theme Variables */
+:root {
+    /* Pink Theme (Default) */
+    --bg-gradient: linear-gradient(135deg, #ffe6f0 0%, #fff5f8 100%);
+    --container-bg: rgba(255, 255, 255, 0.95);
+    --primary-color: #ff99cc;
+    --secondary-color: #ff66b2;
+    --text-color: #333;
+    --shadow-color: rgba(255, 153, 204, 0.3);
+    --button-gradient: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+}
+
+/* Theme Classes */
+.theme-pink {
+    --bg-gradient: linear-gradient(135deg, #ffe6f0 0%, #fff5f8 100%);
+    --container-bg: rgba(255, 255, 255, 0.95);
+    --primary-color: #ff99cc;
+    --secondary-color: #ff66b2;
+    --text-color: #333;
+    --shadow-color: rgba(255, 153, 204, 0.3);
+    --button-gradient: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+}
+
+.theme-purple {
+    --bg-gradient: linear-gradient(135deg, #e6e6ff 0%, #f8f5ff 100%);
+    --container-bg: rgba(255, 255, 255, 0.95);
+    --primary-color: #9999ff;
+    --secondary-color: #6666ff;
+    --text-color: #333;
+    --shadow-color: rgba(153, 153, 255, 0.3);
+    --button-gradient: linear-gradient(135deg, #8475ff 0%, #7e7eff 100%);
+}
+
+.theme-mint {
+    --bg-gradient: linear-gradient(135deg, #e6fff2 0%, #f5fff8 100%);
+    --container-bg: rgba(255, 255, 255, 0.95);
+    --primary-color: #99ffcc;
+    --secondary-color: #66ffb2;
+    --text-color: #333;
+    --shadow-color: rgba(153, 255, 204, 0.3);
+    --button-gradient: linear-gradient(135deg, #75ffb8 0%, #7effc4 100%);
+}
+
+/* Theme Switcher */
+.theme-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.theme-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.theme-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.theme-btn.active {
+    transform: scale(1.2);
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.theme-btn.pink {
+    background: linear-gradient(135deg, #ff99cc 0%, #ff66b2 100%);
+}
+
+.theme-btn.purple {
+    background: linear-gradient(135deg, #9999ff 0%, #6666ff 100%);
+}
+
+.theme-btn.mint {
+    background: linear-gradient(135deg, #99ffcc 0%, #66ffb2 100%);
+}
+
+/* Apply theme variables */
+body {
+    background: var(--bg-gradient);
+    color: var(--text-color);
+}
+
+.container {
+    background: var(--container-bg);
+    box-shadow: 0 10px 30px var(--shadow-color);
+}
+
+.button {
+    background: var(--button-gradient);
+}
+
+.photostrip {
+    background-color: var(--primary-color) !important;
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.lang-btn.active {
+    background: var(--button-gradient);
+    box-shadow: 0 4px 15px var(--shadow-color);
 }
