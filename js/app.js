@@ -11,6 +11,7 @@ class PhotoBooth {
         this.setupEventListeners();
         this.setupAutoCaptureHandling();
         this.initializeTheme();
+        this.initializeTabEffects();
     }
 
     initializeElements() {
@@ -351,6 +352,31 @@ class PhotoBooth {
         document.body.style.transition = 'background 0.5s ease';
         document.querySelectorAll('.container, .photostrip, .button').forEach(el => {
             el.style.transition = 'all 0.5s ease';
+        });
+    }
+
+    initializeTabEffects() {
+        // Tạo hiệu ứng cho tab title khi chuyển tab
+        let titles = ['📸 ✨', '💖 ✨', '🎀 ✨', '🌸 ✨'];
+        let currentIndex = 0;
+        let originalTitle = document.title;
+        
+        // Khi tab không được focus
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // Bắt đầu animation
+                this.tabTitleInterval = setInterval(() => {
+                    document.title = titles[currentIndex] + ' Cute Photo Booth ' + titles[currentIndex];
+                    currentIndex = (currentIndex + 1) % titles.length;
+                }, 1000);
+            } else {
+                // Dừng animation và khôi phục title gốc
+                if (this.tabTitleInterval) {
+                    clearInterval(this.tabTitleInterval);
+                    this.tabTitleInterval = null;
+                }
+                document.title = originalTitle;
+            }
         });
     }
 }
