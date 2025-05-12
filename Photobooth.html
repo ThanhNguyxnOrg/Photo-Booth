@@ -268,17 +268,32 @@
         display: block;
         font-weight: 500;
         margin-bottom: 5px;
+      }      .stickers {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        padding: 10px;
+        background-color: #fff5f8;
+        border-radius: 12px;
+        border: 2px solid #ffcce0;
       }
 
       .stickers button, .backgrounds button, .filters button {
         width: 40px;
         height: 40px;
-        margin: 5px;
+        margin: 2px;
         border: none;
         border-radius: 50%;
         cursor: pointer;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        transition: transform 0.1s;
+        transition: transform 0.2s, box-shadow 0.2s;
+        background-color: white;
+      }
+
+      .stickers button:hover {
+        transform: translateY(-2px) scale(1.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        background-color: #fff0f5;
       }
 
       .stickers button {
@@ -429,13 +444,24 @@
             <div class="date" id="date-stamp">March 16, 2025</div>
           </div>
         </div>
-        <div class="controls">
-          <div class="control-section stickers">
-            <label>Stickers</label>
-            <button data-sticker="🦄" class="button"></button>
-            <button data-sticker="🐾" class="button"></button>
-            <button data-sticker="🐼" class="button"></button>
-            <button data-sticker="✨" class="button"></button>
+        <div class="controls">          <div class="control-section stickers">
+            <label>Cute Stickers</label>
+            <button data-sticker="🦄" class="button" title="Unicorn"></button>
+            <button data-sticker="🌸" class="button" title="Cherry Blossom"></button>
+            <button data-sticker="🎀" class="button" title="Ribbon"></button>
+            <button data-sticker="💝" class="button" title="Heart with Ribbon"></button>
+            <button data-sticker="🌟" class="button" title="Glowing Star"></button>
+            <button data-sticker="🦋" class="button" title="Butterfly"></button>
+            <button data-sticker="🌈" class="button" title="Rainbow"></button>
+            <button data-sticker="💖" class="button" title="Sparkling Heart"></button>
+            <button data-sticker="🎪" class="button" title="Circus Tent"></button>
+            <button data-sticker="🌺" class="button" title="Hibiscus"></button>
+            <button data-sticker="🍭" class="button" title="Lollipop"></button>
+            <button data-sticker="✨" class="button" title="Sparkles"></button>
+            <button data-sticker="🎠" class="button" title="Carousel"></button>
+            <button data-sticker="🐰" class="button" title="Bunny"></button>
+            <button data-sticker="🎵" class="button" title="Musical Note"></button>
+            <button data-sticker="💫" class="button" title="Dizzy"></button>
           </div>
           <div class="control-section backgrounds">
             <label>Photostrip Background</label>
@@ -494,10 +520,10 @@
         <div class="decor" style="right: 50px; top: 300px;">💖</div>
         <div class="decor" style="left: 200px; top: 150px;">🌟</div>
         <div class="decor" style="right: 200px; top: 150px;">🌟</div>
-      </div>
-
-      <div class="footer">
-        
+      </div>      <div class="footer">
+        <p style="font-style: italic; font-family: 'Segoe UI', Arial, sans-serif; color: #666;">
+          ✨ Made by ThanhNguyxn ✨
+        </p>
       </div>
     </div>
     <script>

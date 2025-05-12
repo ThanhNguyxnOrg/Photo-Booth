@@ -1,0 +1,71 @@
+/* Buttons styles */
+.button {
+  background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+  color: #fff;
+  border: none;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 8px 0;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(255, 118, 140, 0.3);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.button:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 118, 140, 0.4);
+  background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 70%);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.button::before {
+  content: "📸 ";
+  margin-right: 8px;
+}
+
+/* Custom button styles */
+#submit-btn {
+  background-color: #4a90e2;
+}
+
+#submit-btn::before {
+  content: "📤 ";
+}
+
+#preview-btn {
+  background-color: #50e3c2;
+}
+
+#preview-btn::before {
+  content: "🔍 ";
+}
+
+#download-btn {
+  background-color: #9b59b6;
+}
+
+#download-btn::before {
+  content: "⬇️ ";
+}
+
+#retake-btn {
+  background-color: #e74c3c;
+}
+
+#retake-btn::before {
+  content: "🔄 ";
+}

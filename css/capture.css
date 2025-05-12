@@ -1,0 +1,79 @@
+/* Capture section styles */
+.capture-section, .upload-section, .editor, .scrapbook {
+    display: none;
+}
+
+.capture-section.active, .upload-section.active, .editor.active, .scrapbook.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.video-container {
+    position: relative;
+    width: 640px;
+    height: 480px;
+}
+
+video {
+    border: 2px solid #333;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: #000;
+}
+
+#countdown {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 120px;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    display: none;
+}
+
+#photos {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.photo-slot {
+    width: 160px;
+    height: 160px;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.photo-slot:hover {
+    transform: scale(1.05);
+    border-color: #ff99cc;
+}
+
+.photo-slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+#error-message {
+    color: red;
+    margin-top: 10px;
+    display: none;
+    padding: 10px;
+    background-color: #ffe6e6;
+    border-radius: 5px;
+    border: 1px solid #ffcccc;
+}

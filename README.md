@@ -1,2 +1,2 @@
 # Photobooth
-Photobooth code by HTML
+Photobooth code by ThanhNguyxn

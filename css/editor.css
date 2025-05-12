@@ -1,0 +1,131 @@
+/* Editor styles */
+.editor {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.photostrip-container {
+  position: relative;
+}
+
+.photostrip {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  border: 2px solid rgba(255, 153, 204, 0.3);
+}
+
+.photostrip img {
+  width: 200px;
+  height: 200px;
+  border: 5px solid #ff99cc;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.photostrip .date {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.control-section {
+  margin-bottom: 10px;
+}
+
+/* Stickers section */
+.stickers {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding: 20px;
+  background: linear-gradient(135deg, #fff5f8 0%, #ffe9f3 100%);
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 5px 15px rgba(255, 153, 204, 0.2);
+  backdrop-filter: blur(5px);
+}
+
+.stickers button {
+  width: 40px;
+  height: 40px;
+  margin: 2px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  background-color: white;
+  font-size: 20px;
+}
+
+.stickers button:hover {
+  transform: translateY(-2px) scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background-color: #fff0f5;
+}
+
+/* Backgrounds section */
+.backgrounds button {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Filters section */
+.filters button {
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.filters button.active {
+  background-color: #ddd;
+}
+
+/* Language selector styles */
+.language-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: linear-gradient(135deg, #fff5f8 0%, #ffe9f3 100%);
+    border-radius: 20px;
+    justify-content: center;
+}
+
+.lang-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 15px;
+    background: white;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.lang-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.lang-btn.active {
+    background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+    box-shadow: 0 4px 15px rgba(255, 118, 140, 0.3);
+    transform: translateY(-2px);
+}
