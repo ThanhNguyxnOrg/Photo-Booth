@@ -132,26 +132,52 @@ class PhotoEditor {
     }
 
     getFilterStyle(filter) {
-        const filterStyles = {
-            "black-and-white": "grayscale(100%)",
-            "sepia": "sepia(100%)",
-            "warm": "hue-rotate(-30deg) saturate(150%)",
-            "cold": "hue-rotate(180deg) saturate(150%)",
-            "cool": "hue-rotate(210deg) brightness(110%)",
-            "none": "none"
-        };
-        
-        return filterStyles[filter] || "none";
+        switch (filter) {
+            case "black-and-white":
+                return "grayscale(100%)";
+            case "sepia":
+                return "sepia(100%)";
+            case "warm":
+                return "saturate(150%) hue-rotate(-10deg) brightness(105%)";
+            case "cold":
+                return "saturate(140%) hue-rotate(180deg)";
+            case "cool":
+                return "saturate(130%) hue-rotate(210deg) brightness(110%)";
+            default:
+                return "none";
+        }
     }
 
     updatePhotostrip() {
         const photos = document.querySelectorAll(".photostrip img");
-        photos.forEach(photo => {
-            const filterStyle = this.getFilterStyle(this.currentFilter);
-            photo.style.filter = filterStyle;
+        photos.forEach(img => {
+            // Giữ nguyên aspect ratio và chất lượng ảnh
+            img.style.objectFit = 'cover';
+            img.style.width = '100%';
+            img.style.height = 'auto';
+            img.style.maxHeight = '200px';
             
-            // Store the filter on the element for consistency
-            photo.dataset.currentFilter = this.currentFilter;
+            // Thêm loading="lazy" để tối ưu performance
+            img.loading = 'lazy';
+            
+            // Thêm CORS policy để tránh lỗi canvas
+            img.crossOrigin = 'anonymous';
+        });
+
+        // Đặt background mặc định là màu hồng
+        const photostrip = document.getElementById("photostrip");
+        if (photostrip && !photostrip.style.backgroundColor) {
+            photostrip.style.backgroundColor = '#ff99cc';
+        }
+    }
+
+    applyFilter(filter) {
+        const photos = document.querySelectorAll(".photostrip img");
+        photos.forEach(img => {
+            img.style.filter = this.getFilterStyle(filter);
+            
+            // Thêm transition để smooth hơn
+            img.style.transition = 'filter 0.3s ease';
         });
     }
 

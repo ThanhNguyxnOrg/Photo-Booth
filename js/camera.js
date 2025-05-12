@@ -288,9 +288,7 @@ class Camera {
             tracks.forEach(track => track.stop());
             this.video.srcObject = null;
         }
-    }
-
-    capturePhoto() {
+    }    capturePhoto() {
         if (!this.video.srcObject) {
             console.error("No camera stream available");
             return null;
@@ -305,17 +303,25 @@ class Camera {
         }
 
         const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
+        const context = canvas.getContext("2d", { alpha: false });
 
-        // Set dimensions based on device
+        // Maintain aspect ratio but ensure high quality
+        const targetWidth = 1920; // Target width for high quality
+        const aspectRatio = this.video.videoWidth / this.video.videoHeight;
+        
         if (this.isMobile) {
-            const aspectRatio = this.video.videoWidth / this.video.videoHeight;
+            // For mobile, use smaller dimensions but maintain quality
             canvas.width = Math.min(1280, this.video.videoWidth);
             canvas.height = canvas.width / aspectRatio;
         } else {
-            canvas.width = this.video.videoWidth;
-            canvas.height = this.video.videoHeight;
+            // For desktop, use higher resolution
+            canvas.width = Math.min(targetWidth, this.video.videoWidth);
+            canvas.height = canvas.width / aspectRatio;
         }
+
+        // Enable image smoothing for better quality
+        context.imageSmoothingEnabled = true;
+        context.imageSmoothingQuality = 'high';
 
         try {
             // Draw the current frame from video to canvas
