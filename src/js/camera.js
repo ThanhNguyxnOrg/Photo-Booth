@@ -195,7 +195,9 @@ class Camera {
             return;
         }
         this.performCountdown(callback);
-    }    performCountdown(callback) {
+    }
+
+    performCountdown(callback) {
         if (this.isCountingDown) return; // Prevent multiple countdown starts
         
         this.isCountingDown = true;
@@ -293,7 +295,9 @@ class Camera {
             tracks.forEach(track => track.stop());
             this.video.srcObject = null;
         }
-    }    capturePhoto() {
+    }
+
+    capturePhoto() {
         if (!this.video.srcObject) {
             console.error("No camera stream available");
             return null;
@@ -533,3 +537,111 @@ class CameraManager {
         }
     }
 }
+
+// Camera elements
+const video = document.getElementById('video');
+const captureBtn = document.getElementById('capture-btn');
+const countdown = document.getElementById('countdown');
+const errorMessage = document.getElementById('error-message');
+let currentSlotIndex = 0;
+let capturedImages = [];
+
+// Initialize camera
+async function initCamera() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = stream;
+        errorMessage.style.display = "none";
+        captureBtn.disabled = false;
+    } catch (error) {
+        console.error("Error accessing camera:", error);
+        errorMessage.style.display = "block";
+        errorMessage.textContent = "Unable to access camera. Please allow camera permissions in your browser settings.";
+        captureBtn.disabled = true;
+    }
+}
+
+// Start camera when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    initCamera();
+});
+
+// Handle capture button click
+captureBtn.addEventListener('click', () => {
+    startCountdown();
+});
+
+// Countdown function
+function startCountdown() {
+    captureBtn.disabled = true;
+    let timeLeft = 3;
+    countdown.style.display = "flex";
+    countdown.textContent = timeLeft;
+
+    const countdownInterval = setInterval(() => {
+        timeLeft--;
+        if (timeLeft > 0) {
+            countdown.textContent = timeLeft;
+        } else {
+            countdown.style.display = "none";
+            clearInterval(countdownInterval);
+            capturePhoto();
+            captureBtn.disabled = false;
+        }
+    }, 1000);
+}
+
+// Capture photo
+function capturePhoto() {
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const context = canvas.getContext('2d');
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    const imageData = canvas.toDataURL('image/png');
+    displayPhoto(imageData);
+}
+
+// Display captured photo
+function displayPhoto(imageData) {
+    const currentSlot = document.getElementById(`slot-${currentSlotIndex + 1}`);
+    if (currentSlot) {
+        // Clear existing content
+        currentSlot.innerHTML = '';
+        
+        // Create and add image
+        const img = document.createElement('img');
+        img.src = imageData;
+        currentSlot.appendChild(img);
+        
+        // Store image
+        capturedImages[currentSlotIndex] = imageData;
+        
+        // Move to next slot or show editor
+        currentSlotIndex++;
+        if (currentSlotIndex >= 3) {
+            document.getElementById('capture-section').classList.remove('active');
+            document.getElementById('editor').classList.add('active');
+            currentSlotIndex = 0;
+            updatePreview();
+        }
+    }
+}
+
+// Update preview in editor
+function updatePreview() {
+    capturedImages.forEach((image, index) => {
+        const previewImg = document.getElementById(`preview-photo-${index + 1}`);
+        if (previewImg && image) {
+            previewImg.src = image;
+        }
+    });
+}
+
+// Export functions and variables
+export {
+    initCamera,
+    capturedImages,
+    currentSlotIndex
+};
