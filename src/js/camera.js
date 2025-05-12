@@ -549,8 +549,15 @@ let capturedImages = [];
 // Initialize camera
 async function initCamera() {
     try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+            video: {
+                width: { ideal: 1280 },
+                height: { ideal: 720 },
+                facingMode: 'user'
+            }
+        });
         video.srcObject = stream;
+        video.play();
         errorMessage.style.display = "none";
         captureBtn.disabled = false;
     } catch (error) {
@@ -597,9 +604,12 @@ function capturePhoto() {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     const context = canvas.getContext('2d');
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
     
-    const imageData = canvas.toDataURL('image/png');
+    // Flip horizontally for front camera
+    context.scale(-1, 1);
+    context.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
+    
+    const imageData = canvas.toDataURL('image/jpeg', 0.9);
     displayPhoto(imageData);
 }
 
