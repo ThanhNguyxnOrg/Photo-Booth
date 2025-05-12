@@ -653,6 +653,18 @@
         background: #ff4444;
         color: white;
       }
+
+      #mainContent {
+        display: none; /* Hide main content by default */
+      }
+      
+      #loginSection {
+        display: flex; /* Show login section by default */
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f6d5e7 0%, #fbe9f1 100%);
+      }
     </style>
   </head>
   <body>
@@ -866,15 +878,8 @@
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
       const auth = firebase.auth();
-      const storage = firebase.storage();
-      const db = firebase.firestore();
-      const storageRef = storage.ref();
-
-      // Admin credentials
-      const ADMIN_CREDENTIALS = {
-        email: 'thanhnguyentuan2007@gmail.com',
-        password: 'Thanh17112007'
-      };
+      let db = firebase.firestore();
+      let storageRef = storage.ref();
 
       // DOM Elements
       const loginSection = document.getElementById('loginSection');
@@ -890,6 +895,38 @@
       const loginBtn = document.getElementById('loginBtn');
       const logoutBtn = document.getElementById('logoutBtn');
       const adminControls = document.getElementById('adminControls');
+
+      // Continue as guest
+      function continueAsGuest() {
+        loginSection.style.display = 'none';
+        mainContent.style.display = 'block';
+        userStatus.style.display = 'flex';
+        loginBtn.style.display = 'block';
+        logoutBtn.style.display = 'none';
+        userName.textContent = 'Guest';
+        userAvatar.textContent = 'G';
+      }
+
+      // Admin credentials
+      const ADMIN_CREDENTIALS = {
+        email: 'thanhnguyentuan2007@gmail.com',
+        password: 'Thanh17112007'
+      };
+
+      // Check auth state on page load
+      document.addEventListener('DOMContentLoaded', () => {
+        // Show login section by default
+        loginSection.style.display = 'flex';
+        mainContent.style.display = 'none';
+        
+        // Check if user is already logged in
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            const isAdmin = user.email === ADMIN_CREDENTIALS.email;
+            loginSuccess(isAdmin);
+          }
+        });
+      });
 
       // Regular email/password login
       loginForm.addEventListener('submit', (e) => {
@@ -956,17 +993,6 @@
         continueAsGuest();
       });
 
-      // Continue as guest
-      function continueAsGuest() {
-        loginSection.style.display = 'none';
-        mainContent.style.display = 'block';
-        userStatus.style.display = 'flex';
-        loginBtn.style.display = 'block';
-        logoutBtn.style.display = 'none';
-        userName.textContent = 'Guest';
-        userAvatar.textContent = 'G';
-      }
-
       // Login success handler
       function loginSuccess(isAdmin) {
         authError.textContent = '';
@@ -999,14 +1025,6 @@
         auth.signOut().then(() => {
           continueAsGuest();
         });
-      });
-
-      // Check auth state on page load
-      auth.onAuthStateChanged((user) => {
-        if (user) {
-          const isAdmin = user.email === ADMIN_CREDENTIALS.email;
-          loginSuccess(isAdmin);
-        }
       });
 
       var captureSection = document.getElementById("capture-section");
@@ -1321,15 +1339,6 @@
         nextStickerPositionIndex = 0;
         updateSubmitButton();
       });
-
-      // Initialize Firebase Storage
-      const storageRef = storage.ref();
-      
-      // Initialize Firebase Firestore
-      firebase.initializeApp({
-        // your config
-      });
-      const db = firebase.firestore();
 
       let nsfwModel = null;
 
