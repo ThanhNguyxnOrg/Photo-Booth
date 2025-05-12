@@ -1,48 +1,95 @@
-# Photo Booth Web App 📸
+# Photo Booth Web Application
 
-A fun and interactive photo booth web application that lets users take photos, apply filters, add stickers, and create beautiful photo strips.
+A modern web-based photo booth application with features like photo capture, filters, stickers, and social sharing.
 
-## Features ✨
+## Features
 
-- 📷 Take photos using webcam
-- 🖼️ Upload existing photos
-- 🎨 Apply various filters (B&W, Sepia, Warm, Cold, Cool)
-- 🌟 Add cute stickers
-- 🎨 Change background colors
-- 📅 Add date stamps
-- 💾 Download photo strips
-- 🌍 Multiple language support (English, Vietnamese, Japanese, Korean)
-- 📱 Responsive design
+- Photo capture using webcam
+- Image upload support
+- Photo editing with filters and stickers
+- Social login (Google, Facebook)
+- Guest mode
+- Admin panel for content moderation
+- Public gallery
+- Content moderation using NSFW.js
+- Responsive design
 
-## Technologies Used 🛠️
-
-- HTML5
-- CSS3
-- JavaScript
-- WebRTC for camera access
-
-## Getting Started 🚀
+## Setup
 
 1. Clone the repository:
-   ```
-   git clone https://github.com/YourUsername/Photo-Booth.git
-   ```
+```bash
+git clone https://github.com/yourusername/photo-booth.git
+cd photo-booth
+```
 
-2. Open `index.html` in a modern web browser
+2. Update Firebase configuration:
+Edit `src/js/firebase-config.js` with your Firebase credentials:
+```javascript
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "your-app.firebaseapp.com",
+  projectId: "your-project-id",
+  storageBucket: "your-app.appspot.com",
+  messagingSenderId: "your-sender-id",
+  appId: "your-app-id"
+};
+```
 
-3. Allow camera permissions when prompted
+3. Set up Firebase:
+- Create a new Firebase project
+- Enable Authentication (Email/Password, Google, Facebook)
+- Create a Firestore database
+- Set up Storage rules
 
-## Languages Supported 🌐
+4. Install dependencies:
+```bash
+npm install
+```
 
-- 🇺🇸 English
-- 🇻🇳 Vietnamese
-- 🇯🇵 Japanese
-- 🇰🇷 Korean
+5. Run the application:
+```bash
+npm start
+```
 
-## Live Demo 🎥
+## Usage
 
-Visit the live demo: [Photo Booth Web App](https://YourUsername.github.io/Photo-Booth)
+### Guest Mode
+- Click "Continue as Guest" to use basic features
+- Take photos using webcam
+- Apply filters and stickers
+- Download photos
 
-## Author ✍️
+### User Account
+- Create an account or login with Google/Facebook
+- Access additional features like:
+  - Saving photos to your account
+  - Sharing to public gallery
+  - Creating photo collections
 
-✨ Made by ThanhNguyxn ✨
+### Admin Access
+- Login with admin credentials:
+  - Email: thanhnguyentuan2007@gmail.com
+  - Password: Thanh17112007
+- Access admin features:
+  - Content moderation
+  - User management
+  - Statistics
+
+## Security
+
+- Content moderation using NSFW.js
+- Secure Firebase rules
+- Admin authentication
+- Safe image storage
+
+## Contributing
+
+Feel free to submit issues and enhancement requests.
+
+## License
+
+[MIT](LICENSE)
+
+## Author
+
+ThanhNguyxn
