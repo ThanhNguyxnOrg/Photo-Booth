@@ -130,10 +130,59 @@
       }
 
       .editor {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 20px;
+        padding: 20px;
         background: white;
         border-radius: 20px;
-        padding: 30px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .preview-section {
+        position: sticky;
+        top: 20px;
+      }
+
+      .photostrip-container {
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .controls-section {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .control-group {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+
+      .control-group h3 {
+        margin: 0 0 10px 0;
+        font-size: 16px;
+        color: #333;
+      }
+
+      .live-preview {
+        margin-bottom: 20px;
+      }
+
+      .live-preview img {
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        transition: all 0.3s ease;
       }
 
       .controls {
@@ -223,6 +272,15 @@
 
         .photo-slot {
           width: 100%;
+        }
+
+        .editor {
+          grid-template-columns: 1fr;
+        }
+        
+        .preview-section {
+          position: relative;
+          top: 0;
         }
       }
 
@@ -673,65 +731,65 @@
 
       <!-- Editor Section -->
       <div class="editor" id="editor">
-        <div class="photostrip-container">
-          <div class="photostrip" id="photostrip">
-            <div>
-              <img id="photo-1" src="" alt="Photo 1" />
+        <div class="preview-section">
+          <div class="photostrip-container">
+            <div class="live-preview">
+              <img id="preview-photo-1" src="" alt="Preview 1">
+              <img id="preview-photo-2" src="" alt="Preview 2">
+              <img id="preview-photo-3" src="" alt="Preview 3">
             </div>
-            <div>
-              <img id="photo-2" src="" alt="Photo 2" />
-            </div>
-            <div>
-              <img id="photo-3" src="" alt="Photo 3" />
-            </div>
-            <div class="date" id="date-stamp">March 16, 2025</div>
+            <div class="date" id="date-stamp"></div>
           </div>
         </div>
-        <div class="controls">          <div class="control-section stickers">
-            <label>Cute Stickers</label>
-            <button data-sticker="🦄" class="button" title="Unicorn"></button>
-            <button data-sticker="🌸" class="button" title="Cherry Blossom"></button>
-            <button data-sticker="🎀" class="button" title="Ribbon"></button>
-            <button data-sticker="💝" class="button" title="Heart with Ribbon"></button>
-            <button data-sticker="🌟" class="button" title="Glowing Star"></button>
-            <button data-sticker="🦋" class="button" title="Butterfly"></button>
-            <button data-sticker="🌈" class="button" title="Rainbow"></button>
-            <button data-sticker="💖" class="button" title="Sparkling Heart"></button>
-            <button data-sticker="🎪" class="button" title="Circus Tent"></button>
-            <button data-sticker="🌺" class="button" title="Hibiscus"></button>
-            <button data-sticker="🍭" class="button" title="Lollipop"></button>
-            <button data-sticker="✨" class="button" title="Sparkles"></button>
-            <button data-sticker="🎠" class="button" title="Carousel"></button>
-            <button data-sticker="🐰" class="button" title="Bunny"></button>
-            <button data-sticker="🎵" class="button" title="Musical Note"></button>
-            <button data-sticker="💫" class="button" title="Dizzy"></button>
+        
+        <div class="controls-section">
+          <div class="control-group">
+            <h3>Filters</h3>
+            <div class="filters">
+              <button data-filter="none" class="button active">None</button>
+              <button data-filter="grayscale" class="button">B&W</button>
+              <button data-filter="sepia" class="button">Sepia</button>
+              <button data-filter="vintage" class="button">Vintage</button>
+              <button data-filter="warm" class="button">Warm</button>
+              <button data-filter="cool" class="button">Cool</button>
+            </div>
           </div>
-          <div class="control-section backgrounds">
-            <label>Photostrip Background</label>
-            <button style="background-color: #000;" data-bg="#000" class="button"></button>
-            <button style="background-color: #fff;" data-bg="#fff" class="button"></button>
-            <button style="background-color: #f0f0f0;" data-bg="#f0f0f0" class="button"></button>
-            <button style="background-color: #add8e6;" data-bg="#add8e6" class="button"></button>
-            <button style="background-color: #ff99cc;" data-bg="#ff99cc" class="button"></button>
+
+          <div class="control-group">
+            <h3>Stickers</h3>
+            <div class="stickers">
+              <button data-sticker="🦄">🦄</button>
+              <button data-sticker="🌸">🌸</button>
+              <button data-sticker="🎀">🎀</button>
+              <button data-sticker="💝">💝</button>
+              <button data-sticker="🌟">🌟</button>
+              <button data-sticker="🦋">🦋</button>
+              <button data-sticker="🌈">🌈</button>
+              <button data-sticker="💖">💖</button>
+            </div>
           </div>
-          <div class="control-section filters">
-            <label>Filters</label>
-            <button data-filter="black-and-whitewhite" class="button">B&W</button>
-            <button data-filter="sepia" class="button">Sepia</button>
-            <button data-filter="warm" class="button">Warm</button>
-            <button data-filter="cold" class="button">Cold</button>
-            <button data-filter="cool" class="button">Cool</button>
-            <button data-filter="none" class="button active">None</button>
+
+          <div class="control-group">
+            <h3>Background</h3>
+            <div class="backgrounds">
+              <button style="background: #fff" data-bg="#fff"></button>
+              <button style="background: #000" data-bg="#000"></button>
+              <button style="background: #f0f0f0" data-bg="#f0f0f0"></button>
+              <button style="background: #ffd1dc" data-bg="#ffd1dc"></button>
+            </div>
           </div>
-          <div class="control-section">
+
+          <div class="control-group">
+            <h3>Options</h3>
             <label>
-              <input type="checkbox" id="enable-date" checked />
-              Enable Date
+              <input type="checkbox" id="enable-date" checked>
+              Show Date
             </label>
           </div>
+
           <div class="action-buttons">
-            <button id="preview-btn" class="button">Preview</button>
             <button id="download-btn" class="button">Download</button>
+            <button id="share-btn" class="button">Share</button>
             <button id="retake-btn" class="button">Retake</button>
           </div>
         </div>
@@ -810,6 +868,7 @@
       const auth = firebase.auth();
       const storage = firebase.storage();
       const db = firebase.firestore();
+      const storageRef = storage.ref();
 
       // Admin credentials
       const ADMIN_CREDENTIALS = {
@@ -1032,34 +1091,27 @@
         }, 1000);
       });
 
-      // Capture photo for the current slot
+      // Capture photo with immediate preview
       async function capturePhoto() {
         var canvas = document.createElement("canvas");
         var context = canvas.getContext("2d");
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
-
-        // Draw the current video frame to the canvas
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        var dataURL = canvas.toDataURL("image/png");
-
-        // Display the captured photo in the current slot
-        var img = document.createElement("img");
+        
+        const dataURL = canvas.toDataURL("image/png");
+        
+        // Display in slot and preview
+        const img = document.createElement("img");
         img.src = dataURL;
         slots[currentSlotIndex].innerHTML = "";
         slots[currentSlotIndex].appendChild(img);
+        
+        // Update preview immediately
+        updatePreview(dataURL, currentSlotIndex);
+        
+        // Store in capturedImages array
         capturedImages[currentSlotIndex] = dataURL;
-
-        // Move to the next slot
-        currentSlotIndex++;
-        if (currentSlotIndex >= slots.length) {
-          // All slots are filled, proceed to upload section
-          captureSection.classList.remove("active");
-          uploadSection.classList.add("active");
-          updateSubmitButton();
-          currentSlotIndex = 0; // Reset for potential retake
-        }
 
         // Add public toggle
         const publishToggle = document.createElement('div');
@@ -1070,22 +1122,21 @@
         `;
         slots[currentSlotIndex].appendChild(publishToggle);
 
-        // Handle upload and moderation
+        // Handle upload and moderation if public
         const isPublic = document.getElementById(`publishPhoto${currentSlotIndex}`).checked;
-        const result = await handlePhotoUpload(dataURL, isPublic);
+        if (isPublic) {
+          const result = await handlePhotoUpload(dataURL, true);
+          if (result.success && result.isApproved) {
+            addToGallery(result.photoDoc);
+          }
+        }
 
-        if (!result.success) {
-          // Show error message
-          const error = document.createElement('div');
-          error.className = 'error-message';
-          error.textContent = 'Upload failed: ' + result.error;
-          slots[currentSlotIndex].appendChild(error);
-        } else if (isPublic) {
-          // Show moderation status
-          const status = document.createElement('div');
-          status.className = `moderation-status status-${result.isApproved ? 'approved' : 'rejected'}`;
-          status.textContent = result.isApproved ? 'Approved' : 'Rejected';
-          slots[currentSlotIndex].appendChild(status);
+        // Move to next slot or show editor
+        currentSlotIndex++;
+        if (currentSlotIndex >= slots.length) {
+          captureSection.classList.remove("active");
+          editor.classList.add("active");
+          currentSlotIndex = 0;
         }
       }
 
@@ -1402,6 +1453,21 @@
 
       // Load gallery when page loads
       loadPublicGallery();
+
+      // Preview update function
+      function updatePreview(photoDataUrl, index) {
+        const previewImg = document.getElementById(`preview-photo-${index + 1}`);
+        if (previewImg) {
+          previewImg.src = photoDataUrl;
+          applyCurrentFilter(previewImg);
+        }
+      }
+
+      // Apply filter to preview
+      function applyCurrentFilter(imgElement) {
+        const currentFilter = document.querySelector('.filters button.active').dataset.filter;
+        imgElement.style.filter = getFilterStyle(currentFilter);
+      }
     </script>
   </body>
 </html>
