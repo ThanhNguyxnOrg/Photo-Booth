@@ -32,6 +32,8 @@ const translations = {
     registerWithFacebook: "Register with Facebook",
     registerWithGoogle: "Register with Google",
     socialLoginSuccess: "Login with {provider} successful!",
+    weakPassword: "Password should be at least 6 characters",
+    logout: "Logout",
 
     // Photo Booth App
     takePhoto: "Take a Photo",
@@ -46,7 +48,30 @@ const translations = {
     filters: "Filters",
     enableDate: "Enable Date",
     appVersion: "Photo Booth App v1.0",
-    cameraError: "Unable to access camera. Please allow camera permissions in your browser settings and ensure you're using HTTPS."
+    cameraError: "Unable to access camera. Please allow camera permissions in your browser settings and ensure you're using HTTPS.",
+    
+    // Gallery Page
+    galleryTitle: "Photo Booth Gallery",
+    backToApp: "Back to App",
+    allPhotos: "All Photos",
+    myPhotos: "My Photos",
+    search: "Search",
+    searchPlaceholder: "Search by title or author...",
+    loadingPhotos: "Loading photos...",
+    noPhotos: "No photos found",
+    share: "Share",
+    sharePhoto: "Share Photo",
+    shareSuccess: "Photo shared successfully!",
+    shareError: "Error sharing photo",
+    comment: "Comment",
+    comments: "Comments",
+    commentPlaceholder: "Add a comment...",
+    post: "Post",
+    noComments: "No comments yet",
+    photoTitle: "Photo Title",
+    photoTitlePlaceholder: "Enter a title for your photo",
+    sharePublicly: "Share publicly",
+    cancel: "Cancel"
   },
   
   // Vietnamese
@@ -81,6 +106,8 @@ const translations = {
     registerWithFacebook: "Đăng ký với Facebook",
     registerWithGoogle: "Đăng ký với Google",
     socialLoginSuccess: "Đăng nhập bằng {provider} thành công!",
+    weakPassword: "Mật khẩu phải có ít nhất 6 ký tự",
+    logout: "Đăng xuất",
 
     // Photo Booth App
     takePhoto: "Chụp ảnh",
@@ -95,7 +122,30 @@ const translations = {
     filters: "Bộ lọc",
     enableDate: "Hiển thị ngày",
     appVersion: "Photo Booth App v1.0",
-    cameraError: "Không thể truy cập camera. Vui lòng cho phép quyền camera trong cài đặt trình duyệt và đảm bảo bạn đang sử dụng HTTPS."
+    cameraError: "Không thể truy cập camera. Vui lòng cho phép quyền camera trong cài đặt trình duyệt và đảm bảo bạn đang sử dụng HTTPS.",
+    
+    // Gallery Page
+    galleryTitle: "Bộ sưu tập ảnh Photo Booth",
+    backToApp: "Quay lại ứng dụng",
+    allPhotos: "Tất cả ảnh",
+    myPhotos: "Ảnh của tôi",
+    search: "Tìm kiếm",
+    searchPlaceholder: "Tìm theo tiêu đề hoặc tác giả...",
+    loadingPhotos: "Đang tải ảnh...",
+    noPhotos: "Không tìm thấy ảnh nào",
+    share: "Chia sẻ",
+    sharePhoto: "Chia sẻ ảnh",
+    shareSuccess: "Chia sẻ ảnh thành công!",
+    shareError: "Lỗi khi chia sẻ ảnh",
+    comment: "Bình luận",
+    comments: "Bình luận",
+    commentPlaceholder: "Thêm bình luận...",
+    post: "Đăng",
+    noComments: "Chưa có bình luận nào",
+    photoTitle: "Tiêu đề ảnh",
+    photoTitlePlaceholder: "Nhập tiêu đề cho ảnh của bạn",
+    sharePublicly: "Chia sẻ công khai",
+    cancel: "Hủy bỏ"
   },
   
   // French
@@ -130,6 +180,8 @@ const translations = {
     registerWithFacebook: "S'inscrire avec Facebook",
     registerWithGoogle: "S'inscrire avec Google",
     socialLoginSuccess: "Connexion avec {provider} réussie !",
+    weakPassword: "Le mot de passe doit comporter au moins 6 caractères",
+    logout: "Déconnexion",
 
     // Photo Booth App
     takePhoto: "Prendre une photo",
@@ -144,7 +196,30 @@ const translations = {
     filters: "Filtres",
     enableDate: "Activer la date",
     appVersion: "Photo Booth App v1.0",
-    cameraError: "Impossible d'accéder à la caméra. Veuillez autoriser les permissions de caméra dans les paramètres de votre navigateur et assurez-vous d'utiliser HTTPS."
+    cameraError: "Impossible d'accéder à la caméra. Veuillez autoriser les permissions de caméra dans les paramètres de votre navigateur et assurez-vous d'utiliser HTTPS.",
+    
+    // Gallery Page
+    galleryTitle: "Galerie Photo Booth",
+    backToApp: "Retour à l'application",
+    allPhotos: "Toutes les photos",
+    myPhotos: "Mes photos",
+    search: "Rechercher",
+    searchPlaceholder: "Rechercher par titre ou auteur...",
+    loadingPhotos: "Chargement des photos...",
+    noPhotos: "Aucune photo trouvée",
+    share: "Partager",
+    sharePhoto: "Partager la photo",
+    shareSuccess: "Photo partagée avec succès !",
+    shareError: "Erreur lors du partage de la photo",
+    comment: "Commenter",
+    comments: "Commentaires",
+    commentPlaceholder: "Ajouter un commentaire...",
+    post: "Publier",
+    noComments: "Pas encore de commentaires",
+    photoTitle: "Titre de la photo",
+    photoTitlePlaceholder: "Entrez un titre pour votre photo",
+    sharePublicly: "Partager publiquement",
+    cancel: "Annuler"
   },
   
   // Spanish
@@ -179,6 +254,8 @@ const translations = {
     registerWithFacebook: "Registrarse con Facebook",
     registerWithGoogle: "Registrarse con Google",
     socialLoginSuccess: "¡Inicio de sesión con {provider} exitoso!",
+    weakPassword: "La contraseña debe tener al menos 6 caracteres",
+    logout: "Cerrar sesión",
 
     // Photo Booth App
     takePhoto: "Tomar una foto",
@@ -193,7 +270,30 @@ const translations = {
     filters: "Filtros",
     enableDate: "Habilitar fecha",
     appVersion: "Photo Booth App v1.0",
-    cameraError: "No se puede acceder a la cámara. Permita los permisos de cámara en la configuración de su navegador y asegúrese de estar utilizando HTTPS."
+    cameraError: "No se puede acceder a la cámara. Permita los permisos de cámara en la configuración de su navegador y asegúrese de estar utilizando HTTPS.",
+    
+    // Gallery Page
+    galleryTitle: "Galería de Photo Booth",
+    backToApp: "Volver a la aplicación",
+    allPhotos: "Todas las fotos",
+    myPhotos: "Mis fotos",
+    search: "Buscar",
+    searchPlaceholder: "Buscar por título o autor...",
+    loadingPhotos: "Cargando fotos...",
+    noPhotos: "No se encontraron fotos",
+    share: "Compartir",
+    sharePhoto: "Compartir foto",
+    shareSuccess: "¡Foto compartida con éxito!",
+    shareError: "Error al compartir la foto",
+    comment: "Comentar",
+    comments: "Comentarios",
+    commentPlaceholder: "Añadir un comentario...",
+    post: "Publicar",
+    noComments: "Aún no hay comentarios",
+    photoTitle: "Título de la foto",
+    photoTitlePlaceholder: "Ingrese un título para su foto",
+    sharePublicly: "Compartir públicamente",
+    cancel: "Cancelar"
   },
   
   // Japanese
@@ -228,6 +328,8 @@ const translations = {
     registerWithFacebook: "Facebookで登録",
     registerWithGoogle: "Googleで登録",
     socialLoginSuccess: "{provider}でのログインに成功しました！",
+    weakPassword: "パスワードは少なくとも6文字必要です",
+    logout: "ログアウト",
 
     // Photo Booth App
     takePhoto: "写真を撮る",
@@ -242,6 +344,29 @@ const translations = {
     filters: "フィルター",
     enableDate: "日付を有効にする",
     appVersion: "Photo Booth App v1.0",
-    cameraError: "カメラにアクセスできません。ブラウザの設定でカメラの許可を与え、HTTPSを使用していることを確認してください。"
+    cameraError: "カメラにアクセスできません。ブラウザの設定でカメラの許可を与え、HTTPSを使用していることを確認してください。",
+    
+    // Gallery Page
+    galleryTitle: "フォトブースギャラリー",
+    backToApp: "アプリに戻る",
+    allPhotos: "すべての写真",
+    myPhotos: "自分の写真",
+    search: "検索",
+    searchPlaceholder: "タイトルまたは作成者で検索...",
+    loadingPhotos: "写真を読み込み中...",
+    noPhotos: "写真が見つかりません",
+    share: "共有",
+    sharePhoto: "写真を共有",
+    shareSuccess: "写真の共有に成功しました！",
+    shareError: "写真の共有中にエラーが発生しました",
+    comment: "コメント",
+    comments: "コメント",
+    commentPlaceholder: "コメントを追加...",
+    post: "投稿",
+    noComments: "まだコメントはありません",
+    photoTitle: "写真のタイトル",
+    photoTitlePlaceholder: "写真のタイトルを入力してください",
+    sharePublicly: "公開で共有",
+    cancel: "キャンセル"
   }
 }; 

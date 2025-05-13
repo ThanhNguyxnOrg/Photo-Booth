@@ -7,6 +7,10 @@
     <link rel="icon" href="assets/img/icons/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <!-- Add Firebase Auth service -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <style>
       .language-selector {
         position: absolute;
@@ -28,6 +32,41 @@
       .language-dropdown:focus {
         border-color: #f4a261;
       }
+
+      .user-info {
+        position: absolute;
+        top: 20px;
+        right: 120px;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 5px 10px;
+        border-radius: 20px;
+      }
+      
+      .user-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      
+      .user-name {
+        font-size: 14px;
+        color: #333;
+      }
+      
+      .logout-btn {
+        background-color: transparent;
+        border: none;
+        color: #e74c3c;
+        cursor: pointer;
+        font-size: 12px;
+        padding: 0;
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
@@ -40,6 +79,12 @@
           <option value="es">Español</option>
           <option value="ja">日本語</option>
         </select>
+      </div>
+      
+      <div id="user-info" class="user-info" style="display: none;">
+        <img id="user-avatar" class="user-avatar" src="assets/img/icons/user-default.png" alt="User Avatar">
+        <span id="user-name" class="user-name">User</span>
+        <button id="logout-btn" class="logout-btn" data-i18n="logout">Logout</button>
       </div>
       
       <!-- Capture Section -->
@@ -165,6 +210,7 @@
     
     <script src="assets/js/translations.js"></script>
     <script src="assets/js/i18n.js"></script>
+    <script src="assets/js/firebase-config.js"></script>
     <script src="assets/js/photobooth.js"></script>
   </body>
 </html> 

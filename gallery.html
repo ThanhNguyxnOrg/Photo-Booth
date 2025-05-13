@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery - Photo Booth</title>
+    <link rel="icon" href="assets/img/icons/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/gallery.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Flag Icons CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css">
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <!-- Add Firebase Auth service -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <!-- Add Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <!-- Add Firebase Storage -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1 data-i18n="galleryTitle">Photo Booth Gallery</h1>
+        <div class="header-controls">
+          <div class="language-selector">
+            <select id="language-dropdown" class="language-dropdown">
+              <option value="en" data-flag="gb">English</option>
+              <option value="vi" data-flag="vn">Tiếng Việt</option>
+              <option value="fr" data-flag="fr">Français</option>
+              <option value="es" data-flag="es">Español</option>
+              <option value="ja" data-flag="jp">日本語</option>
+              <option value="de" data-flag="de">Deutsch</option>
+              <option value="it" data-flag="it">Italiano</option>
+              <option value="ru" data-flag="ru">Русский</option>
+              <option value="zh" data-flag="cn">中文</option>
+              <option value="ko" data-flag="kr">한국어</option>
+              <option value="pt" data-flag="pt">Português</option>
+              <option value="ar" data-flag="sa">العربية</option>
+            </select>
+            <span id="selected-flag" class="flag-icon"></span>
+          </div>
+          
+          <div id="user-info" class="user-info" style="display: none;">
+            <img id="user-avatar" class="user-avatar" src="assets/img/icons/user-default.png" alt="User Avatar">
+            <span id="user-name" class="user-name">User</span>
+            <button id="logout-btn" class="logout-btn" data-i18n="logout">Logout</button>
+          </div>
+          <a href="app.html" class="nav-btn" data-i18n="backToApp">Back to App</a>
+        </div>
+      </header>
+
+      <div class="gallery-filters">
+        <button class="filter-btn active" data-filter="all" data-i18n="allPhotos">All Photos</button>
+        <button class="filter-btn" data-filter="my" data-i18n="myPhotos">My Photos</button>
+        <div class="search-box">
+          <input type="text" id="search-input" placeholder="Search..." data-i18n-placeholder="searchPlaceholder">
+          <button id="search-btn" data-i18n="search">Search</button>
+        </div>
+      </div>
+
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- Photos will be loaded here dynamically -->
+        <div class="gallery-loader">
+          <div class="spinner"></div>
+          <p data-i18n="loadingPhotos">Loading photos...</p>
+        </div>
+      </div>
+
+      <div class="no-photos" style="display: none;" data-i18n="noPhotos">
+        No photos found
+      </div>
+
+      <!-- Photo Lightbox -->
+      <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+          <span class="close-lightbox">&times;</span>
+          <img id="lightbox-image" src="" alt="Lightbox Image">
+          <div class="lightbox-info">
+            <p id="lightbox-author"></p>
+            <p id="lightbox-date"></p>
+            <div class="lightbox-actions">
+              <button id="like-button" class="action-btn">
+                <span class="like-icon">♥</span> <span id="like-count">0</span>
+              </button>
+              <button id="comment-button" class="action-btn" data-i18n="comment">Comment</button>
+              <button id="download-button" class="action-btn" data-i18n="download">Download</button>
+            </div>
+          </div>
+          
+          <div class="comments-section">
+            <h3 data-i18n="comments">Comments</h3>
+            <div id="comments-container"></div>
+            <div class="add-comment">
+              <textarea id="comment-input" placeholder="Add a comment" data-i18n-placeholder="commentPlaceholder"></textarea>
+              <button id="submit-comment" data-i18n="post">Post</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p data-i18n="appVersion">Photo Booth App v1.0</p>
+      </div>
+    </div>
+    
+    <script src="assets/js/translations.js"></script>
+    <script src="assets/js/i18n.js"></script>
+    <script src="assets/js/firebase-config.js"></script>
+    <script src="assets/js/gallery.js"></script>
+  </body>
+</html> 

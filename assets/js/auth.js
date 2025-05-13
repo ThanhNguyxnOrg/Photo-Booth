@@ -24,6 +24,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const facebookRegisterBtn = document.getElementById('facebook-register');
   const googleRegisterBtn = document.getElementById('google-register');
   
+  // Firebase auth instance
+  const auth = firebase.auth();
+  
+  // Configure providers
+  const googleProvider = new firebase.auth.GoogleAuthProvider();
+  const facebookProvider = new firebase.auth.FacebookAuthProvider();
+  
   // Switch between login and register forms
   goToRegisterLink.addEventListener('click', function(e) {
     e.preventDefault();
@@ -50,42 +57,44 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
     
-    // Check if user exists in local storage
-    try {
-      const userData = localStorage.getItem(email);
-      
-      if (!userData) {
-        loginError.textContent = i18n.translate('accountNotExist');
-        return;
-      }
-      
-      const user = JSON.parse(userData);
-      
-      if (user.email === email && user.password === password) {
+    // Sign in with Firebase Auth
+    auth.signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
         // Login successful
         loginError.textContent = '';
+        const user = userCredential.user;
         
-        // Store logged in user info
+        // Store logged in user info in session
         sessionStorage.setItem('currentUser', JSON.stringify({
           email: user.email,
-          loginMethod: 'email'
+          uid: user.uid,
+          loginMethod: 'email',
+          displayName: user.displayName || email.split('@')[0]
         }));
         
-        // Store language preference with user
+        // Store language preference
         const currentLang = i18n.getCurrentLanguage();
         if (currentLang) {
           sessionStorage.setItem('userLanguage', currentLang);
         }
         
-        // Redirect to main page
+        // Redirect to main app
         window.location.href = 'app.html';
-      } else {
-        loginError.textContent = i18n.translate('wrongCredentials');
-      }
-    } catch (error) {
-      loginError.textContent = i18n.translate('loginError');
-      console.error('Login error:', error);
-    }
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error('Login error:', error);
+        switch (error.code) {
+          case 'auth/user-not-found':
+            loginError.textContent = i18n.translate('accountNotExist');
+            break;
+          case 'auth/wrong-password':
+            loginError.textContent = i18n.translate('wrongCredentials');
+            break;
+          default:
+            loginError.textContent = i18n.translate('loginError');
+        }
+      });
   });
   
   // Register form submission
@@ -107,89 +116,126 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
     
-    // Check if user already exists
-    if (localStorage.getItem(email)) {
-      registerError.textContent = i18n.translate('emailUsed');
-      return;
-    }
-    
-    try {
-      // Create user object
-      const user = {
-        email: email,
-        password: password,
-        createdAt: new Date().toISOString(),
-        language: i18n.getCurrentLanguage() // Store preferred language
-      };
-      
-      // Save to local storage
-      localStorage.setItem(email, JSON.stringify(user));
-      
-      // Clear form and error
-      registerError.textContent = '';
-      registerFormEl.reset();
-      
-      // Show success message and switch to login
-      alert(i18n.translate('registerSuccess'));
-      registerForm.classList.remove('active');
-      loginForm.classList.add('active');
-      
-    } catch (error) {
-      registerError.textContent = i18n.translate('registerError');
-      console.error('Registration error:', error);
-    }
+    // Register with Firebase Auth
+    auth.createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // Registration successful
+        registerError.textContent = '';
+        const user = userCredential.user;
+        
+        // Save additional user info if needed (e.g., preferred language)
+        return user.updateProfile({
+          displayName: email.split('@')[0],
+          language: i18n.getCurrentLanguage()
+        });
+      })
+      .then(() => {
+        // Clear form
+        registerFormEl.reset();
+        
+        // Show success message and switch to login
+        alert(i18n.translate('registerSuccess'));
+        registerForm.classList.remove('active');
+        loginForm.classList.add('active');
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error('Registration error:', error);
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            registerError.textContent = i18n.translate('emailUsed');
+            break;
+          case 'auth/weak-password':
+            registerError.textContent = i18n.translate('weakPassword', 'Password should be at least 6 characters');
+            break;
+          default:
+            registerError.textContent = i18n.translate('registerError');
+        }
+      });
   });
   
-  // Social login handlers
-  facebookLoginBtn.addEventListener('click', function() {
-    handleSocialLogin('facebook');
-  });
-  
-  googleLoginBtn.addEventListener('click', function() {
-    handleSocialLogin('google');
-  });
-  
-  facebookRegisterBtn.addEventListener('click', function() {
-    handleSocialLogin('facebook');
-  });
-  
-  googleRegisterBtn.addEventListener('click', function() {
-    handleSocialLogin('google');
-  });
-  
-  function handleSocialLogin(provider) {
-    // In a real app, this would connect to the social provider's API
-    // For this demo, we'll simulate a successful login
-    
-    // Format the provider name for display
-    const providerDisplay = provider.charAt(0).toUpperCase() + provider.slice(1);
-    
-    // Create a mock user based on the provider
-    const mockUser = {
-      email: `user@${provider}.example.com`,
-      name: `${providerDisplay} User`,
-      loginMethod: provider,
-      language: i18n.getCurrentLanguage() // Store preferred language
-    };
-    
-    // Store logged in user info
-    sessionStorage.setItem('currentUser', JSON.stringify(mockUser));
-    
-    // Show success message
-    alert(i18n.translate('socialLoginSuccess', { provider: providerDisplay }));
-    
-    // Redirect to main page
-    window.location.href = 'app.html';
+  // Google login handler
+  function signInWithGoogle() {
+    auth.signInWithPopup(googleProvider)
+      .then((result) => {
+        const user = result.user;
+        
+        // Store user info in session
+        sessionStorage.setItem('currentUser', JSON.stringify({
+          email: user.email,
+          uid: user.uid,
+          loginMethod: 'google',
+          displayName: user.displayName || user.email.split('@')[0],
+          photoURL: user.photoURL
+        }));
+        
+        // Store language preference
+        const currentLang = i18n.getCurrentLanguage();
+        if (currentLang) {
+          sessionStorage.setItem('userLanguage', currentLang);
+        }
+        
+        // Show success message
+        alert(i18n.translate('socialLoginSuccess', { provider: 'Google' }));
+        
+        // Redirect to main app
+        window.location.href = 'app.html';
+      })
+      .catch((error) => {
+        console.error('Google sign-in error:', error);
+        loginError.textContent = error.message;
+        registerError.textContent = error.message;
+      });
   }
+  
+  // Facebook login handler
+  function signInWithFacebook() {
+    auth.signInWithPopup(facebookProvider)
+      .then((result) => {
+        const user = result.user;
+        
+        // Store user info in session
+        sessionStorage.setItem('currentUser', JSON.stringify({
+          email: user.email,
+          uid: user.uid,
+          loginMethod: 'facebook',
+          displayName: user.displayName || user.email.split('@')[0],
+          photoURL: user.photoURL
+        }));
+        
+        // Store language preference
+        const currentLang = i18n.getCurrentLanguage();
+        if (currentLang) {
+          sessionStorage.setItem('userLanguage', currentLang);
+        }
+        
+        // Show success message
+        alert(i18n.translate('socialLoginSuccess', { provider: 'Facebook' }));
+        
+        // Redirect to main app
+        window.location.href = 'app.html';
+      })
+      .catch((error) => {
+        console.error('Facebook sign-in error:', error);
+        loginError.textContent = error.message;
+        registerError.textContent = error.message;
+      });
+  }
+  
+  // Social login buttons
+  facebookLoginBtn.addEventListener('click', signInWithFacebook);
+  googleLoginBtn.addEventListener('click', signInWithGoogle);
+  facebookRegisterBtn.addEventListener('click', signInWithFacebook);
+  googleRegisterBtn.addEventListener('click', signInWithGoogle);
   
   // Check if user is already logged in
   function checkLoginStatus() {
-    const currentUser = sessionStorage.getItem('currentUser');
-    
-    if (currentUser) {
-      // User is already logged in, redirect to main page
-      window.location.href = 'app.html';
-    }
+    auth.onAuthStateChanged(function(user) {
+      if (user) {
+        // User is already logged in, redirect to main page
+        window.location.href = 'app.html';
+      }
+    });
   }
   
   // Check login status when page loads

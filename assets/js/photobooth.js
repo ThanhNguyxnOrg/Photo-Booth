@@ -34,6 +34,10 @@ var errorMessage = document.getElementById("error-message");
 var captureBtn = document.getElementById("capture-btn");
 var countdown = document.getElementById("countdown");
 var languageDropdown = document.getElementById("language-dropdown");
+var userInfoContainer = document.getElementById("user-info");
+var userAvatar = document.getElementById("user-avatar");
+var userName = document.getElementById("user-name");
+var logoutBtn = document.getElementById("logout-btn");
 
 // Variables
 var capturedImages = [];
@@ -69,6 +73,88 @@ function initLanguage() {
       // Apply default translations
       window.applyTranslations();
     }
+  }
+}
+
+// Initialize user info
+function initUserInfo() {
+  // Check if Firebase is available
+  if (typeof firebase !== 'undefined' && firebase.auth) {
+    // Check auth state
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in
+        displayUserInfo(user);
+      } else {
+        // Try to get user info from session storage (for users who continued without login)
+        const sessionUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
+        if (sessionUser.email) {
+          displayUserFromSession(sessionUser);
+        } else {
+          // If no user is signed in, redirect to login page
+          window.location.href = 'index.html';
+        }
+      }
+    });
+  } else {
+    // If Firebase is not available, try session storage
+    const sessionUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
+    if (sessionUser.email) {
+      displayUserFromSession(sessionUser);
+    }
+  }
+}
+
+// Display user info from Firebase Auth
+function displayUserInfo(user) {
+  if (userInfoContainer) {
+    userInfoContainer.style.display = 'flex';
+    
+    // Set avatar if available
+    if (user.photoURL) {
+      userAvatar.src = user.photoURL;
+    }
+    
+    // Set user name or email
+    userName.textContent = user.displayName || user.email.split('@')[0];
+  }
+}
+
+// Display user info from session storage
+function displayUserFromSession(sessionUser) {
+  if (userInfoContainer && sessionUser.email) {
+    userInfoContainer.style.display = 'flex';
+    
+    // Set avatar if available
+    if (sessionUser.photoURL) {
+      userAvatar.src = sessionUser.photoURL;
+    }
+    
+    // Set user name or email
+    userName.textContent = sessionUser.displayName || sessionUser.email.split('@')[0];
+  }
+}
+
+// Logout user
+function logoutUser() {
+  // Clear session storage
+  sessionStorage.removeItem('currentUser');
+  
+  // Sign out from Firebase if available
+  if (typeof firebase !== 'undefined' && firebase.auth) {
+    firebase.auth().signOut()
+      .then(() => {
+        // Redirect to login page
+        window.location.href = 'index.html';
+      })
+      .catch((error) => {
+        console.error('Sign out error:', error);
+        // Redirect anyway
+        window.location.href = 'index.html';
+      });
+  } else {
+    // Just redirect if Firebase is not available
+    window.location.href = 'index.html';
   }
 }
 
@@ -168,11 +254,19 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize language support
   initLanguage();
   
+  // Initialize user info
+  initUserInfo();
+  
   // Set up language change event if dropdown exists
   if (languageDropdown && window.i18n) {
     languageDropdown.addEventListener('change', function() {
       window.i18n.changeLanguage(this.value);
     });
+  }
+  
+  // Set up logout button
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', logoutUser);
   }
   
   // Initialize webcam
