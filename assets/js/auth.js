@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Validate inputs
     if (email === '' || password === '') {
-      loginError.textContent = 'Vui lòng không để trống';
+      loginError.textContent = i18n.translate('emptyFields');
       return;
     }
     
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const userData = localStorage.getItem(email);
       
       if (!userData) {
-        loginError.textContent = 'Tài khoản không tồn tại';
+        loginError.textContent = i18n.translate('accountNotExist');
         return;
       }
       
@@ -71,13 +71,19 @@ document.addEventListener('DOMContentLoaded', function() {
           loginMethod: 'email'
         }));
         
+        // Store language preference with user
+        const currentLang = i18n.getCurrentLanguage();
+        if (currentLang) {
+          sessionStorage.setItem('userLanguage', currentLang);
+        }
+        
         // Redirect to main page
-        window.location.href = 'index.html';
+        window.location.href = 'app.html';
       } else {
-        loginError.textContent = 'Email hoặc mật khẩu không chính xác';
+        loginError.textContent = i18n.translate('wrongCredentials');
       }
     } catch (error) {
-      loginError.textContent = 'Đã xảy ra lỗi khi đăng nhập';
+      loginError.textContent = i18n.translate('loginError');
       console.error('Login error:', error);
     }
   });
@@ -92,18 +98,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Validate inputs
     if (email === '' || password === '' || confirm === '') {
-      registerError.textContent = 'Vui lòng không để trống';
+      registerError.textContent = i18n.translate('emptyFields');
       return;
     }
     
     if (password !== confirm) {
-      registerError.textContent = 'Mật khẩu xác nhận không khớp';
+      registerError.textContent = i18n.translate('passwordMismatch');
       return;
     }
     
     // Check if user already exists
     if (localStorage.getItem(email)) {
-      registerError.textContent = 'Email này đã được sử dụng';
+      registerError.textContent = i18n.translate('emailUsed');
       return;
     }
     
@@ -112,7 +118,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const user = {
         email: email,
         password: password,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        language: i18n.getCurrentLanguage() // Store preferred language
       };
       
       // Save to local storage
@@ -123,12 +130,12 @@ document.addEventListener('DOMContentLoaded', function() {
       registerFormEl.reset();
       
       // Show success message and switch to login
-      alert('Đăng ký tài khoản thành công!');
+      alert(i18n.translate('registerSuccess'));
       registerForm.classList.remove('active');
       loginForm.classList.add('active');
       
     } catch (error) {
-      registerError.textContent = 'Đã xảy ra lỗi khi đăng ký';
+      registerError.textContent = i18n.translate('registerError');
       console.error('Registration error:', error);
     }
   });
@@ -154,21 +161,25 @@ document.addEventListener('DOMContentLoaded', function() {
     // In a real app, this would connect to the social provider's API
     // For this demo, we'll simulate a successful login
     
+    // Format the provider name for display
+    const providerDisplay = provider.charAt(0).toUpperCase() + provider.slice(1);
+    
     // Create a mock user based on the provider
     const mockUser = {
       email: `user@${provider}.example.com`,
-      name: `${provider.charAt(0).toUpperCase() + provider.slice(1)} User`,
-      loginMethod: provider
+      name: `${providerDisplay} User`,
+      loginMethod: provider,
+      language: i18n.getCurrentLanguage() // Store preferred language
     };
     
     // Store logged in user info
     sessionStorage.setItem('currentUser', JSON.stringify(mockUser));
     
     // Show success message
-    alert(`Đăng nhập bằng ${provider} thành công!`);
+    alert(i18n.translate('socialLoginSuccess', { provider: providerDisplay }));
     
     // Redirect to main page
-    window.location.href = 'index.html';
+    window.location.href = 'app.html';
   }
   
   // Check if user is already logged in
@@ -177,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (currentUser) {
       // User is already logged in, redirect to main page
-      window.location.href = 'index.html';
+      window.location.href = 'app.html';
     }
   }
   

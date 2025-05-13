@@ -33,6 +33,7 @@ var video = document.getElementById("video");
 var errorMessage = document.getElementById("error-message");
 var captureBtn = document.getElementById("capture-btn");
 var countdown = document.getElementById("countdown");
+var languageDropdown = document.getElementById("language-dropdown");
 
 // Variables
 var capturedImages = [];
@@ -49,6 +50,28 @@ var stickerPositions = [
 ];
 var nextStickerPositionIndex = 0;
 
+// Initialize language
+function initLanguage() {
+  // Check if user has logged in with language preference
+  const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
+  const savedLanguage = localStorage.getItem('language') || currentUser.language;
+  
+  // Set language dropdown if available
+  if (languageDropdown && savedLanguage) {
+    languageDropdown.value = savedLanguage;
+  }
+  
+  // Initialize translations if i18n is available
+  if (window.i18n && typeof window.i18n.changeLanguage === 'function') {
+    if (savedLanguage) {
+      window.i18n.changeLanguage(savedLanguage);
+    } else {
+      // Apply default translations
+      window.applyTranslations();
+    }
+  }
+}
+
 // Initialize webcam
 function initWebcam() {
   navigator.mediaDevices.getUserMedia({ video: true })
@@ -59,7 +82,16 @@ function initWebcam() {
     .catch((error) => {
       console.error("Error accessing camera:", error);
       errorMessage.style.display = "block";
-      errorMessage.textContent = "Unable to access camera. Please allow camera permissions in your browser settings and ensure you're using HTTPS.";
+      
+      // Use translated error message if available
+      if (window.i18n && typeof window.i18n.translate === 'function') {
+        errorMessage.textContent = window.i18n.translate('cameraError', {
+          defaultValue: "Unable to access camera. Please allow camera permissions in your browser settings and ensure you're using HTTPS."
+        });
+      } else {
+        errorMessage.textContent = "Unable to access camera. Please allow camera permissions in your browser settings and ensure you're using HTTPS.";
+      }
+      
       captureBtn.disabled = true;
     });
 }
@@ -133,6 +165,16 @@ function updateSubmitButton() {
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
+  // Initialize language support
+  initLanguage();
+  
+  // Set up language change event if dropdown exists
+  if (languageDropdown && window.i18n) {
+    languageDropdown.addEventListener('change', function() {
+      window.i18n.changeLanguage(this.value);
+    });
+  }
+  
   // Initialize webcam
   initWebcam();
   

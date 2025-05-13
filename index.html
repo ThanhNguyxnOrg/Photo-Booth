@@ -3,133 +3,117 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photo Booth</title>
+    <title>Login - Photo Booth</title>
     <link rel="icon" href="assets/img/icons/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div class="container">
-      <!-- Capture Section -->
-      <div class="capture-section active" id="capture-section">
-        <button id="capture-btn" class="button">Take a Photo</button>
-        <div class="video-container">
-          <video id="video" autoplay></video>
-          <div id="countdown"></div>
+    <div class="auth-container">
+      <div class="auth-card">
+        <div class="language-selector">
+          <select id="language-dropdown" class="language-dropdown">
+            <option value="en">English</option>
+            <option value="vi">Tiếng Việt</option>
+            <option value="fr">Français</option>
+            <option value="es">Español</option>
+            <option value="ja">日本語</option>
+          </select>
         </div>
-        <div id="photos">
-          <div class="photo-slot" id="slot-1"></div>
-          <div class="photo-slot" id="slot-2"></div>
-          <div class="photo-slot" id="slot-3"></div>
-        </div>
-        <div id="error-message"></div>
-      </div>
 
-      <!-- Upload Section -->
-      <div class="upload-section" id="upload-section">
-        <h2>Upload your photo(s)!</h2>
-        <div class="upload-slots">
-          <div class="upload-slot" id="upload-slot-1">
-            <input type="file" id="upload-1" accept="image/*" />
-          </div>
-          <div class="upload-slot" id="upload-slot-2">
-            <input type="file" id="upload-2" accept="image/*" />
-          </div>
-          <div class="upload-slot" id="upload-slot-3">
-            <input type="file" id="upload-3" accept="image/*" />
-          </div>
+        <div class="logo">
+          <img src="assets/img/icons/favicon.svg" alt="Photo Booth Logo">
+          <h1>Photo Booth</h1>
         </div>
-        <button id="submit-btn" class="button">Submit Images</button>
-        <p>Upload at least 1 image to submit</p>
-      </div>
 
-      <!-- Editor Section -->
-      <div class="editor" id="editor">
-        <div class="photostrip-container">
-          <div class="photostrip" id="photostrip">
-            <div>
-              <img id="photo-1" src="" alt="Photo 1" />
+        <div id="login-form" class="form-container active">
+          <h2 data-i18n="login">Login</h2>
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="email" data-i18n="email">Email</label>
+              <input type="email" id="email" data-i18n-placeholder="emailPlaceholder" placeholder="Enter your email" required>
             </div>
-            <div>
-              <img id="photo-2" src="" alt="Photo 2" />
+            <div class="form-group">
+              <label for="password" data-i18n="password">Password</label>
+              <input type="password" id="password" data-i18n-placeholder="passwordPlaceholder" placeholder="Enter your password" required>
             </div>
-            <div>
-              <img id="photo-3" src="" alt="Photo 3" />
+            <div class="error-message" id="login-error"></div>
+            <button type="submit" class="btn primary-btn" data-i18n="loginButton">Login</button>
+          </form>
+          
+          <div class="separator">
+            <span data-i18n="orLoginWith">or login with</span>
+          </div>
+          
+          <button id="facebook-login" class="btn social-btn facebook-btn">
+            <img src="assets/img/social/facebook.svg" alt="Facebook">
+            <span data-i18n="loginWithFacebook">Login with Facebook</span>
+          </button>
+          
+          <button id="google-login" class="btn social-btn google-btn">
+            <img src="assets/img/social/google.svg" alt="Google">
+            <span data-i18n="loginWithGoogle">Login with Google</span>
+          </button>
+          
+          <div class="form-links">
+            <a href="#" id="go-to-register" data-i18n="noAccount">Don't have an account? Register now</a>
+          </div>
+          
+          <div class="separator">
+            <span data-i18n="or">or</span>
+          </div>
+          
+          <a href="app.html" class="btn secondary-btn" data-i18n="continueWithout">Continue without login</a>
+        </div>
+
+        <div id="register-form" class="form-container">
+          <h2 data-i18n="register">Register</h2>
+          <form id="registerForm">
+            <div class="form-group">
+              <label for="reg-email" data-i18n="email">Email</label>
+              <input type="email" id="reg-email" data-i18n-placeholder="emailPlaceholder" placeholder="Enter your email" required>
             </div>
-            <div class="date" id="date-stamp">March 16, 2025</div>
+            <div class="form-group">
+              <label for="reg-password" data-i18n="password">Password</label>
+              <input type="password" id="reg-password" data-i18n-placeholder="passwordPlaceholder" placeholder="Enter your password" required>
+            </div>
+            <div class="form-group">
+              <label for="confirm-password" data-i18n="confirmPassword">Confirm Password</label>
+              <input type="password" id="confirm-password" data-i18n-placeholder="confirmPasswordPlaceholder" placeholder="Re-enter your password" required>
+            </div>
+            <div class="error-message" id="register-error"></div>
+            <button type="submit" class="btn primary-btn" data-i18n="registerButton">Register</button>
+          </form>
+          
+          <div class="separator">
+            <span data-i18n="orRegisterWith">or register with</span>
           </div>
+          
+          <button id="facebook-register" class="btn social-btn facebook-btn">
+            <img src="assets/img/social/facebook.svg" alt="Facebook">
+            <span data-i18n="registerWithFacebook">Register with Facebook</span>
+          </button>
+          
+          <button id="google-register" class="btn social-btn google-btn">
+            <img src="assets/img/social/google.svg" alt="Google">
+            <span data-i18n="registerWithGoogle">Register with Google</span>
+          </button>
+          
+          <div class="form-links">
+            <a href="#" id="go-to-login" data-i18n="haveAccount">Already have an account? Login now</a>
+          </div>
+          
+          <div class="separator">
+            <span data-i18n="or">or</span>
+          </div>
+          
+          <a href="app.html" class="btn secondary-btn" data-i18n="continueWithout">Continue without login</a>
         </div>
-        <div class="controls">
-          <div class="control-section stickers">
-            <label>Stickers</label>
-            <button data-sticker="🦄" class="button"></button>
-            <button data-sticker="🐾" class="button"></button>
-            <button data-sticker="🐼" class="button"></button>
-            <button data-sticker="✨" class="button"></button>
-          </div>
-          <div class="control-section backgrounds">
-            <label>Photostrip Background</label>
-            <button style="background-color: #000;" data-bg="#000" class="button"></button>
-            <button style="background-color: #fff;" data-bg="#fff" class="button"></button>
-            <button style="background-color: #f0f0f0;" data-bg="#f0f0f0" class="button"></button>
-            <button style="background-color: #add8e6;" data-bg="#add8e6" class="button"></button>
-            <button style="background-color: #ff99cc;" data-bg="#ff99cc" class="button"></button>
-          </div>
-          <div class="control-section filters">
-            <label>Filters</label>
-            <button data-filter="black-and-whitewhite" class="button">B&W</button>
-            <button data-filter="sepia" class="button">Sepia</button>
-            <button data-filter="warm" class="button">Warm</button>
-            <button data-filter="cold" class="button">Cold</button>
-            <button data-filter="cool" class="button">Cool</button>
-            <button data-filter="none" class="button active">None</button>
-          </div>
-          <div class="control-section">
-            <label>
-              <input type="checkbox" id="enable-date" checked />
-              Enable Date
-            </label>
-          </div>
-          <div class="action-buttons">
-            <button id="preview-btn" class="button">Preview</button>
-            <button id="download-btn" class="button">Download</button>
-            <button id="retake-btn" class="button">Retake</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Scrapbook Section -->
-      <div class="scrapbook" id="scrapbook">
-        <div class="photostrip" style="left: 20px; top: 20px;">
-          <img id="scrap-photo-1" src="" alt="Photo 1" />
-          <img id="scrap-photo-2" src="" alt="Photo 2" />
-          <img id="scrap-photo-3" src="" alt="Photo 3" />
-          <div class="date">March 16, 2025</div>
-        </div>
-        <div class="photostrip" style="right: 20px; top: 20px;">
-          <img id="scrap-photo-4" src="" alt="Photo 4" />
-          <img id="scrap-photo-5" src="" alt="Photo 5" />
-          <img id="scrap-photo-6" src="" alt="Photo 6" />
-          <div class="date">March 16, 2025</div>
-        </div>
-        <div class="thumbnail" style="left: 150px; top: 80px;"><img id="thumb-1" src="" alt="Thumbnail 1" /></div>
-        <div class="thumbnail" style="left: 150px; top: 180px;"><img id="thumb-2" src="" alt="Thumbnail 2" /></div>
-        <div class="thumbnail" style="left: 250px; top: 120px;"><img id="thumb-3" src="" alt="Thumbnail 3" /></div>
-        <div class="thumbnail" style="left: 300px; top: 200px;"><img id="thumb-4" src="" alt="Thumbnail 4" /></div>
-        <div class="thumbnail" style="right: 150px; top: 80px;"><img id="thumb-5" src="" alt="Thumbnail 5" /></div>
-        <div class="thumbnail" style="right: 150px; top: 180px;"><img id="thumb-6" src="" alt="Thumbnail 6" /></div>
-        <div class="decor" style="left: 50px; top: 50px;">🌸</div>
-        <div class="decor" style="left: 50px; top: 300px;">💖</div>
-        <div class="decor" style="right: 50px; top: 50px;">🌸</div>
-        <div class="decor" style="right: 50px; top: 300px;">💖</div>
-        <div class="decor" style="left: 200px; top: 150px;">🌟</div>
-        <div class="decor" style="right: 200px; top: 150px;">🌟</div>
-      </div>
-
-      <div class="footer">
-        <p>Photo Booth App v1.0</p>
       </div>
     </div>
-    <script src="assets/js/photobooth.js"></script>
+
+    <script src="assets/js/translations.js"></script>
+    <script src="assets/js/i18n.js"></script>
+    <script src="assets/js/auth.js"></script>
   </body>
 </html>
