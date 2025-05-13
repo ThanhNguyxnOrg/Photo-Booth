@@ -223,70 +223,22 @@ document.addEventListener('DOMContentLoaded', function() {
   function signInWithGoogle() {
     clearErrors();
     
-    auth.signInWithPopup(googleProvider)
-      .then((result) => {
-        const user = result.user;
-        
-        // Store user info in session
-        sessionStorage.setItem('currentUser', JSON.stringify({
-          email: user.email,
-          uid: user.uid,
-          loginMethod: 'google',
-          displayName: user.displayName || user.email.split('@')[0],
-          photoURL: user.photoURL,
-          language: i18n.getCurrentLanguage()
-        }));
-        
-        // Redirect to main app
-        window.location.href = 'app.html';
-      })
-      .catch((error) => {
-        console.error('Google sign-in error:', error);
-        if (error.code === 'auth/popup-blocked') {
-          showError(loginError, 'Popup was blocked. Please allow popups for this website.');
-          showError(registerError, 'Popup was blocked. Please allow popups for this website.');
-        } else if (error.code === 'auth/popup-closed-by-user') {
-          // User closed the popup, no need to show error
-        } else {
-          showError(loginError, 'Google sign-in failed' + (error.message ? ': ' + error.message : ''));
-          showError(registerError, 'Google sign-in failed' + (error.message ? ': ' + error.message : ''));
-        }
-      });
+    // Thông báo tính năng sẽ được cập nhật sớm
+    alert('Tính năng đăng nhập qua Google sẽ được cập nhật sớm!');
+    
+    // Log cho developer
+    console.log('Google sign-in feature will be updated soon');
   }
   
   // Facebook login handler
   function signInWithFacebook() {
     clearErrors();
     
-    auth.signInWithPopup(facebookProvider)
-      .then((result) => {
-        const user = result.user;
-        
-        // Store user info in session
-        sessionStorage.setItem('currentUser', JSON.stringify({
-          email: user.email,
-          uid: user.uid,
-          loginMethod: 'facebook',
-          displayName: user.displayName || user.email.split('@')[0],
-          photoURL: user.photoURL,
-          language: i18n.getCurrentLanguage()
-        }));
-        
-        // Redirect to main app
-        window.location.href = 'app.html';
-      })
-      .catch((error) => {
-        console.error('Facebook sign-in error:', error);
-        if (error.code === 'auth/popup-blocked') {
-          showError(loginError, 'Popup was blocked. Please allow popups for this website.');
-          showError(registerError, 'Popup was blocked. Please allow popups for this website.');
-        } else if (error.code === 'auth/popup-closed-by-user') {
-          // User closed the popup, no need to show error
-        } else {
-          showError(loginError, 'Facebook sign-in failed' + (error.message ? ': ' + error.message : ''));
-          showError(registerError, 'Facebook sign-in failed' + (error.message ? ': ' + error.message : ''));
-        }
-      });
+    // Thông báo tính năng sẽ được cập nhật sớm
+    alert('Tính năng đăng nhập qua Facebook sẽ được cập nhật sớm!');
+    
+    // Log cho developer
+    console.log('Facebook sign-in feature will be updated soon');
   }
   
   // Continue without login

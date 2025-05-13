@@ -26,7 +26,9 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 20px;
+  padding: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .auth-container {
@@ -37,10 +39,11 @@ body {
 
 .auth-card {
   background-color: var(--card-bg);
-  border-radius: 10px;
+  border-radius: 12px;
   box-shadow: 0 4px 15px var(--shadow-color);
   padding: 30px;
   position: relative;
+  overflow: hidden;
 }
 
 /* Language Selector */
@@ -74,7 +77,7 @@ body {
   background-repeat: no-repeat;
   background-position: right 8px center;
   background-size: 12px;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .select-selected:hover {
@@ -99,6 +102,20 @@ body {
   margin-top: 4px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   z-index: 99;
+  scrollbar-width: thin;
+}
+
+.select-items::-webkit-scrollbar {
+  width: 6px;
+}
+
+.select-items::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.select-items::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 3px;
 }
 
 .select-hide {
@@ -159,8 +176,8 @@ body {
 /* Logo */
 .logo {
   text-align: center;
-  margin-bottom: 30px;
-  margin-top: 10px;
+  margin-bottom: 25px;
+  margin-top: 15px;
 }
 
 .logo img {
@@ -188,7 +205,8 @@ body {
   text-align: center;
   margin-bottom: 20px;
   color: var(--text-color);
-  font-size: 20px;
+  font-size: 22px;
+  font-weight: 600;
 }
 
 /* Tabs for login/register methods */
@@ -210,6 +228,7 @@ body {
   color: #777;
   transition: all 0.2s;
   position: relative;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .auth-tab:after {
@@ -254,6 +273,7 @@ body {
 
 .recaptcha-container {
   margin: 15px 0;
+  min-height: 10px;
 }
 
 .verification-code-group {
@@ -302,12 +322,20 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: 14px;
-  transition: border-color 0.3s;
+  transition: all 0.3s;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .form-group input:focus {
   outline: none;
   border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(244, 162, 97, 0.2);
+}
+
+.form-group input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
 }
 
 /* Buttons */
@@ -321,8 +349,9 @@ body {
   font-weight: 500;
   cursor: pointer;
   text-align: center;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
   text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .primary-btn {
@@ -332,6 +361,12 @@ body {
 
 .primary-btn:hover {
   background-color: var(--primary-color-dark);
+}
+
+.primary-btn:disabled {
+  background-color: #e0e0e0;
+  color: #a0a0a0;
+  cursor: not-allowed;
 }
 
 .secondary-btn {
@@ -362,11 +397,7 @@ body {
   height: 20px;
 }
 
-.facebook-btn:hover {
-  background-color: #f0f2f5;
-}
-
-.google-btn:hover {
+.facebook-btn:hover, .google-btn:hover {
   background-color: #f0f2f5;
 }
 
@@ -413,10 +444,11 @@ body {
   font-size: 14px;
   margin-bottom: 15px;
   display: none;
+  padding: 8px 0;
+  transition: all 0.3s;
 }
 
 /* Firebase Error Banner */
-.firebase-error-banner,
 .firebase-info-banner {
   margin-bottom: 20px;
 }
@@ -432,10 +464,54 @@ body {
   color: var(--text-color);
 }
 
-/* Responsive Design */
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-container.active {
+  animation: fadeIn 0.3s ease;
+}
+
+/* Responsive Design - Small phones */
+@media (max-width: 360px) {
+  .auth-card {
+    padding: 15px;
+  }
+  
+  .language-selector {
+    position: relative;
+    top: unset;
+    right: unset;
+    left: unset;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+  }
+  
+  .logo img {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .form-group input {
+    padding: 10px 12px;
+  }
+  
+  .btn {
+    padding: 10px;
+  }
+  
+  .custom-select {
+    min-width: 140px;
+  }
+}
+
+/* Responsive Design - Medium devices */
 @media (max-width: 480px) {
   .auth-card {
     padding: 20px;
+    border-radius: 8px;
   }
   
   .language-selector {
@@ -449,5 +525,24 @@ body {
   
   .select-items {
     max-height: 220px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  body {
+    padding: 10px;
+  }
+}
+
+/* Fix for iOS input fields */
+@supports (-webkit-touch-callout: none) {
+  .form-group input {
+    font-size: 16px; /* Prevents zoom on input focus on iOS */
+  }
+  
+  .select-items {
+    -webkit-overflow-scrolling: touch;
   }
 } 
