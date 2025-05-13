@@ -466,7 +466,7 @@ body {
 }
 
 /* Auth Notice */
-.auth-notice {
+.auth-container .auth-notice {
   margin: 15px 0;
   padding: 10px;
   background-color: rgba(244, 162, 97, 0.1);

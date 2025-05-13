@@ -276,7 +276,8 @@ window.firebase = createMockFirebase();
 
 // Let the user know which implementation is being used
 document.addEventListener('DOMContentLoaded', function() {
-  if (document.querySelector('.auth-container')) {
+  // Only show demo accounts on the login page (index.html), not on app.html or gallery.html
+  if (document.querySelector('.auth-container') && (window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/'))) {
     const infoMessage = document.createElement('div');
     infoMessage.className = 'firebase-info-banner';
     infoMessage.innerHTML = `
