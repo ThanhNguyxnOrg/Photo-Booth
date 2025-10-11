@@ -78,12 +78,12 @@
         
         <!-- Header -->
         <div class="flex justify-between items-center mb-4">
-            <a href="index.html" class="text-white font-bold text-xl flex items-center gap-2 hover:opacity-80 transition">
+            <button id="back-btn" class="text-white font-bold text-xl flex items-center gap-2 hover:opacity-80 transition bg-transparent border-none cursor-pointer">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
-                <span>Back to Home</span>
-            </a>
+                <span>Back</span>
+            </button>
             
             <div class="text-white text-right">
                 <p class="font-bold" id="layout-info">Layout A - 4 Poses</p>
@@ -275,6 +275,24 @@
         const stripPhotos = document.getElementById('strip-photos');
         const filterOverlay = document.getElementById('filter-overlay');
         const filterBtns = document.querySelectorAll('.filter-btn');
+        const backBtn = document.getElementById('back-btn');
+        
+        // Back button handler - go back to customize or templates page
+        backBtn.addEventListener('click', () => {
+            // Templates that have customization page
+            const templatesWithCustomization = [
+                'instagram', 'macbook', 'newspaper', 'magazine', 
+                'movie', 'passport', 'vintage', 'comic', 'scrapbook'
+            ];
+            
+            if (templatesWithCustomization.includes(template)) {
+                // Go back to customize page
+                window.location.href = `customize.html?layout=${layout}&poses=${poses}&template=${template}`;
+            } else {
+                // Go back to templates page (for classic, polaroid, neon, minimalist)
+                window.location.href = `templates.html?layout=${layout}&poses=${poses}`;
+            }
+        });
         
         // State
         let stream = null;

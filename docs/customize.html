@@ -65,6 +65,16 @@
         <div class="max-w-4xl mx-auto">
             
             <div class="glass-effect rounded-3xl shadow-2xl p-8 md:p-12">
+                <!-- Back Button -->
+                <div class="mb-6">
+                    <button id="back-btn" class="text-gray-600 hover:text-purple-600 font-semibold flex items-center gap-2 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        Back to Templates
+                    </button>
+                </div>
+                
                 <h1 class="text-4xl font-bold text-gray-800 mb-4 text-center">Personalize Your Template</h1>
                 <p class="text-xl text-gray-600 mb-8 text-center">
                     Customize text and design before taking photos
@@ -207,6 +217,11 @@
         const layout = urlParams.get('layout') || 'A';
         const poses = parseInt(urlParams.get('poses')) || 4;
         const template = urlParams.get('template') || 'instagram';
+        
+        // Back button handler
+        document.getElementById('back-btn').addEventListener('click', () => {
+            window.location.href = `templates.html?layout=${layout}&poses=${poses}`;
+        });
         
         // Set today's date
         document.getElementById('date').valueAsDate = new Date();
