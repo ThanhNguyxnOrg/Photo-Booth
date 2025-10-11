@@ -235,14 +235,16 @@
             if (savedCustomization) {
                 const parsed = JSON.parse(savedCustomization);
                 customization = {
-                    username: parsed.username || '@yourname',
-                    headline: parsed.headline || 'HEADLINE',
-                    subtitle: parsed.subtitle || 'Subtitle text',
+                    username: parsed.username && parsed.username.trim() !== '' ? parsed.username : '@yourname',
+                    headline: parsed.headline && parsed.headline.trim() !== '' ? parsed.headline : 'HEADLINE',
+                    subtitle: parsed.subtitle && parsed.subtitle.trim() !== '' ? parsed.subtitle : 'Subtitle text',
                     date: parsed.date ? new Date(parsed.date).toLocaleDateString() : new Date().toLocaleDateString(),
-                    location: parsed.location || 'Location',
-                    message: parsed.message || 'Your message'
+                    location: parsed.location && parsed.location.trim() !== '' ? parsed.location : 'Location',
+                    message: parsed.message && parsed.message.trim() !== '' ? parsed.message : 'Your message'
                 };
                 console.log('✅ Loaded customization:', customization);
+            } else {
+                console.log('ℹ️ No customization found, using defaults');
             }
         } catch (error) {
             console.log('⚠️ Failed to load customization, using defaults');
