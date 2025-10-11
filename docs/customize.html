@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customize Template - SnapStrip Studio</title>
+    <meta name="description" content="Personalize your photo booth template">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="font-sans">
+    
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition">
+                        <svg class="w-10 h-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="40" height="40" rx="8" fill="url(#gradient)"/>
+                            <rect x="8" y="12" width="24" height="18" rx="3" fill="white" opacity="0.9"/>
+                            <circle cx="20" cy="20" r="5" fill="url(#gradient)"/>
+                            <circle cx="28" cy="15" r="1.5" fill="url(#gradient)"/>
+                            <rect x="7" y="11" width="2" height="2" fill="white"/>
+                            <rect x="7" y="27" width="2" height="2" fill="white"/>
+                            <rect x="31" y="11" width="2" height="2" fill="white"/>
+                            <rect x="31" y="27" width="2" height="2" fill="white"/>
+                            <defs>
+                                <linearGradient id="gradient" x1="0" y1="0" x2="40" y2="40">
+                                    <stop offset="0%" stop-color="#667eea"/>
+                                    <stop offset="100%" stop-color="#764ba2"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">SnapStrip</span>
+                            <span class="text-xs text-gray-500 -mt-1">Photo Booth</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto">
+            
+            <div class="glass-effect rounded-3xl shadow-2xl p-8 md:p-12">
+                <h1 class="text-4xl font-bold text-gray-800 mb-4 text-center">Personalize Your Template</h1>
+                <p class="text-xl text-gray-600 mb-8 text-center">
+                    Customize text and design before taking photos
+                </p>
+                
+                <!-- Template Preview & Editor -->
+                <div class="grid md:grid-cols-2 gap-8">
+                    
+                    <!-- Editor Form -->
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 rounded-lg text-center">
+                            <h2 class="text-xl font-bold" id="template-title">Instagram Template</h2>
+                        </div>
+                        
+                        <!-- Customization Fields -->
+                        <div id="customization-fields" class="space-y-4">
+                            
+                            <!-- Username field (for Instagram, MacBook, etc) -->
+                            <div class="custom-field" data-templates="instagram,macbook">
+                                <label class="block text-gray-700 font-semibold mb-2">
+                                    📱 Username / Name
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="username" 
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-600 focus:outline-none transition"
+                                    placeholder="@yourname"
+                                    maxlength="20"
+                                >
+                            </div>
+                            
+                            <!-- Title field (for Newspaper, Magazine, Movie, etc) -->
+                            <div class="custom-field" data-templates="newspaper,magazine,movie,passport">
+                                <label class="block text-gray-700 font-semibold mb-2">
+                                    📰 Headline / Title
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="headline" 
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-600 focus:outline-none transition"
+                                    placeholder="BREAKING NEWS!"
+                                    maxlength="30"
+                                >
+                            </div>
+                            
+                            <!-- Subtitle field -->
+                            <div class="custom-field" data-templates="newspaper,magazine,movie">
+                                <label class="block text-gray-700 font-semibold mb-2">
+                                    ✍️ Subtitle / Description
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="subtitle" 
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-600 focus:outline-none transition"
+                                    placeholder="Latest updates..."
+                                    maxlength="40"
+                                >
+                            </div>
+                            
+                            <!-- Date field -->
+                            <div class="custom-field" data-templates="newspaper,passport,vintage">
+                                <label class="block text-gray-700 font-semibold mb-2">
+                                    📅 Date
+                                </label>
+                                <input 
+                                    type="date" 
+                                    id="date" 
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-600 focus:outline-none transition"
+                                >
+                            </div>
+                            
+                            <!-- Location field (for Passport) -->
+                            <div class="custom-field" data-templates="passport">
+                                <label class="block text-gray-700 font-semibold mb-2">
+                                    🌍 Country / Location
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="location" 
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-600 focus:outline-none transition"
+                                    placeholder="Vietnam"
+                                    maxlength="20"
+                                >
+                            </div>
+                            
+                            <!-- Message field (for Comic, Scrapbook) -->
+                            <div class="custom-field" data-templates="comic,scrapbook,vintage">
+                                <label class="block text-gray-700 font-semibold mb-2">
+                                    💭 Message / Quote
+                                </label>
+                                <textarea 
+                                    id="message" 
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-600 focus:outline-none transition"
+                                    placeholder="POW! Amazing moments!"
+                                    rows="3"
+                                    maxlength="100"
+                                ></textarea>
+                            </div>
+                            
+                        </div>
+                        
+                        <!-- Info box -->
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                            <p class="text-sm text-blue-700">
+                                💡 <strong>Tip:</strong> These texts will appear on your photo strip! Leave blank to use defaults.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Live Preview -->
+                    <div>
+                        <div class="bg-gray-100 rounded-xl p-6">
+                            <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">Preview</h3>
+                            <div id="preview-area" class="bg-white rounded-lg shadow-lg p-4 min-h-[400px] flex items-center justify-center">
+                                <canvas id="preview-canvas" class="max-w-full h-auto"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- Continue Button -->
+                <div class="text-center mt-12">
+                    <button id="start-camera-btn" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-4 px-16 rounded-full text-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition">
+                        <span>Start Camera 📸</span>
+                    </button>
+                    <p class="text-gray-500 mt-4 text-sm">
+                        Your customization will be saved for this session
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+    
+    <!-- Scripts -->
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const layout = urlParams.get('layout') || 'A';
+        const poses = parseInt(urlParams.get('poses')) || 4;
+        const template = urlParams.get('template') || 'instagram';
+        
+        // Set today's date
+        document.getElementById('date').valueAsDate = new Date();
+        
+        // Template title
+        const templateNames = {
+            instagram: 'Instagram',
+            macbook: 'MacBook Selfie',
+            newspaper: 'Newspaper',
+            magazine: 'Magazine',
+            movie: 'Movie Poster',
+            passport: 'Passport',
+            vintage: 'Vintage',
+            comic: 'Comic Book',
+            scrapbook: 'Scrapbook',
+            polaroid: 'Polaroid',
+            neon: 'Neon',
+            minimalist: 'Minimalist',
+            classic: 'Classic'
+        };
+        
+        document.getElementById('template-title').textContent = templateNames[template] + ' Template';
+        
+        // Show/hide relevant fields based on template
+        const fields = document.querySelectorAll('.custom-field');
+        fields.forEach(field => {
+            const templates = field.dataset.templates.split(',');
+            if (templates.includes(template)) {
+                field.style.display = 'block';
+            } else {
+                field.style.display = 'none';
+            }
+        });
+        
+        // Preview canvas
+        const canvas = document.getElementById('preview-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 300;
+        canvas.height = 400;
+        
+        // Draw preview
+        function updatePreview() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const username = document.getElementById('username').value || '@yourname';
+            const headline = document.getElementById('headline').value || 'HEADLINE';
+            const subtitle = document.getElementById('subtitle').value || 'Subtitle text';
+            const message = document.getElementById('message').value || 'Your message';
+            const location = document.getElementById('location').value || 'Location';
+            
+            // Draw template-specific preview
+            switch(template) {
+                case 'instagram':
+                    // Instagram gradient background
+                    const instaGrad = ctx.createLinearGradient(0, 0, 300, 400);
+                    instaGrad.addColorStop(0, '#833AB4');
+                    instaGrad.addColorStop(0.5, '#E1306C');
+                    instaGrad.addColorStop(1, '#FCAF45');
+                    ctx.fillStyle = instaGrad;
+                    ctx.fillRect(0, 0, 300, 400);
+                    
+                    // White card
+                    ctx.fillStyle = '#FFF';
+                    ctx.fillRect(20, 20, 260, 360);
+                    
+                    // Username
+                    ctx.fillStyle = '#000';
+                    ctx.font = 'bold 16px Arial';
+                    ctx.fillText(username, 40, 50);
+                    
+                    // Photo placeholder
+                    ctx.fillStyle = '#E5E7EB';
+                    ctx.fillRect(30, 70, 240, 240);
+                    ctx.fillStyle = '#9CA3AF';
+                    ctx.font = '14px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('Your photos here', 150, 200);
+                    
+                    // Icons
+                    ctx.font = '20px Arial';
+                    ctx.fillText('❤️ 💬 📤', 150, 340);
+                    break;
+                    
+                case 'newspaper':
+                    // Newspaper background
+                    ctx.fillStyle = '#FEF3C7';
+                    ctx.fillRect(0, 0, 300, 400);
+                    
+                    // Border
+                    ctx.strokeStyle = '#000';
+                    ctx.lineWidth = 4;
+                    ctx.strokeRect(10, 10, 280, 380);
+                    
+                    // Headline
+                    ctx.fillStyle = '#000';
+                    ctx.font = 'bold 24px "Times New Roman"';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(headline, 150, 50);
+                    
+                    // Subtitle
+                    ctx.font = '14px "Times New Roman"';
+                    ctx.fillText(subtitle, 150, 75);
+                    
+                    // Photo placeholder
+                    ctx.fillStyle = '#D1D5DB';
+                    ctx.fillRect(30, 100, 240, 180);
+                    break;
+                    
+                case 'macbook':
+                    // MacBook background
+                    ctx.fillStyle = '#1F2937';
+                    ctx.fillRect(0, 0, 300, 400);
+                    
+                    // Screen
+                    ctx.fillStyle = '#374151';
+                    ctx.fillRect(20, 20, 260, 300);
+                    
+                    // macOS dots
+                    ctx.fillStyle = '#EF4444';
+                    ctx.beginPath();
+                    ctx.arc(35, 35, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.fillStyle = '#FBBF24';
+                    ctx.beginPath();
+                    ctx.arc(55, 35, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.fillStyle = '#10B981';
+                    ctx.beginPath();
+                    ctx.arc(75, 35, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Username
+                    ctx.fillStyle = '#FFF';
+                    ctx.font = 'bold 14px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(username, 150, 180);
+                    
+                    // Keyboard
+                    const keyGrad = ctx.createLinearGradient(0, 320, 0, 400);
+                    keyGrad.addColorStop(0, '#4B5563');
+                    keyGrad.addColorStop(1, '#1F2937');
+                    ctx.fillStyle = keyGrad;
+                    ctx.fillRect(0, 320, 300, 80);
+                    break;
+                    
+                default:
+                    ctx.fillStyle = '#E5E7EB';
+                    ctx.fillRect(0, 0, 300, 400);
+                    ctx.fillStyle = '#6B7280';
+                    ctx.font = '16px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('Template Preview', 150, 200);
+            }
+            
+            ctx.textAlign = 'left';
+        }
+        
+        // Update preview on input
+        document.querySelectorAll('input, textarea').forEach(input => {
+            input.addEventListener('input', updatePreview);
+        });
+        
+        // Initial preview
+        updatePreview();
+        
+        // Start camera button
+        document.getElementById('start-camera-btn').addEventListener('click', () => {
+            // Save customization to localStorage
+            const customization = {
+                username: document.getElementById('username').value,
+                headline: document.getElementById('headline').value,
+                subtitle: document.getElementById('subtitle').value,
+                date: document.getElementById('date').value,
+                location: document.getElementById('location').value,
+                message: document.getElementById('message').value
+            };
+            
+            localStorage.setItem('templateCustomization', JSON.stringify(customization));
+            
+            // Navigate to camera
+            window.location.href = `camera.html?layout=${layout}&poses=${poses}&template=${template}`;
+        });
+    </script>
+    
+</body>
+</html>
