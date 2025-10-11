@@ -14,9 +14,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
+        html {
+            overflow-x: hidden;
+        }
+        
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            overflow-x: hidden;
         }
         
         .glass-effect {
@@ -767,26 +772,39 @@
         manualCaptureBtn.addEventListener('click', async () => {
             if (manualPhotoIndex >= poses) return;
             
+            console.log(`📸 Manual capture: Taking photo ${manualPhotoIndex + 1}/${poses}`);
+            
             manualCaptureBtn.disabled = true;
             manualCaptureBtn.classList.add('opacity-50');
             
-            await countdown();
-            capturePhoto();
-            
-            manualPhotoIndex++;
-            
-            manualCaptureBtn.disabled = false;
-            manualCaptureBtn.classList.remove('opacity-50');
-            
-            // Check if all photos taken
-            if (manualPhotoIndex >= poses) {
-                manualCaptureBtn.classList.add('hidden');
-                isCapturing = false;
-                continueBtn.classList.remove('hidden');
-                retakeBtn.classList.remove('hidden');
-            } else {
-                // Update for next photo
-                currentPhotoNum.textContent = manualPhotoIndex + 1;
+            try {
+                await countdown();
+                capturePhoto();
+                
+                manualPhotoIndex++;
+                console.log(`✅ Photo captured. Index now: ${manualPhotoIndex}`);
+                
+                // Check if all photos taken
+                if (manualPhotoIndex >= poses) {
+                    console.log('🎉 All photos captured!');
+                    manualCaptureBtn.classList.add('hidden');
+                    isCapturing = false;
+                    continueBtn.classList.remove('hidden');
+                    retakeBtn.classList.remove('hidden');
+                } else {
+                    // Update for next photo
+                    currentPhotoNum.textContent = manualPhotoIndex + 1;
+                    console.log(`📍 Ready for next photo (${manualPhotoIndex + 1}/${poses})`);
+                }
+            } catch (error) {
+                console.error('❌ Error during manual capture:', error);
+            } finally {
+                // Always re-enable button if not done
+                if (manualPhotoIndex < poses) {
+                    manualCaptureBtn.disabled = false;
+                    manualCaptureBtn.classList.remove('opacity-50');
+                    console.log('🔓 Button re-enabled');
+                }
             }
         });
         
