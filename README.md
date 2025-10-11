@@ -4,9 +4,8 @@
 
 A free online photo booth with 12 creative templates, smart sticker system, and customizable text overlays. Create stunning photo strips in seconds!
 
-![SnapStrip Studio Demo](https://via.placeholder.com/1200x600/667eea/ffffff?text=SnapStrip+Studio+-+Live+Demo)
-
-> **Note:** Replace placeholder with actual screenshot at `docs/screenshots/demo.png`
+<!-- Screenshot placeholder - Add your screenshot to docs/screenshots/demo.png -->
+<!-- ![SnapStrip Studio Demo](docs/screenshots/demo.png) -->
 
 ---
 
@@ -172,48 +171,16 @@ Just visit: **[https://thanhnguyxn.github.io/Photo-Booth/](https://thanhnguyxn.g
 
 ## 🎨 Features Showcase
 
+<!-- 
 ### 📸 Template Gallery
-
-<table>
-  <tr>
-    <td align="center">
-      <img src="https://via.placeholder.com/300x400/667eea/ffffff?text=Instagram" width="200"/><br/>
-      <b>Instagram Style</b>
-    </td>
-    <td align="center">
-      <img src="https://via.placeholder.com/300x400/FEF3C7/000000?text=Newspaper" width="200"/><br/>
-      <b>Newspaper</b>
-    </td>
-    <td align="center">
-      <img src="https://via.placeholder.com/300x400/FCE7F3/EC4899?text=Magazine" width="200"/><br/>
-      <b>Magazine</b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="https://via.placeholder.com/300x400/FEF08A/000000?text=Comic" width="200"/><br/>
-      <b>Comic Book</b>
-    </td>
-    <td align="center">
-      <img src="https://via.placeholder.com/300x400/1E3A8A/FCD34D?text=Passport" width="200"/><br/>
-      <b>Passport</b>
-    </td>
-    <td align="center">
-      <img src="https://via.placeholder.com/300x400/000000/EC4899?text=Neon" width="200"/><br/>
-      <b>Neon</b>
-    </td>
-  </tr>
-</table>
-
-> **How to add screenshots:**
-> 1. Capture photos using your app at https://thanhnguyxn.github.io/Photo-Booth/
-> 2. Save screenshots to `docs/screenshots/` folder
-> 3. Update image paths in README.md
-> 4. Suggested screenshots: `instagram.png`, `newspaper.png`, `magazine.png`, `comic.png`, `passport.png`, `neon.png`
+To add template screenshots:
+1. Capture photos from https://thanhnguyxn.github.io/Photo-Booth/
+2. Save to docs/screenshots/ folder
+3. Uncomment the table below and add your images
+-->
 
 ### Smart Sticker System
-
-![Sticker Demo](https://via.placeholder.com/800x400/667eea/ffffff?text=Smart+Sticker+Distribution)
+<!-- ![Sticker Demo](docs/screenshots/stickers.png) -->
 
 - 🎯 Auto-distribution around individual photos (not center-focused)
 - 🔄 Drag & drop repositioning with improved hit detection
@@ -223,8 +190,7 @@ Just visit: **[https://thanhnguyxn.github.io/Photo-Booth/](https://thanhnguyxn.g
 - 🗑️ Auto-removal when exceeding 15 stickers
 
 ### Text Customization
-
-![Text Customization](https://via.placeholder.com/800x400/764ba2/ffffff?text=Dynamic+Text+Overlay)
+<!-- ![Text Customization](docs/screenshots/customization.png) -->
 
 - 📝 Dynamic text overlay system
 - 🔤 Adjustable text scale (50% - 150%)
@@ -232,8 +198,7 @@ Just visit: **[https://thanhnguyxn.github.io/Photo-Booth/](https://thanhnguyxn.g
 - ✏️ Template-specific fields (username, headline, message, date, location)
 
 ### Export Options
-
-![Export Options](https://via.placeholder.com/800x400/EC4899/ffffff?text=Multiple+Export+Formats)
+<!-- ![Export Options](docs/screenshots/export.png) -->
 
 - 📷 **PNG Download** - High-quality static image
 - 🎬 **Animated GIF** - Zoom effect animation (30 frames)
