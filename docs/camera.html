@@ -106,21 +106,21 @@
         
         <!-- Source Selection (Camera or Upload) -->
         <div id="source-selection" class="glass-effect rounded-3xl p-8 text-center mb-4">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">Choose Photo Source</h2>
-            <p class="text-gray-600 mb-8">How would you like to add your photos?</p>
+            <h2 class="text-3xl font-bold text-gray-800 mb-4" data-i18n="camera.chooseSource">Choose Photo Source</h2>
+            <p class="text-gray-600 mb-8" data-i18n="camera.howToAdd">How would you like to add your photos?</p>
             <div class="flex gap-4 justify-center flex-wrap">
                 <button id="use-camera-btn" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-6 px-12 rounded-2xl text-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition flex flex-col items-center gap-3">
                     <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
                     </svg>
-                    <span>Use Camera</span>
+                    <span data-i18n="camera.useCamera">Use Camera</span>
                 </button>
                 <button id="upload-photos-btn" class="bg-gradient-to-r from-pink-500 to-red-600 text-white font-bold py-6 px-12 rounded-2xl text-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition flex flex-col items-center gap-3">
                     <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
-                    <span>Upload Photos</span>
+                    <span data-i18n="camera.uploadPhotos">Upload Photos</span>
                 </button>
             </div>
             <input type="file" id="file-input" class="hidden" accept="image/*" multiple>
@@ -154,48 +154,48 @@
                 
                 <!-- Filters -->
                 <div class="mt-4">
-                    <p class="text-gray-700 font-semibold mb-2">Filters:</p>
+                    <p class="text-gray-700 font-semibold mb-2" data-i18n="camera.filters">Filters:</p>
                     <div class="flex gap-2 overflow-x-auto pb-2">
                         <button class="filter-btn active bg-white rounded-lg p-3 border-2 border-gray-300" data-filter="none">
                             <div class="w-16 h-16 bg-gradient-to-br from-gray-200 to-gray-300 rounded"></div>
-                            <p class="text-xs mt-1 text-center">None</p>
+                            <p class="text-xs mt-1 text-center" data-i18n="camera.filter.none">None</p>
                         </button>
                         <button class="filter-btn bg-white rounded-lg p-3 border-2 border-gray-300" data-filter="grayscale">
                             <div class="w-16 h-16 bg-gradient-to-br from-gray-400 to-gray-600 rounded"></div>
-                            <p class="text-xs mt-1 text-center">B&W</p>
+                            <p class="text-xs mt-1 text-center" data-i18n="camera.filter.bw">B&W</p>
                         </button>
                         <button class="filter-btn bg-white rounded-lg p-3 border-2 border-gray-300" data-filter="sepia">
                             <div class="w-16 h-16 bg-gradient-to-br from-yellow-600 to-orange-700 rounded"></div>
-                            <p class="text-xs mt-1 text-center">Sepia</p>
+                            <p class="text-xs mt-1 text-center" data-i18n="camera.filter.sepia">Sepia</p>
                         </button>
                         <button class="filter-btn bg-white rounded-lg p-3 border-2 border-gray-300" data-filter="vintage">
                             <div class="w-16 h-16 bg-gradient-to-br from-red-300 to-yellow-300 rounded"></div>
-                            <p class="text-xs mt-1 text-center">Vintage</p>
+                            <p class="text-xs mt-1 text-center" data-i18n="camera.filter.vintage">Vintage</p>
                         </button>
                         <button class="filter-btn bg-white rounded-lg p-3 border-2 border-gray-300" data-filter="cool">
                             <div class="w-16 h-16 bg-gradient-to-br from-blue-300 to-cyan-300 rounded"></div>
-                            <p class="text-xs mt-1 text-center">Cool</p>
+                            <p class="text-xs mt-1 text-center" data-i18n="camera.filter.cool">Cool</p>
                         </button>
                         <button class="filter-btn bg-white rounded-lg p-3 border-2 border-gray-300" data-filter="warm">
                             <div class="w-16 h-16 bg-gradient-to-br from-orange-300 to-pink-300 rounded"></div>
-                            <p class="text-xs mt-1 text-center">Warm</p>
+                            <p class="text-xs mt-1 text-center" data-i18n="camera.filter.warm">Warm</p>
                         </button>
                     </div>
                 </div>
                 
                 <!-- Camera Settings -->
                 <div class="mt-4 bg-purple-50 border-2 border-purple-300 rounded-lg p-4">
-                    <h3 class="font-bold text-purple-900 mb-3 text-center">📸 Capture Settings</h3>
+                    <h3 class="font-bold text-purple-900 mb-3 text-center" data-i18n="camera.captureSettings">📸 Capture Settings</h3>
                     
                     <!-- Capture Mode -->
                     <div class="mb-3">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Capture Mode</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="camera.captureMode">Capture Mode</label>
                         <div class="flex gap-2">
                             <button id="mode-auto" class="flex-1 bg-purple-600 text-white font-bold py-2 px-4 rounded-lg transition">
-                                Auto
+                                <span data-i18n="camera.modeAuto">Auto</span>
                             </button>
                             <button id="mode-manual" class="flex-1 bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg transition">
-                                Manual
+                                <span data-i18n="camera.modeManual">Manual</span>
                             </button>
                         </div>
                     </div>
@@ -203,7 +203,7 @@
                     <!-- Timer Setting (only for auto mode) -->
                     <div id="timer-setting" class="mb-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Time between photos: <span id="timer-value" class="text-purple-600 font-bold">3s</span>
+                            <span data-i18n="camera.timerLabel">Time between photos:</span> <span id="timer-value" class="text-purple-600 font-bold">3s</span>
                         </label>
                         <input 
                             type="range" 
@@ -222,35 +222,35 @@
                     </div>
                     
                     <p id="mode-description" class="text-xs text-gray-600 text-center mt-2">
-                        ⚡ Auto mode: Photos will be taken automatically every 3 seconds
+                        <span data-i18n="camera.autoModeDesc">⚡ Auto mode: Photos will be taken automatically every 3 seconds</span>
                     </p>
                 </div>
                 
                 <!-- Capture Button -->
                 <div class="mt-4 text-center space-y-2">
                     <button id="start-btn" class="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-4 px-12 rounded-full text-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition">
-                        <span>Start Taking Photos</span>
+                        <span data-i18n="camera.startTaking">Start Taking Photos</span>
                     </button>
                     
                     <!-- Manual Capture Button (hidden by default) -->
                     <button id="manual-capture-btn" class="hidden w-full bg-gradient-to-r from-green-500 to-teal-600 text-white font-bold py-4 px-12 rounded-full text-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition">
-                        <span>📸 Take Photo (<span id="current-photo-num">1</span>/<span id="total-photos">4</span>)</span>
+                        <span>📸 <span data-i18n="camera.takePhoto">Take Photo</span> (<span id="current-photo-num">1</span>/<span id="total-photos">4</span>)</span>
                     </button>
                     
                     <!-- Continue to Preview Button (shown after all photos taken) -->
                     <button id="continue-btn" class="hidden w-full bg-gradient-to-r from-purple-500 to-pink-600 text-white font-bold py-4 px-12 rounded-full text-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition animate-pulse">
-                        <span>✨ Continue to Preview & Edit</span>
+                        <span data-i18n="camera.continuePreview">✨ Continue to Preview & Edit</span>
                     </button>
                     
                     <button id="retake-btn" class="hidden w-full bg-gray-600 text-white font-bold py-3 px-8 rounded-full text-lg shadow-xl hover:bg-gray-700 transition">
-                        <span>🔄 Retake All</span>
+                        <span data-i18n="camera.retakeAll">🔄 Retake All</span>
                     </button>
                 </div>
             </div>
             
             <!-- Photo Strip Preview -->
             <div class="w-full lg:w-96 glass-effect rounded-3xl p-6">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Your Photo Strip</h2>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center" data-i18n="camera.yourPhotoStrip">Your Photo Strip</h2>
                 
                 <!-- Photo Strip Container -->
                 <div id="photo-strip" class="bg-white p-4 rounded-lg shadow-xl max-w-full">
@@ -260,7 +260,7 @@
                     
                     <!-- Branding -->
                     <div class="mt-3 pt-3 border-t-2 border-gray-300 text-center">
-                        <p class="text-xs font-bold text-gray-600">SnapStrip Studio</p>
+                        <p class="text-xs font-bold text-gray-600" data-i18n="camera.brandName">SnapStrip Studio</p>
                         <p class="text-xs text-gray-400">thanhnguyxn.github.io/Photo-Booth</p>
                     </div>
                 </div>

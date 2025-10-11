@@ -11,6 +11,8 @@ const translations = {
         'nav.camera': 'Camera',
         'nav.preview': 'Preview',
         'nav.layout': 'Layout',
+        'nav.faq': 'FAQ',
+        'nav.star': 'Star on GitHub',
         
         // Common
         'common.language': 'Language',
@@ -75,6 +77,7 @@ const translations = {
         'templates.minimalist.desc': 'Less is more',
         'templates.classic': 'Classic',
         'templates.classic.desc': 'Traditional photo booth',
+        'templates.selectMessage': 'Please select a template to continue',
         
         // Layout Page
         'layout.title': 'Choose Layout',
@@ -96,16 +99,26 @@ const translations = {
         'customize.subtitle': 'Add your personal touch',
         'customize.preview': 'Preview',
         'customize.preview.note': '(Preview is illustrative - actual photos will show in camera)',
-        'customize.username': 'Username',
+        'customize.username': '📱 Username / Name',
         'customize.username.placeholder': '@yourname',
-        'customize.headline': 'Headline',
+        'customize.headline': '📰 Headline / Title',
         'customize.headline.placeholder': 'Your headline here',
-        'customize.subtitle': 'Subtitle',
+        'customize.subtitleLabel': '✍️ Subtitle / Description',
         'customize.subtitle.placeholder': 'Your subtitle here',
-        'customize.message': 'Message',
+        'customize.date': '📅 Date',
+        'customize.message': '💭 Message / Quote',
         'customize.message.placeholder': 'Your message here',
-        'customize.location': 'Location',
+        'customize.location': '🌍 Country / Location',
         'customize.location.placeholder': 'Your location',
+        'customize.startCamera': 'Start Camera 📸',
+        'customize.saveNote': 'Your customization will be saved for this session',
+        'customize.livePreview': 'Live Preview',
+        'customize.previewDesc': 'Preview shows how your text will appear on photos',
+        'customize.actualTemplate': '✨ Actual template will have richer details and higher resolution',
+        'customize.textSizeLabel': '📏 Text Size Adjustment',
+        'customize.small': 'Small',
+        'customize.large': 'Large',
+        'customize.textSizeDesc': 'Adjust text size while preserving template style',
         
         // Camera Page
         'camera.title': 'Take Your Photos',
@@ -120,6 +133,29 @@ const translations = {
         'camera.switchCamera': 'Switch Camera',
         'camera.error': 'Camera Error',
         'camera.error.access': 'Unable to access camera. Please grant camera permissions.',
+        'camera.captureSettings': '📸 Capture Settings',
+        'camera.captureMode': 'Capture Mode',
+        'camera.modeAuto': 'Auto',
+        'camera.modeManual': 'Manual',
+        'camera.timerLabel': 'Time between photos:',
+        'camera.autoModeDesc': '⚡ Auto mode: Photos will be taken automatically every 3 seconds',
+        'camera.startTaking': 'Start Taking Photos',
+        'camera.takePhoto': 'Take Photo',
+        'camera.continuePreview': '✨ Continue to Preview & Edit',
+        'camera.retakeAll': '🔄 Retake All',
+        'camera.filters': 'Filters:',
+        'camera.filter.none': 'None',
+        'camera.filter.bw': 'B&W',
+        'camera.filter.sepia': 'Sepia',
+        'camera.filter.vintage': 'Vintage',
+        'camera.filter.cool': 'Cool',
+        'camera.filter.warm': 'Warm',
+        'camera.chooseSource': 'Choose Photo Source',
+        'camera.howToAdd': 'How would you like to add your photos?',
+        'camera.useCamera': 'Use Camera',
+        'camera.uploadPhotos': 'Upload Photos',
+        'camera.yourPhotoStrip': 'Your Photo Strip',
+        'camera.brandName': 'SnapStrip Studio',
         
         // Preview Page
         'preview.title': 'Your Photo Strip',
@@ -128,6 +164,20 @@ const translations = {
         'preview.retake': 'Retake Photos',
         'preview.newStrip': 'Create New Strip',
         'preview.share': 'Share',
+        'preview.downloadOptions': '📥 Download Options',
+        'preview.downloadImage': '📷 Download Image',
+        'preview.createGif': '🎬 Create Animated GIF',
+        'preview.shareQR': '📱 Share via QR Code',
+        'preview.showControls': 'Show Controls',
+        'preview.shareTitle': '📱 Share Your Photo',
+        'preview.linkExpires': 'Link expires in about 1 hour',
+        'preview.scanInstructions': '📸 Scan with your phone camera to download',
+        'preview.creatingGif': '🎬 Creating GIF...',
+        'preview.pleaseWait': 'Please wait...',
+        'preview.copyLink': '📋 Copy Link',
+        'preview.cantScanQR': 'For devices that can\'t scan QR codes',
+        'preview.qrFailed': '❌ Failed to create temporary link',
+        'preview.useDownload': 'Please use the "Download Image" button instead',
         
         // Contact Page
         'contact.title': 'Contact Us',
@@ -223,6 +273,8 @@ const translations = {
         'nav.camera': 'Chụp Ảnh',
         'nav.preview': 'Xem Trước',
         'nav.layout': 'Bố Cục',
+        'nav.faq': 'Câu Hỏi Thường Gặp',
+        'nav.star': 'Gắn Sao trên GitHub',
         
         // Common
         'common.language': 'Ngôn Ngữ',
@@ -287,6 +339,7 @@ const translations = {
         'templates.minimalist.desc': 'Càng ít càng tốt',
         'templates.classic': 'Truyền Thống',
         'templates.classic.desc': 'Photo booth truyền thống',
+        'templates.selectMessage': 'Vui lòng chọn một mẫu để tiếp tục',
         
         // Layout Page
         'layout.title': 'Chọn Bố Cục',
@@ -308,16 +361,26 @@ const translations = {
         'customize.subtitle': 'Thêm dấu ấn cá nhân',
         'customize.preview': 'Xem Trước',
         'customize.preview.note': '(Xem trước chỉ minh họa - ảnh thật sẽ hiển thị khi chụp)',
-        'customize.username': 'Tên Người Dùng',
+        'customize.username': '📱 Tên Người Dùng / Tên',
         'customize.username.placeholder': '@tencuaban',
-        'customize.headline': 'Tiêu Đề',
+        'customize.headline': '📰 Tiêu Đề Chính',
         'customize.headline.placeholder': 'Tiêu đề của bạn',
-        'customize.subtitle': 'Phụ Đề',
+        'customize.subtitleLabel': '✍️ Phụ Đề / Mô Tả',
         'customize.subtitle.placeholder': 'Phụ đề của bạn',
-        'customize.message': 'Tin Nhắn',
+        'customize.date': '📅 Ngày Tháng',
+        'customize.message': '💭 Tin Nhắn / Trích Dẫn',
         'customize.message.placeholder': 'Tin nhắn của bạn',
-        'customize.location': 'Vị Trí',
+        'customize.location': '🌍 Quốc Gia / Địa Điểm',
         'customize.location.placeholder': 'Vị trí của bạn',
+        'customize.startCamera': 'Bắt Đầu Chụp 📸',
+        'customize.saveNote': 'Tùy chỉnh của bạn sẽ được lưu cho phiên này',
+        'customize.livePreview': 'Xem Trước Trực Tiếp',
+        'customize.previewDesc': 'Xem trước cách văn bản của bạn sẽ xuất hiện trên ảnh',
+        'customize.actualTemplate': '✨ Mẫu thực tế sẽ có nhiều chi tiết hơn và độ phân giải cao hơn',
+        'customize.textSizeLabel': '📏 Điều Chỉnh Kích Thước Chữ',
+        'customize.small': 'Nhỏ',
+        'customize.large': 'Lớn',
+        'customize.textSizeDesc': 'Điều chỉnh kích thước chữ trong khi vẫn giữ nguyên phong cách mẫu',
         
         // Camera Page
         'camera.title': 'Chụp Ảnh',
@@ -332,6 +395,29 @@ const translations = {
         'camera.switchCamera': 'Đổi Camera',
         'camera.error': 'Lỗi Camera',
         'camera.error.access': 'Không thể truy cập camera. Vui lòng cấp quyền camera.',
+        'camera.captureSettings': '📸 Cài Đặt Chụp',
+        'camera.captureMode': 'Chế Độ Chụp',
+        'camera.modeAuto': 'Tự Động',
+        'camera.modeManual': 'Thủ Công',
+        'camera.timerLabel': 'Thời gian giữa các ảnh:',
+        'camera.autoModeDesc': '⚡ Chế độ tự động: Ảnh sẽ được chụp tự động sau mỗi 3 giây',
+        'camera.startTaking': 'Bắt Đầu Chụp Ảnh',
+        'camera.takePhoto': 'Chụp Ảnh',
+        'camera.continuePreview': '✨ Tiếp Tục Xem Trước & Chỉnh Sửa',
+        'camera.retakeAll': '🔄 Chụp Lại Tất Cả',
+        'camera.filters': 'Bộ Lọc:',
+        'camera.filter.none': 'Không',
+        'camera.filter.bw': 'Đen Trắng',
+        'camera.filter.sepia': 'Nâu Cổ',
+        'camera.filter.vintage': 'Cổ Điển',
+        'camera.filter.cool': 'Lạnh',
+        'camera.filter.warm': 'Ấm',
+        'camera.chooseSource': 'Chọn Nguồn Ảnh',
+        'camera.howToAdd': 'Bạn muốn thêm ảnh như thế nào?',
+        'camera.useCamera': 'Dùng Camera',
+        'camera.uploadPhotos': 'Tải Ảnh Lên',
+        'camera.yourPhotoStrip': 'Dải Ảnh Của Bạn',
+        'camera.brandName': 'SnapStrip Studio',
         
         // Preview Page
         'preview.title': 'Ảnh Của Bạn',
@@ -340,6 +426,20 @@ const translations = {
         'preview.retake': 'Chụp Lại',
         'preview.newStrip': 'Tạo Ảnh Mới',
         'preview.share': 'Chia Sẻ',
+        'preview.downloadOptions': '📥 Tùy Chọn Tải Xuống',
+        'preview.downloadImage': '📷 Tải Xuống Ảnh',
+        'preview.createGif': '🎬 Tạo GIF Động',
+        'preview.shareQR': '📱 Chia Sẻ qua Mã QR',
+        'preview.showControls': 'Hiện Điều Khiển',
+        'preview.shareTitle': '📱 Chia Sẻ Ảnh Của Bạn',
+        'preview.linkExpires': 'Liên kết hết hạn sau khoảng 1 giờ',
+        'preview.scanInstructions': '📸 Quét bằng camera điện thoại để tải xuống',
+        'preview.creatingGif': '🎬 Đang Tạo GIF...',
+        'preview.pleaseWait': 'Vui lòng chờ...',
+        'preview.copyLink': '📋 Sao Chép Liên Kết',
+        'preview.cantScanQR': 'Dành cho thiết bị không thể quét mã QR',
+        'preview.qrFailed': '❌ Không thể tạo liên kết tạm thời',
+        'preview.useDownload': 'Vui lòng sử dụng nút "Tải Xuống Ảnh" thay thế',
         
         // Contact Page
         'contact.title': 'Liên Hệ',
@@ -460,6 +560,13 @@ function updatePageText() {
         } else {
             element.textContent = translation;
         }
+    });
+    
+    // Handle placeholder translations separately
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+        const key = element.getAttribute('data-i18n-placeholder');
+        const translation = t(key);
+        element.placeholder = translation;
     });
     
     // Update page title if exists

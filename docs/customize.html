@@ -81,8 +81,8 @@
                     </button>
                 </div>
                 
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2 text-center">Personalize Your Template</h1>
-                <p class="text-base md:text-lg text-gray-600 mb-4 text-center">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2 text-center" data-i18n="customize.title">Personalize Your Template</h1>
+                <p class="text-base md:text-lg text-gray-600 mb-4 text-center" data-i18n="customize.subtitle">
                     Customize text before taking photos
                 </p>
                 
@@ -100,13 +100,14 @@
                             
                             <!-- Username field (for Instagram, MacBook, etc) -->
                             <div class="custom-field" data-templates="instagram,macbook">
-                                <label class="block text-gray-700 font-semibold mb-2">
+                                <label class="block text-gray-700 font-semibold mb-2" data-i18n="customize.username">
                                     📱 Username / Name
                                 </label>
                                 <input 
                                     type="text" 
                                     id="username" 
                                     class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-600 focus:outline-none transition"
+                                    data-i18n-placeholder="customize.username.placeholder"
                                     placeholder="@yourname"
                                     maxlength="20"
                                 >
@@ -114,13 +115,14 @@
                             
                             <!-- Title field (for Newspaper, Magazine, Movie, etc) -->
                             <div class="custom-field" data-templates="newspaper,magazine,movie,passport">
-                                <label class="block text-gray-700 font-semibold mb-2">
+                                <label class="block text-gray-700 font-semibold mb-2" data-i18n="customize.headline">
                                     📰 Headline / Title
                                 </label>
                                 <input 
                                     type="text" 
                                     id="headline" 
                                     class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-600 focus:outline-none transition"
+                                    data-i18n-placeholder="customize.headline.placeholder"
                                     placeholder="BREAKING NEWS!"
                                     maxlength="30"
                                 >
@@ -128,13 +130,14 @@
                             
                             <!-- Subtitle field -->
                             <div class="custom-field" data-templates="newspaper,magazine,movie">
-                                <label class="block text-gray-700 font-semibold mb-2">
+                                <label class="block text-gray-700 font-semibold mb-2" data-i18n="customize.subtitleLabel">
                                     ✍️ Subtitle / Description
                                 </label>
                                 <input 
                                     type="text" 
                                     id="subtitle" 
                                     class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-600 focus:outline-none transition"
+                                    data-i18n-placeholder="customize.subtitle.placeholder"
                                     placeholder="Latest updates..."
                                     maxlength="40"
                                 >
@@ -142,7 +145,7 @@
                             
                             <!-- Date field -->
                             <div class="custom-field" data-templates="newspaper,passport,vintage">
-                                <label class="block text-gray-700 font-semibold mb-2">
+                                <label class="block text-gray-700 font-semibold mb-2" data-i18n="customize.date">
                                     📅 Date
                                 </label>
                                 <input 
@@ -154,13 +157,14 @@
                             
                             <!-- Location field (for Passport) -->
                             <div class="custom-field" data-templates="passport">
-                                <label class="block text-gray-700 font-semibold mb-2">
+                                <label class="block text-gray-700 font-semibold mb-2" data-i18n="customize.location">
                                     🌍 Country / Location
                                 </label>
                                 <input 
                                     type="text" 
                                     id="location" 
                                     class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-600 focus:outline-none transition"
+                                    data-i18n-placeholder="customize.location.placeholder"
                                     placeholder="Vietnam"
                                     maxlength="20"
                                 >
@@ -168,12 +172,13 @@
                             
                             <!-- Message field (for Comic, Scrapbook) -->
                             <div class="custom-field" data-templates="comic,scrapbook,vintage">
-                                <label class="block text-gray-700 font-semibold mb-2">
+                                <label class="block text-gray-700 font-semibold mb-2" data-i18n="customize.message">
                                     💭 Message / Quote
                                 </label>
                                 <textarea 
                                     id="message" 
                                     class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-purple-600 focus:outline-none transition"
+                                    data-i18n-placeholder="customize.message.placeholder"
                                     placeholder="POW! Amazing moments!"
                                     rows="3"
                                     maxlength="100"
@@ -184,11 +189,11 @@
                         
                         <!-- Text Size Control -->
                         <div class="bg-purple-50 border-2 border-purple-300 p-4 rounded-lg">
-                            <label class="block text-gray-700 font-semibold mb-3">
+                            <label class="block text-gray-700 font-semibold mb-3" data-i18n="customize.textSizeLabel">
                                 📏 Text Size Adjustment
                             </label>
                             <div class="flex items-center gap-4">
-                                <span class="text-sm text-gray-600">Small</span>
+                                <span class="text-sm text-gray-600" data-i18n="customize.small">Small</span>
                                 <input 
                                     type="range" 
                                     id="text-scale" 
@@ -199,12 +204,12 @@
                                     step="5"
                                     style="accent-color: #9333EA;"
                                 >
-                                <span class="text-sm text-gray-600">Large</span>
+                                <span class="text-sm text-gray-600" data-i18n="customize.large">Large</span>
                             </div>
                             <div class="text-center mt-2">
                                 <span class="text-sm font-semibold text-purple-600" id="scale-value">100%</span>
                             </div>
-                            <p class="text-xs text-gray-500 mt-2 text-center">Adjust text size while preserving template style</p>
+                            <p class="text-xs text-gray-500 mt-2 text-center" data-i18n="customize.textSizeDesc">Adjust text size while preserving template style</p>
                         </div>
                         
                         <!-- Info box -->
@@ -218,12 +223,12 @@
                     <!-- Live Preview -->
                     <div>
                         <div class="bg-gray-100 rounded-xl p-6">
-                            <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">Live Preview</h3>
-                            <p class="text-xs text-gray-500 mb-4 text-center italic">Preview shows how your text will appear on photos</p>
+                            <h3 class="text-lg font-bold text-gray-800 mb-2 text-center" data-i18n="customize.livePreview">Live Preview</h3>
+                            <p class="text-xs text-gray-500 mb-4 text-center italic" data-i18n="customize.previewDesc">Preview shows how your text will appear on photos</p>
                             <div id="preview-area" class="bg-white rounded-lg shadow-lg p-4 min-h-[400px] flex items-center justify-center">
                                 <canvas id="preview-canvas" class="max-w-full h-auto"></canvas>
                             </div>
-                            <p class="text-xs text-gray-400 mt-3 text-center">
+                            <p class="text-xs text-gray-400 mt-3 text-center" data-i18n="customize.actualTemplate">
                                 ✨ Actual template will have richer details and higher resolution
                             </p>
                         </div>
@@ -234,9 +239,9 @@
                 <!-- Continue Button -->
                 <div class="text-center mt-12">
                     <button id="start-camera-btn" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-4 px-16 rounded-full text-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition">
-                        <span>Start Camera 📸</span>
+                        <span data-i18n="customize.startCamera">Start Camera 📸</span>
                     </button>
-                    <p class="text-gray-500 mt-4 text-sm">
+                    <p class="text-gray-500 mt-4 text-sm" data-i18n="customize.saveNote">
                         Your customization will be saved for this session
                     </p>
                 </div>
