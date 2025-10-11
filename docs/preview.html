@@ -90,10 +90,18 @@
 
         <div id="main-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-4 transition-all duration-300">
             <!-- Preview Canvas -->
-            <div id="canvas-section" class="lg:col-span-2 glass-effect rounded-xl p-6 flex items-center justify-center transition-all duration-300">
+            <div id="canvas-section" class="lg:col-span-2 glass-effect rounded-xl p-6 flex items-center justify-center transition-all duration-300 relative">
                 <div id="canvas-container">
                     <canvas id="preview-canvas"></canvas>
                 </div>
+                
+                <!-- Floating Toggle Button (when panel is hidden) - Inside canvas section -->
+                <button id="floating-toggle" class="hidden absolute top-4 right-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold px-4 py-2 rounded-lg shadow-xl hover:from-purple-600 hover:to-pink-600 transition transform hover:scale-105 z-10 flex items-center gap-2" onclick="togglePanel()">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                    </svg>
+                    <span class="text-sm">Show Controls</span>
+                </button>
             </div>
 
             <!-- Controls Panel -->
@@ -197,13 +205,6 @@
             </div>
         </div>
     </div>
-    
-    <!-- Floating Toggle Button (when panel is hidden) -->
-    <button id="floating-toggle" class="hidden fixed bottom-8 right-8 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold p-4 rounded-full shadow-2xl hover:from-purple-600 hover:to-pink-600 transition transform hover:scale-110 z-50" onclick="togglePanel()">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
-        </svg>
-    </button>
 
     <!-- QR Code Modal -->
     <div id="qr-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
