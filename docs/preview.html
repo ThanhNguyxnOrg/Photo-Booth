@@ -105,9 +105,14 @@
                         <button class="sticker-btn text-3xl hover:scale-125 transition" data-sticker="🌈">🌈</button>
                         <button class="sticker-btn text-3xl hover:scale-125 transition" data-sticker="🦄">🦄</button>
                     </div>
-                    <button id="clear-stickers" class="w-full mt-2 bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm transition">
-                        Clear All Stickers
-                    </button>
+                    <div class="flex gap-2 mt-2">
+                        <button id="clear-stickers" class="flex-1 bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm transition">
+                            🗑️ Clear All
+                        </button>
+                        <button id="undo-sticker" class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-3 rounded text-sm transition">
+                            ↩️ Undo
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Frame Color Section -->
@@ -154,9 +159,14 @@
     <!-- QR Code Modal -->
     <div id="qr-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
         <div class="glass-effect rounded-2xl p-8 max-w-md w-full">
-            <h2 class="text-2xl font-bold text-purple-900 mb-4 text-center">📱 Scan to Download</h2>
-            <div id="qr-code" class="bg-white p-4 rounded-lg mb-4 flex justify-center"></div>
-            <p class="text-gray-600 text-center mb-4">Scan this QR code with your phone to download the photo</p>
+            <h2 class="text-2xl font-bold text-purple-900 mb-2 text-center">📱 Scan QR Code</h2>
+            <p class="text-sm text-gray-500 text-center mb-4">Temporary link - expires after download</p>
+            <div id="qr-code" class="bg-white p-4 rounded-lg mb-4 flex flex-col justify-center items-center min-h-[280px]"></div>
+            <p class="text-gray-600 text-center mb-4 text-sm">
+                📸 Scan with your phone camera to download the photo
+                <br>
+                <span class="text-xs text-gray-500">Link will be deleted after first download for privacy</span>
+            </p>
             <button id="close-qr" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition">
                 Close
             </button>
@@ -195,54 +205,191 @@
 
         // Stickers array
         let stickers = [];
+        let stickerHistory = []; // For undo functionality
         let activeSticker = null;
         let dragging = false;
         let dragOffset = { x: 0, y: 0 };
+        
+        const MAX_STICKERS = 15; // Maximum stickers allowed
 
         // Frame color
         let frameColor = '#FFFFFF';
+        
+        // Helper function to check if two stickers overlap
+        function checkOverlap(x1, y1, size1, x2, y2, size2) {
+            const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+            const minDistance = (size1 + size2) / 2;
+            return distance < minDistance;
+        }
+        
+        // Generate random position avoiding overlaps and photo center
+        function getRandomPosition(size) {
+            const margin = 100; // Margin from edges
+            const centerAvoidRadius = Math.min(canvas.width, canvas.height) / 3;
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            
+            let attempts = 0;
+            const maxAttempts = 50;
+            
+            while (attempts < maxAttempts) {
+                // Random position with margin
+                const x = margin + Math.random() * (canvas.width - margin * 2);
+                const y = margin + Math.random() * (canvas.height - margin * 2);
+                
+                // Check if too close to center (avoid covering main photo)
+                const distanceFromCenter = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+                if (distanceFromCenter < centerAvoidRadius) {
+                    attempts++;
+                    continue;
+                }
+                
+                // Check overlap with existing stickers
+                let hasOverlap = false;
+                for (const sticker of stickers) {
+                    if (checkOverlap(x, y, size, sticker.x, sticker.y, sticker.size)) {
+                        hasOverlap = true;
+                        break;
+                    }
+                }
+                
+                if (!hasOverlap) {
+                    return { x, y };
+                }
+                
+                attempts++;
+            }
+            
+            // If can't find good position, return random corner
+            const corners = [
+                { x: margin + 50, y: margin + 50 },
+                { x: canvas.width - margin - 50, y: margin + 50 },
+                { x: margin + 50, y: canvas.height - margin - 50 },
+                { x: canvas.width - margin - 50, y: canvas.height - margin - 50 }
+            ];
+            return corners[Math.floor(Math.random() * corners.length)];
+        }
 
         // Load photo
         const img = new Image();
         img.onload = function() {
             canvas.width = img.width;
             canvas.height = img.height;
+            console.log('✅ Photo loaded! Canvas size:', canvas.width, 'x', canvas.height);
+            console.log('📍 Sticker center will be at:', canvas.width / 2, ',', canvas.height / 2);
             redraw();
         };
+        img.onerror = function() {
+            console.error('❌ Failed to load photo!');
+            alert('Failed to load photo! Please try again.');
+        };
         img.src = photoData;
+        console.log('📸 Loading photo from localStorage...');
 
         // Redraw canvas
         function redraw() {
-            // Draw frame background
-            ctx.fillStyle = frameColor;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Draw photo
+            // Draw photo first
             ctx.drawImage(img, 0, 0);
             
-            // Draw stickers
-            stickers.forEach(sticker => {
+            // Draw frame border (not fill - just outline)
+            if (frameColor !== '#FFFFFF') {
+                ctx.strokeStyle = frameColor;
+                ctx.lineWidth = 20;
+                ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+            }
+            
+            // Draw stickers on top with rotation
+            stickers.forEach((sticker, index) => {
+                // Save context
+                ctx.save();
+                
+                // Move to sticker position
+                ctx.translate(sticker.x, sticker.y);
+                
+                // Apply rotation
+                ctx.rotate(sticker.rotation * Math.PI / 180);
+                
+                // Set font and alignment (centered on rotation point)
                 ctx.font = `${sticker.size}px Arial`;
-                ctx.fillText(sticker.emoji, sticker.x, sticker.y);
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                // Draw sticker emoji at origin (since we translated)
+                ctx.fillText(sticker.emoji, 0, 0);
+                
+                // Restore context
+                ctx.restore();
             });
+            
+            console.log('Redrawn canvas with', stickers.length, 'stickers, frame color:', frameColor);
         }
 
         // Add sticker
         document.querySelectorAll('.sticker-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const emoji = btn.dataset.sticker;
-                stickers.push({
+                
+                // Check max limit
+                if (stickers.length >= MAX_STICKERS) {
+                    console.log('⚠️ Max stickers reached, removing oldest');
+                    // Remove oldest sticker
+                    stickers.shift();
+                }
+                
+                console.log('Adding sticker:', emoji);
+                
+                // Random size variation
+                const baseSize = 80;
+                const sizeVariation = 20;
+                const size = baseSize + Math.random() * sizeVariation - sizeVariation / 2;
+                
+                // Get random position avoiding overlaps
+                const position = getRandomPosition(size);
+                
+                // Random rotation for variety
+                const rotation = Math.random() * 30 - 15; // -15 to +15 degrees
+                
+                const newSticker = {
                     emoji: emoji,
-                    x: canvas.width / 2,
-                    y: canvas.height / 2,
-                    size: 60
-                });
+                    x: position.x,
+                    y: position.y,
+                    size: size,
+                    rotation: rotation
+                };
+                
+                // Save current state for undo
+                stickerHistory.push(JSON.parse(JSON.stringify(stickers)));
+                if (stickerHistory.length > 20) {
+                    stickerHistory.shift(); // Keep max 20 undo states
+                }
+                
+                stickers.push(newSticker);
+                console.log('Total stickers:', stickers.length, 'Position:', position.x.toFixed(0), position.y.toFixed(0));
                 redraw();
             });
         });
 
+        // Undo last sticker
+        document.getElementById('undo-sticker').addEventListener('click', () => {
+            if (stickerHistory.length > 0) {
+                stickers = stickerHistory.pop();
+                console.log('↩️ Undo - restored to', stickers.length, 'stickers');
+                redraw();
+            } else {
+                console.log('⚠️ Nothing to undo');
+            }
+        });
+
         // Clear stickers
         document.getElementById('clear-stickers').addEventListener('click', () => {
+            console.log('Clearing all stickers');
+            // Save state for undo
+            if (stickers.length > 0) {
+                stickerHistory.push(JSON.parse(JSON.stringify(stickers)));
+            }
             stickers = [];
             redraw();
         });
@@ -250,6 +397,7 @@
         // Frame color selection
         document.querySelectorAll('.frame-option').forEach(btn => {
             btn.addEventListener('click', () => {
+                console.log('Frame color selected:', btn.dataset.color);
                 document.querySelectorAll('.frame-option').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 frameColor = btn.dataset.color;
@@ -362,14 +510,27 @@
                 const offsetX = (canvas.width * (1 - scale)) / 2;
                 const offsetY = (canvas.height * (1 - scale)) / 2;
                 
-                tempCtx.fillStyle = frameColor;
-                tempCtx.fillRect(0, 0, canvas.width, canvas.height);
+                // Clear and draw photo with zoom
+                tempCtx.clearRect(0, 0, canvas.width, canvas.height);
                 tempCtx.drawImage(img, offsetX, offsetY, canvas.width * scale, canvas.height * scale);
                 
-                // Draw stickers
+                // Draw frame border
+                if (frameColor !== '#FFFFFF') {
+                    tempCtx.strokeStyle = frameColor;
+                    tempCtx.lineWidth = 20;
+                    tempCtx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+                }
+                
+                // Draw stickers with proper alignment and rotation
                 stickers.forEach(sticker => {
+                    tempCtx.save();
+                    tempCtx.translate(sticker.x, sticker.y);
+                    tempCtx.rotate(sticker.rotation * Math.PI / 180);
                     tempCtx.font = `${sticker.size}px Arial`;
-                    tempCtx.fillText(sticker.emoji, sticker.x, sticker.y);
+                    tempCtx.textAlign = 'center';
+                    tempCtx.textBaseline = 'middle';
+                    tempCtx.fillText(sticker.emoji, 0, 0);
+                    tempCtx.restore();
                 });
                 
                 gif.addFrame(tempCanvas, { delay: 100 });
@@ -402,26 +563,81 @@
         });
 
         // Show QR Code
-        document.getElementById('show-qr').addEventListener('click', () => {
+        document.getElementById('show-qr').addEventListener('click', async () => {
             const modal = document.getElementById('qr-modal');
             const qrContainer = document.getElementById('qr-code');
-            qrContainer.innerHTML = '';
-            
-            // Convert canvas to data URL
-            const dataUrl = canvas.toDataURL('image/png');
-            
-            // Create QR code (using data URL directly - note: may be large)
-            new QRCode(qrContainer, {
-                text: dataUrl.substring(0, 2000), // Truncate for QR limit
-                width: 256,
-                height: 256
-            });
-            
+            qrContainer.innerHTML = '<p class="text-gray-600">⏳ Creating temporary link...</p>';
             modal.classList.remove('hidden');
+            
+            try {
+                // Convert canvas to blob
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                
+                // Create FormData for upload
+                const formData = new FormData();
+                formData.append('file', blob, `snapstrip-${Date.now()}.png`);
+                
+                // Upload to file.io (self-destructs after first download or 14 days)
+                // Alternative: Use tmpfiles.org with expiry parameter
+                const response = await fetch('https://file.io', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const imageUrl = data.link;
+                    console.log('✅ Temporary link created:', imageUrl);
+                    console.log('⚠️ Link will expire after first download');
+                    
+                    // Clear loading message
+                    qrContainer.innerHTML = '';
+                    
+                    // Create QR code with temporary URL
+                    new QRCode(qrContainer, {
+                        text: imageUrl,
+                        width: 256,
+                        height: 256
+                    });
+                    
+                    // Add warning and URL below QR code
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'mt-4 space-y-2';
+                    infoDiv.innerHTML = `
+                        <div class="p-2 bg-yellow-100 border border-yellow-400 rounded text-xs text-yellow-800">
+                            ⚠️ This link expires after first download
+                        </div>
+                        <div class="p-2 bg-gray-100 rounded text-xs break-all">
+                            <a href="${imageUrl}" target="_blank" class="text-blue-600 hover:underline">
+                                ${imageUrl.substring(0, 50)}...
+                            </a>
+                        </div>
+                    `;
+                    qrContainer.parentElement.appendChild(infoDiv);
+                } else {
+                    throw new Error('Upload failed: ' + (data.message || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('QR Code error:', error);
+                qrContainer.innerHTML = `
+                    <div class="text-center">
+                        <p class="text-red-600 mb-4">❌ Failed to create temporary link</p>
+                        <p class="text-gray-600 text-sm">Please use the "Download Image" button instead</p>
+                    </div>
+                `;
+            }
         });
 
         document.getElementById('close-qr').addEventListener('click', () => {
-            document.getElementById('qr-modal').classList.add('hidden');
+            const modal = document.getElementById('qr-modal');
+            modal.classList.add('hidden');
+            // Clear QR code content on close
+            const qrContainer = document.getElementById('qr-code');
+            qrContainer.innerHTML = '';
+            // Remove info div if exists
+            const infoDiv = qrContainer.parentElement.querySelector('.space-y-2');
+            if (infoDiv) infoDiv.remove();
         });
 
         // Retake
