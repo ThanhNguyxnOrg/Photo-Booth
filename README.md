@@ -4,9 +4,6 @@
 
 A free online photo booth with 12 creative templates, smart sticker system, and customizable text overlays. Create stunning photo strips in seconds!
 
-<!-- Screenshot placeholder - Add your screenshot to docs/screenshots/demo.png -->
-<!-- ![SnapStrip Studio Demo](docs/screenshots/demo.png) -->
-
 ---
 
 ## ✨ Features
@@ -171,16 +168,7 @@ Just visit: **[https://thanhnguyxn.github.io/Photo-Booth/](https://thanhnguyxn.g
 
 ## 🎨 Features Showcase
 
-<!-- 
-### 📸 Template Gallery
-To add template screenshots:
-1. Capture photos from https://thanhnguyxn.github.io/Photo-Booth/
-2. Save to docs/screenshots/ folder
-3. Uncomment the table below and add your images
--->
-
 ### Smart Sticker System
-<!-- ![Sticker Demo](docs/screenshots/stickers.png) -->
 
 - 🎯 Auto-distribution around individual photos (not center-focused)
 - 🔄 Drag & drop repositioning with improved hit detection
@@ -190,7 +178,6 @@ To add template screenshots:
 - 🗑️ Auto-removal when exceeding 15 stickers
 
 ### Text Customization
-<!-- ![Text Customization](docs/screenshots/customization.png) -->
 
 - 📝 Dynamic text overlay system
 - 🔤 Adjustable text scale (50% - 150%)
@@ -198,7 +185,6 @@ To add template screenshots:
 - ✏️ Template-specific fields (username, headline, message, date, location)
 
 ### Export Options
-<!-- ![Export Options](docs/screenshots/export.png) -->
 
 - 📷 **PNG Download** - High-quality static image
 - 🎬 **Animated GIF** - Zoom effect animation (30 frames)
