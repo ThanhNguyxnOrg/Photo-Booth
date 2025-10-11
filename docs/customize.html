@@ -176,6 +176,31 @@
                             
                         </div>
                         
+                        <!-- Text Size Control -->
+                        <div class="bg-purple-50 border-2 border-purple-300 p-4 rounded-lg">
+                            <label class="block text-gray-700 font-semibold mb-3">
+                                📏 Text Size Adjustment
+                            </label>
+                            <div class="flex items-center gap-4">
+                                <span class="text-sm text-gray-600">Small</span>
+                                <input 
+                                    type="range" 
+                                    id="text-scale" 
+                                    class="flex-1" 
+                                    min="70" 
+                                    max="130" 
+                                    value="100" 
+                                    step="5"
+                                    style="accent-color: #9333EA;"
+                                >
+                                <span class="text-sm text-gray-600">Large</span>
+                            </div>
+                            <div class="text-center mt-2">
+                                <span class="text-sm font-semibold text-purple-600" id="scale-value">100%</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2 text-center">Adjust text size while preserving template style</p>
+                        </div>
+                        
                         <!-- Info box -->
                         <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
                             <p class="text-sm text-blue-700">
@@ -275,6 +300,11 @@
             ctx.shadowOffsetY = 0;
         }
         
+        // Helper to scale font size
+        function scaledFont(size, family, weight = 'bold') {
+            return `${weight} ${Math.round(size * textScale)}px ${family}`;
+        }
+        
         // Draw preview
         function updatePreview() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -302,7 +332,7 @@
                     
                     // Username with larger font
                     ctx.fillStyle = '#000';
-                    ctx.font = 'bold 20px Arial, sans-serif';
+                    ctx.font = `bold ${Math.round(20 * textScale)}px Arial, sans-serif`;
                     ctx.textAlign = 'left';
                     ctx.fillText(username, 20, 32);
                     
@@ -326,7 +356,7 @@
                     ctx.fillRect(8, 360, 284, 32);
                     
                     // Icons larger
-                    ctx.font = '24px Arial';
+                    ctx.font = `${Math.round(24 * textScale)}px Arial`;
                     ctx.fillText('❤️ 💬 📤', 150, 383);
                     break;
                     
@@ -341,12 +371,12 @@
                     ctx.strokeRect(10, 10, 280, 380);
                     
                     // Headline with shadow
-                    ctx.font = 'bold 28px "Times New Roman", Georgia, serif';
+                    ctx.font = scaledFont(28, '"Times New Roman", Georgia, serif');
                     ctx.textAlign = 'center';
                     drawTextWithShadow(headline, 150, 50, '#000', '#FFF');
                     
                     // Subtitle with shadow
-                    ctx.font = '16px "Times New Roman", Georgia, serif';
+                    ctx.font = scaledFont(16, '"Times New Roman", Georgia, serif', 'normal');
                     drawTextWithShadow(subtitle, 150, 75, '#333', '#FFF');
                     
                     // Photo placeholder
@@ -380,7 +410,7 @@
                     ctx.fill();
                     
                     // Username with shadow
-                    ctx.font = 'bold 22px -apple-system, BlinkMacSystemFont, sans-serif';
+                    ctx.font = scaledFont(22, '-apple-system, BlinkMacSystemFont, sans-serif');
                     ctx.textAlign = 'center';
                     drawTextWithShadow(username, 150, 180, '#FFF', '#000');
                     
@@ -406,12 +436,12 @@
                     ctx.strokeRect(15, 15, 270, 370);
                     
                     // Title with shadow
-                    ctx.font = 'bold 32px Impact, Arial, sans-serif';
+                    ctx.font = scaledFont(32, 'Impact, Arial, sans-serif');
                     ctx.textAlign = 'center';
                     drawTextWithShadow(headline, 150, 60, '#EC4899', '#FFF');
                     
                     // Subtitle with shadow
-                    ctx.font = 'bold 16px Arial, sans-serif';
+                    ctx.font = scaledFont(16, 'Arial, sans-serif');
                     drawTextWithShadow(subtitle, 150, 85, '#A855F7', '#FFF');
                     
                     // Photo placeholder
@@ -430,12 +460,12 @@
                     ctx.strokeRect(10, 10, 280, 380);
                     
                     // Title with cinematic styling
-                    ctx.font = 'bold 26px "Bebas Neue", Impact, Arial, sans-serif';
+                    ctx.font = scaledFont(26, '"Bebas Neue", Impact, Arial, sans-serif');
                     ctx.textAlign = 'center';
                     drawTextWithShadow(headline, 150, 50, '#FCD34D', '#000');
                     
                     // Subtitle
-                    ctx.font = '14px Arial, sans-serif';
+                    ctx.font = scaledFont(14, 'Arial, sans-serif', 'normal');
                     drawTextWithShadow(subtitle, 150, 75, '#FFF', '#000');
                     
                     // Photo placeholder
@@ -457,12 +487,12 @@
                     ctx.strokeRect(15, 15, 270, 370);
                     
                     // Title with shadow
-                    ctx.font = 'bold 20px Arial, sans-serif';
+                    ctx.font = scaledFont(20, 'Arial, sans-serif');
                     ctx.textAlign = 'center';
                     drawTextWithShadow(headline, 150, 50, '#FCD34D', '#000');
                     
                     // Location and date
-                    ctx.font = '14px Arial, sans-serif';
+                    ctx.font = scaledFont(14, 'Arial, sans-serif', 'normal');
                     drawTextWithShadow(`${location} - ${new Date(document.getElementById('date').value || Date.now()).toLocaleDateString()}`, 150, 73, '#FFF', '#000');
                     
                     // Photo placeholder
@@ -486,7 +516,7 @@
                     ctx.strokeRect(25, 25, 250, 350);
                     
                     // Message with retro styling
-                    ctx.font = 'bold 24px "Brush Script MT", cursive, serif';
+                    ctx.font = scaledFont(24, '"Brush Script MT", cursive, serif');
                     ctx.textAlign = 'center';
                     drawTextWithShadow(message, 150, 52, '#92400E', '#FEFCE8');
                     
@@ -509,7 +539,7 @@
                     ctx.strokeRect(10, 10, 280, 380);
                     
                     // Message with comic book outline
-                    ctx.font = 'bold 32px "Comic Sans MS", "Comic Neue", cursive';
+                    ctx.font = scaledFont(32, '"Comic Sans MS", "Comic Neue", cursive');
                     ctx.textAlign = 'center';
                     // White outline
                     ctx.strokeStyle = '#FFF';
@@ -547,7 +577,7 @@
                     ctx.setLineDash([]);
                     
                     // Message with handwritten style
-                    ctx.font = 'bold 26px "Comic Sans MS", cursive, sans-serif';
+                    ctx.font = scaledFont(26, '"Comic Sans MS", cursive, sans-serif');
                     ctx.textAlign = 'center';
                     drawTextWithShadow(message, 150, 52, '#EC4899', '#FFF');
                     
@@ -660,6 +690,19 @@
             ctx.textAlign = 'left';
         }
         
+        // Text scale state
+        let textScale = 1.0;
+        
+        // Update text scale display
+        const textScaleSlider = document.getElementById('text-scale');
+        const scaleValueDisplay = document.getElementById('scale-value');
+        
+        textScaleSlider.addEventListener('input', (e) => {
+            textScale = parseInt(e.target.value) / 100;
+            scaleValueDisplay.textContent = e.target.value + '%';
+            updatePreview();
+        });
+        
         // Update preview on input
         document.querySelectorAll('input, textarea').forEach(input => {
             input.addEventListener('input', updatePreview);
@@ -677,7 +720,8 @@
                 subtitle: document.getElementById('subtitle').value,
                 date: document.getElementById('date').value,
                 location: document.getElementById('location').value,
-                message: document.getElementById('message').value
+                message: document.getElementById('message').value,
+                textScale: textScale  // Save text scale preference
             };
             
             localStorage.setItem('templateCustomization', JSON.stringify(customization));

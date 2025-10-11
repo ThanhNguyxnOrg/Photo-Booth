@@ -170,13 +170,67 @@
                     </div>
                 </div>
                 
+                <!-- Camera Settings -->
+                <div class="mt-4 bg-purple-50 border-2 border-purple-300 rounded-lg p-4">
+                    <h3 class="font-bold text-purple-900 mb-3 text-center">📸 Capture Settings</h3>
+                    
+                    <!-- Capture Mode -->
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Capture Mode</label>
+                        <div class="flex gap-2">
+                            <button id="mode-auto" class="flex-1 bg-purple-600 text-white font-bold py-2 px-4 rounded-lg transition">
+                                Auto
+                            </button>
+                            <button id="mode-manual" class="flex-1 bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg transition">
+                                Manual
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Timer Setting (only for auto mode) -->
+                    <div id="timer-setting" class="mb-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Time between photos: <span id="timer-value" class="text-purple-600 font-bold">3s</span>
+                        </label>
+                        <input 
+                            type="range" 
+                            id="timer-slider" 
+                            min="2" 
+                            max="10" 
+                            value="3" 
+                            step="1"
+                            class="w-full"
+                            style="accent-color: #9333EA;"
+                        >
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>2s</span>
+                            <span>10s</span>
+                        </div>
+                    </div>
+                    
+                    <p id="mode-description" class="text-xs text-gray-600 text-center mt-2">
+                        ⚡ Auto mode: Photos will be taken automatically every 3 seconds
+                    </p>
+                </div>
+                
                 <!-- Capture Button -->
-                <div class="mt-4 text-center">
-                    <button id="start-btn" class="bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-4 px-12 rounded-full text-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition">
+                <div class="mt-4 text-center space-y-2">
+                    <button id="start-btn" class="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-4 px-12 rounded-full text-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition">
                         <span>Start Taking Photos</span>
                     </button>
-                    <button id="retake-btn" class="hidden bg-gray-600 text-white font-bold py-3 px-8 rounded-full text-lg shadow-xl hover:bg-gray-700 transition ml-2">
-                        <span>Retake All</span>
+                    
+                    <!-- Manual Capture Button (hidden by default) -->
+                    <button id="manual-capture-btn" class="hidden w-full bg-gradient-to-r from-green-500 to-teal-600 text-white font-bold py-4 px-12 rounded-full text-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition">
+                        <span>📸 Take Photo (<span id="current-photo-num">1</span>/<span id="total-photos">4</span>)</span>
+                    </button>
+                    
+                    <!-- Continue to Preview Button (shown after all photos taken) -->
+                    <button id="continue-btn" class="hidden w-full bg-gradient-to-r from-purple-500 to-pink-600 text-white font-bold py-4 px-12 rounded-full text-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition animate-pulse">
+                        <span>✨ Continue to Preview & Edit</span>
+                    </button>
+                    
+                    <button id="retake-btn" class="hidden w-full bg-gray-600 text-white font-bold py-3 px-8 rounded-full text-lg shadow-xl hover:bg-gray-700 transition">
+                        <span>🔄 Retake All</span>
                     </button>
                 </div>
             </div>
@@ -198,14 +252,13 @@
                     </div>
                 </div>
                 
-                <!-- Download Button -->
-                <button id="download-btn" class="hidden w-full mt-4 bg-gradient-to-r from-green-500 to-teal-600 text-white font-bold py-3 px-6 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition">
-                    <span>📥 Download Photo Strip</span>
+                <!-- Edit/Download Buttons -->
+                <button id="edit-btn" class="hidden w-full mt-4 bg-gradient-to-r from-purple-500 to-pink-600 text-white font-bold py-3 px-6 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition">
+                    <span>✨ Edit & Add Text</span>
                 </button>
                 
-                <!-- Share Button -->
-                <button id="share-btn" class="hidden w-full mt-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold py-3 px-6 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition">
-                    <span>📤 Share</span>
+                <button id="download-btn" class="hidden w-full mt-2 bg-gradient-to-r from-green-500 to-teal-600 text-white font-bold py-2 px-6 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition">
+                    <span>� Skip & Download</span>
                 </button>
             </div>
             
@@ -230,6 +283,9 @@
             message: 'Your message'
         };
         
+        // Text scale from customization (default 1.0)
+        let userTextScale = 1.0;
+        
         try {
             const savedCustomization = localStorage.getItem('templateCustomization');
             if (savedCustomization) {
@@ -242,7 +298,8 @@
                     location: parsed.location && parsed.location.trim() !== '' ? parsed.location : 'Location',
                     message: parsed.message && parsed.message.trim() !== '' ? parsed.message : 'Your message'
                 };
-                console.log('✅ Loaded customization:', customization);
+                userTextScale = parsed.textScale || 1.0;
+                console.log('✅ Loaded customization:', customization, 'Text Scale:', userTextScale);
             } else {
                 console.log('ℹ️ No customization found, using defaults');
             }
@@ -268,8 +325,9 @@
         const ctx = canvas.getContext('2d');
         const startBtn = document.getElementById('start-btn');
         const retakeBtn = document.getElementById('retake-btn');
+        const continueBtn = document.getElementById('continue-btn');
+        const editBtn = document.getElementById('edit-btn');
         const downloadBtn = document.getElementById('download-btn');
-        const shareBtn = document.getElementById('share-btn');
         const flash = document.getElementById('flash');
         const countdownOverlay = document.getElementById('countdown-overlay');
         const countdownNumber = document.getElementById('countdown-number');
@@ -278,6 +336,52 @@
         const filterOverlay = document.getElementById('filter-overlay');
         const filterBtns = document.querySelectorAll('.filter-btn');
         const backBtn = document.getElementById('back-btn');
+        
+        // Capture mode settings
+        const modeAutoBtn = document.getElementById('mode-auto');
+        const modeManualBtn = document.getElementById('mode-manual');
+        const timerSetting = document.getElementById('timer-setting');
+        const timerSlider = document.getElementById('timer-slider');
+        const timerValue = document.getElementById('timer-value');
+        const modeDescription = document.getElementById('mode-description');
+        const manualCaptureBtn = document.getElementById('manual-capture-btn');
+        const currentPhotoNum = document.getElementById('current-photo-num');
+        const totalPhotosSpan = document.getElementById('total-photos');
+        
+        // Capture settings state
+        let captureMode = 'auto'; // 'auto' or 'manual'
+        let captureTimer = 3; // seconds between photos in auto mode
+        
+        // Update total photos display
+        totalPhotosSpan.textContent = poses;
+        
+        // Mode toggle handlers
+        modeAutoBtn.addEventListener('click', () => {
+            captureMode = 'auto';
+            modeAutoBtn.classList.remove('bg-gray-300', 'text-gray-700');
+            modeAutoBtn.classList.add('bg-purple-600', 'text-white');
+            modeManualBtn.classList.remove('bg-purple-600', 'text-white');
+            modeManualBtn.classList.add('bg-gray-300', 'text-gray-700');
+            timerSetting.classList.remove('hidden');
+            modeDescription.textContent = `⚡ Auto mode: Photos will be taken automatically every ${captureTimer} seconds`;
+        });
+        
+        modeManualBtn.addEventListener('click', () => {
+            captureMode = 'manual';
+            modeManualBtn.classList.remove('bg-gray-300', 'text-gray-700');
+            modeManualBtn.classList.add('bg-purple-600', 'text-white');
+            modeAutoBtn.classList.remove('bg-purple-600', 'text-white');
+            modeAutoBtn.classList.add('bg-gray-300', 'text-gray-700');
+            timerSetting.classList.add('hidden');
+            modeDescription.textContent = '👆 Manual mode: Click the button to take each photo when ready';
+        });
+        
+        // Timer slider handler
+        timerSlider.addEventListener('input', (e) => {
+            captureTimer = parseInt(e.target.value);
+            timerValue.textContent = captureTimer + 's';
+            modeDescription.textContent = `⚡ Auto mode: Photos will be taken automatically every ${captureTimer} seconds`;
+        });
         
         // Back button handler - go back to customize or templates page
         backBtn.addEventListener('click', () => {
@@ -383,13 +487,11 @@
                 photoCount.textContent = `Photo ${i + 1}/${poses}`;
             }
             
-            // Show download/share buttons
+            // Show edit/download buttons
             startBtn.classList.add('hidden');
             retakeBtn.classList.remove('hidden');
+            editBtn.classList.remove('hidden');
             downloadBtn.classList.remove('hidden');
-            if (navigator.share) {
-                shareBtn.classList.remove('hidden');
-            }
         });
         
         // Helper function to load image from file
@@ -424,7 +526,10 @@
                 // Draw template frame preview
                 drawPhotoTemplateFrame(previewCtx, 0, 0, 600, 400, i);
                 
-                // Add number overlay
+                // Draw text overlay preview (so user can see customization)
+                drawTemplateTextOverlay(previewCtx, 600, 400, 40);
+                
+                // Add semi-transparent number overlay
                 previewCtx.fillStyle = 'rgba(0, 0, 0, 0.3)';
                 previewCtx.fillRect(0, 0, 600, 400);
                 previewCtx.fillStyle = '#FFF';
@@ -626,31 +731,84 @@
         async function startPhotoSession() {
             if (isCapturing) return;
             isCapturing = true;
-            startBtn.disabled = true;
-            startBtn.classList.add('opacity-50');
+            startBtn.classList.add('hidden');
             
             capturedPhotos = [];
             initializePlaceholders();
             
-            for (let i = 0; i < poses; i++) {
-                await countdown();
-                capturePhoto();
-                
-                // Wait before next photo (except for last one)
-                if (i < poses - 1) {
-                    await new Promise(resolve => setTimeout(resolve, 1500));
+            if (captureMode === 'auto') {
+                // Auto mode - take photos automatically with timer
+                for (let i = 0; i < poses; i++) {
+                    currentPhotoNum.textContent = i + 1;
+                    await countdown();
+                    capturePhoto();
+                    
+                    // Wait before next photo (except for last one)
+                    if (i < poses - 1) {
+                        await new Promise(resolve => setTimeout(resolve, captureTimer * 1000));
+                    }
                 }
+                
+                // Session complete - show continue and retake buttons
+                isCapturing = false;
+                document.getElementById('continue-btn').classList.remove('hidden');
+                retakeBtn.classList.remove('hidden');
+                
+            } else {
+                // Manual mode - show manual capture button
+                manualCaptureBtn.classList.remove('hidden');
+                currentPhotoNum.textContent = '1';
             }
+        }
+        
+        // Manual capture handler
+        let manualPhotoIndex = 0;
+        manualCaptureBtn.addEventListener('click', async () => {
+            if (manualPhotoIndex >= poses) return;
             
-            // Session complete
-            isCapturing = false;
-            startBtn.classList.remove('opacity-50');
-            startBtn.disabled = false;
-            downloadBtn.classList.remove('hidden');
-            shareBtn.classList.remove('hidden');
-            retakeBtn.classList.remove('hidden');
+            manualCaptureBtn.disabled = true;
+            manualCaptureBtn.classList.add('opacity-50');
             
-            alert('🎉 Photos captured! You can now download your photo strip or retake.');
+            await countdown();
+            capturePhoto();
+            
+            manualPhotoIndex++;
+            currentPhotoNum.textContent = manualPhotoIndex + 1;
+            
+            manualCaptureBtn.disabled = false;
+            manualCaptureBtn.classList.remove('opacity-50');
+            
+            // Check if all photos taken
+            if (manualPhotoIndex >= poses) {
+                manualCaptureBtn.classList.add('hidden');
+                isCapturing = false;
+                document.getElementById('continue-btn').classList.remove('hidden');
+                retakeBtn.classList.remove('hidden');
+            }
+        });
+        
+        // Navigate to preview page with final canvas
+        function navigateToPreview() {
+            console.log('🎯 Navigating to preview page...');
+            
+            // Create final canvas with all photos
+            const finalCanvas = document.createElement('canvas');
+            const finalCtx = finalCanvas.getContext('2d');
+            finalCanvas.width = templateCanvas.width;
+            finalCanvas.height = templateCanvas.height;
+            finalCtx.drawImage(templateCanvas, 0, 0);
+            
+            console.log('📸 Canvas size:', finalCanvas.width, 'x', finalCanvas.height);
+            
+            // Save to localStorage
+            const dataURL = finalCanvas.toDataURL('image/png');
+            localStorage.setItem('finalCanvas', dataURL);
+            console.log('💾 Canvas saved to localStorage, size:', dataURL.length, 'bytes');
+            
+            // Navigate to preview page
+            const url = `preview.html?layout=${layout}&poses=${poses}&template=${template}`;
+            console.log('🔗 Redirecting to:', url);
+            window.location.href = url;
         }
         
         // Download photo strip
@@ -1082,8 +1240,11 @@
         
         // Draw text overlay on photos (after photo is drawn)
         function drawTemplateTextOverlay(ctx, canvasWidth, canvasHeight, padding) {
-            // Scale text based on layout - 4 poses = smaller, 1-2 poses = larger
-            const textScale = poses === 4 ? 0.7 : poses === 3 ? 0.85 : 1.0;
+            // Scale text based on layout - larger base sizes, less aggressive scaling
+            const layoutScale = poses === 4 ? 0.85 : poses === 3 ? 0.95 : 1.0;
+            
+            // Combine layout scale with user's text scale preference
+            const textScale = layoutScale * userTextScale;
             
             // Helper function for text with shadow/outline
             function drawTextWithShadow(text, x, y, fontSize, fillColor = '#FFF', shadowColor = '#000') {
@@ -1110,12 +1271,12 @@
                     ctx.fillStyle = '#FFF';
                     ctx.fillRect(8, 8, canvasWidth - 16, padding - 8);
                     ctx.fillStyle = '#000';
-                    ctx.font = getFont(24, 'Arial, sans-serif');
+                    ctx.font = getFont(28, 'Arial, sans-serif'); // 24→28
                     ctx.textAlign = 'left';
                     ctx.fillText(customization.username, 24, padding - 12);
                     
                     // Profile pic circle
-                    const circleRadius = Math.round(16 * textScale);
+                    const circleRadius = Math.round(18 * textScale); // 16→18
                     ctx.beginPath();
                     ctx.arc(padding / 2 + 2, padding / 2 - 2, circleRadius, 0, Math.PI * 2);
                     ctx.strokeStyle = '#E91E63';
@@ -1126,66 +1287,66 @@
                     const photoEndY = canvasHeight - padding;
                     ctx.fillStyle = '#FFF';
                     ctx.fillRect(8, photoEndY + 8, canvasWidth - 16, padding - 16);
-                    ctx.font = `${Math.round(28 * textScale)}px Arial`;
+                    ctx.font = `${Math.round(32 * textScale)}px Arial`; // 28→32
                     ctx.textAlign = 'center';
                     ctx.fillText('❤️ 💬 📤', canvasWidth / 2, photoEndY + padding - 6);
                     break;
                     
                 case 'macbook':
                     // Username on screen (just above keyboard) - in bottom padding area
-                    ctx.font = getFont(28, '-apple-system, BlinkMacSystemFont, sans-serif');
+                    ctx.font = getFont(32, '-apple-system, BlinkMacSystemFont, sans-serif'); // 28→32
                     ctx.textAlign = 'center';
-                    drawTextWithShadow(customization.username, canvasWidth / 2, canvasHeight - 18, 28, '#FFF', '#000');
+                    drawTextWithShadow(customization.username, canvasWidth / 2, canvasHeight - 18, 32, '#FFF', '#000');
                     break;
                     
                 case 'newspaper':
                     // Headline at top - in top padding area
-                    ctx.font = getFont(28, '"Times New Roman", Georgia, serif');
+                    ctx.font = getFont(34, '"Times New Roman", Georgia, serif'); // 28→34
                     ctx.textAlign = 'center';
-                    drawTextWithShadow(customization.headline, canvasWidth / 2, 30, 28, '#000', '#FFF');
-                    ctx.font = `${Math.round(16 * textScale)}px "Times New Roman", Georgia, serif`;
-                    drawTextWithShadow(customization.subtitle || customization.date, canvasWidth / 2, 50, 16, '#333', '#FFF');
+                    drawTextWithShadow(customization.headline, canvasWidth / 2, 30, 34, '#000', '#FFF');
+                    ctx.font = `${Math.round(18 * textScale)}px "Times New Roman", Georgia, serif`; // 16→18
+                    drawTextWithShadow(customization.subtitle || customization.date, canvasWidth / 2, 50, 18, '#333', '#FFF');
                     break;
                     
                 case 'magazine':
                     // Headline at top - in top padding area
-                    ctx.font = getFont(32, 'Impact, Arial, sans-serif');
+                    ctx.font = getFont(38, 'Impact, Arial, sans-serif'); // 32→38
                     ctx.textAlign = 'center';
-                    drawTextWithShadow(customization.headline, canvasWidth / 2, 32, 32, '#EC4899', '#FFF');
-                    ctx.font = getFont(16, 'Arial, sans-serif');
-                    drawTextWithShadow(customization.subtitle, canvasWidth / 2, 52, 16, '#A855F7', '#FFF');
+                    drawTextWithShadow(customization.headline, canvasWidth / 2, 32, 38, '#EC4899', '#FFF');
+                    ctx.font = getFont(18, 'Arial, sans-serif'); // 16→18
+                    drawTextWithShadow(customization.subtitle, canvasWidth / 2, 52, 18, '#A855F7', '#FFF');
                     break;
                     
                 case 'movie':
                     // Title at top - in top padding area with cinematic style
-                    ctx.font = getFont(26, '"Bebas Neue", Impact, Arial, sans-serif');
+                    ctx.font = getFont(30, '"Bebas Neue", Impact, Arial, sans-serif'); // 26→30
                     ctx.textAlign = 'center';
-                    drawTextWithShadow(customization.headline, canvasWidth / 2, 28, 26, '#FCD34D', '#000');
-                    ctx.font = `${Math.round(14 * textScale)}px Arial, sans-serif`;
-                    drawTextWithShadow(customization.subtitle, canvasWidth / 2, 48, 14, '#FFF', '#000');
+                    drawTextWithShadow(customization.headline, canvasWidth / 2, 28, 30, '#FCD34D', '#000');
+                    ctx.font = `${Math.round(16 * textScale)}px Arial, sans-serif`; // 14→16
+                    drawTextWithShadow(customization.subtitle, canvasWidth / 2, 48, 16, '#FFF', '#000');
                     break;
                     
                 case 'passport':
                     // Info at top - in top padding area with official look
-                    ctx.font = getFont(20, 'Arial, sans-serif');
+                    ctx.font = getFont(24, 'Arial, sans-serif'); // 20→24
                     ctx.textAlign = 'center';
-                    drawTextWithShadow(customization.headline, canvasWidth / 2, 26, 20, '#FCD34D', '#000');
-                    ctx.font = `${Math.round(14 * textScale)}px Arial, sans-serif`;
-                    drawTextWithShadow(`${customization.location} - ${customization.date}`, canvasWidth / 2, 46, 14, '#FFF', '#000');
+                    drawTextWithShadow(customization.headline, canvasWidth / 2, 26, 24, '#FCD34D', '#000');
+                    ctx.font = `${Math.round(16 * textScale)}px Arial, sans-serif`; // 14→16
+                    drawTextWithShadow(`${customization.location} - ${customization.date}`, canvasWidth / 2, 46, 16, '#FFF', '#000');
                     break;
                     
                 case 'vintage':
                     // Message at top - in top padding area with retro style
-                    ctx.font = getFont(24, '"Brush Script MT", cursive, serif');
+                    ctx.font = getFont(28, '"Brush Script MT", cursive, serif'); // 24→28
                     ctx.textAlign = 'center';
-                    drawTextWithShadow(customization.message, canvasWidth / 2, 28, 24, '#92400E', '#FEFCE8');
-                    ctx.font = `italic ${Math.round(14 * textScale)}px "Times New Roman", Georgia, serif`;
-                    drawTextWithShadow(customization.date, canvasWidth / 2, 48, 14, '#78350F', '#FEFCE8');
+                    drawTextWithShadow(customization.message, canvasWidth / 2, 28, 28, '#92400E', '#FEFCE8');
+                    ctx.font = `italic ${Math.round(16 * textScale)}px "Times New Roman", Georgia, serif`; // 14→16
+                    drawTextWithShadow(customization.date, canvasWidth / 2, 48, 16, '#78350F', '#FEFCE8');
                     break;
                     
                 case 'comic':
                     // Message at top - in top padding area with comic style
-                    ctx.font = getFont(32, '"Comic Sans MS", "Comic Neue", cursive');
+                    ctx.font = getFont(36, '"Comic Sans MS", "Comic Neue", cursive'); // 32→36
                     ctx.textAlign = 'center';
                     // Comic book outline effect
                     ctx.strokeStyle = '#FFF';
@@ -1197,9 +1358,9 @@
                     
                 case 'scrapbook':
                     // Message at top - in top padding area with handwritten style
-                    ctx.font = getFont(26, '"Comic Sans MS", cursive, sans-serif');
+                    ctx.font = getFont(30, '"Comic Sans MS", cursive, sans-serif'); // 26→30
                     ctx.textAlign = 'center';
-                    drawTextWithShadow(customization.message, canvasWidth / 2, 32, 26, '#EC4899', '#FFF');
+                    drawTextWithShadow(customization.message, canvasWidth / 2, 32, 30, '#EC4899', '#FFF');
                     break;
             }
             
@@ -1343,19 +1504,40 @@
         function retakeAll() {
             if (confirm('Are you sure you want to retake all photos?')) {
                 capturedPhotos = [];
+                manualPhotoIndex = 0;
                 initializePlaceholders();
                 photoCount.textContent = `Photo 0/${poses}`;
                 downloadBtn.classList.add('hidden');
-                shareBtn.classList.add('hidden');
                 retakeBtn.classList.add('hidden');
+                manualCaptureBtn.classList.add('hidden');
+                continueBtn.classList.add('hidden');
+                startBtn.classList.remove('hidden');
+                currentPhotoNum.textContent = '1';
             }
         }
         
         // Event listeners
         startBtn.addEventListener('click', startPhotoSession);
         retakeBtn.addEventListener('click', retakeAll);
+        continueBtn.addEventListener('click', () => {
+            console.log('✅ Continue button clicked!');
+            navigateToPreview();
+        });
+        
+        // Edit button - go to edit page with canvas data
+        editBtn.addEventListener('click', () => {
+            // Save final canvas to localStorage
+            const finalCanvas = document.createElement('canvas');
+            const finalCtx = finalCanvas.getContext('2d');
+            finalCanvas.width = templateCanvas.width;
+            finalCanvas.height = templateCanvas.height;
+            finalCtx.drawImage(templateCanvas, 0, 0);
+            
+            localStorage.setItem('finalCanvas', finalCanvas.toDataURL('image/png'));
+            window.location.href = `edit.html?layout=${layout}&poses=${poses}&template=${template}`;
+        });
+        
         downloadBtn.addEventListener('click', downloadPhotoStrip);
-        shareBtn.addEventListener('click', sharePhotoStrip);
         
         // Initialize (don't auto-init camera anymore, wait for source selection)
         initializePlaceholders();

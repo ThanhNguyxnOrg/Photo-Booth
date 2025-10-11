@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview & Decorate - SnapStrip Studio</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
+    <!-- GIF.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.js"></script>
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .sticker {
+            position: absolute;
+            cursor: move;
+            user-select: none;
+            font-size: 48px;
+            transition: transform 0.1s;
+        }
+        
+        .sticker:hover {
+            transform: scale(1.1);
+        }
+        
+        .sticker.selected {
+            filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.8));
+        }
+        
+        #canvas-container {
+            position: relative;
+            display: inline-block;
+            touch-action: none;
+        }
+        
+        .frame-option {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .frame-option:hover {
+            transform: scale(1.05);
+        }
+        
+        .frame-option.active {
+            border: 3px solid #EC4899;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="glass-effect rounded-xl p-4 mb-4">
+            <h1 class="text-2xl md:text-3xl font-bold text-purple-900 text-center">
+                ✨ Preview & Decorate Your Photo
+            </h1>
+            <p class="text-gray-600 text-center mt-1">Add stickers, frames, and effects before downloading</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <!-- Preview Canvas -->
+            <div class="lg:col-span-2 glass-effect rounded-xl p-6">
+                <div id="canvas-container" class="mx-auto">
+                    <canvas id="preview-canvas"></canvas>
+                </div>
+            </div>
+
+            <!-- Controls Panel -->
+            <div class="glass-effect rounded-xl p-6 space-y-4 h-fit">
+                
+                <!-- Stickers Section -->
+                <div class="border-b pb-4">
+                    <h3 class="font-bold text-purple-900 mb-3">🎨 Stickers</h3>
+                    <div class="grid grid-cols-6 gap-2">
+                        <button class="sticker-btn text-3xl hover:scale-125 transition" data-sticker="❤️">❤️</button>
+                        <button class="sticker-btn text-3xl hover:scale-125 transition" data-sticker="😊">😊</button>
+                        <button class="sticker-btn text-3xl hover:scale-125 transition" data-sticker="😎">😎</button>
+                        <button class="sticker-btn text-3xl hover:scale-125 transition" data-sticker="🎉">🎉</button>
+                        <button class="sticker-btn text-3xl hover:scale-125 transition" data-sticker="⭐">⭐</button>
+                        <button class="sticker-btn text-3xl hover:scale-125 transition" data-sticker="🔥">🔥</button>
+                        <button class="sticker-btn text-3xl hover:scale-125 transition" data-sticker="💖">💖</button>
+                        <button class="sticker-btn text-3xl hover:scale-125 transition" data-sticker="🌟">🌟</button>
+                        <button class="sticker-btn text-3xl hover:scale-125 transition" data-sticker="✨">✨</button>
+                        <button class="sticker-btn text-3xl hover:scale-125 transition" data-sticker="🎈">🎈</button>
+                        <button class="sticker-btn text-3xl hover:scale-125 transition" data-sticker="🌈">🌈</button>
+                        <button class="sticker-btn text-3xl hover:scale-125 transition" data-sticker="🦄">🦄</button>
+                    </div>
+                    <button id="clear-stickers" class="w-full mt-2 bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm transition">
+                        Clear All Stickers
+                    </button>
+                </div>
+
+                <!-- Frame Color Section -->
+                <div class="border-b pb-4">
+                    <h3 class="font-bold text-purple-900 mb-3">🖼️ Frame Color</h3>
+                    <div class="grid grid-cols-5 gap-2">
+                        <button class="frame-option w-full aspect-square rounded-lg border-2" style="background: white;" data-color="#FFFFFF"></button>
+                        <button class="frame-option w-full aspect-square rounded-lg border-2" style="background: #FCE7F3;" data-color="#FCE7F3"></button>
+                        <button class="frame-option w-full aspect-square rounded-lg border-2" style="background: #E0E7FF;" data-color="#E0E7FF"></button>
+                        <button class="frame-option w-full aspect-square rounded-lg border-2" style="background: #FEF3C7;" data-color="#FEF3C7"></button>
+                        <button class="frame-option w-full aspect-square rounded-lg border-2" style="background: #DBEAFE;" data-color="#DBEAFE"></button>
+                        <button class="frame-option w-full aspect-square rounded-lg border-2" style="background: #000000;" data-color="#000000"></button>
+                        <button class="frame-option w-full aspect-square rounded-lg border-2" style="background: #EC4899;" data-color="#EC4899"></button>
+                        <button class="frame-option w-full aspect-square rounded-lg border-2" style="background: #8B5CF6;" data-color="#8B5CF6"></button>
+                        <button class="frame-option w-full aspect-square rounded-lg border-2" style="background: #F59E0B;" data-color="#F59E0B"></button>
+                        <button class="frame-option w-full aspect-square rounded-lg border-2" style="background: #3B82F6;" data-color="#3B82F6"></button>
+                    </div>
+                </div>
+
+                <!-- Download Options -->
+                <div class="space-y-3">
+                    <h3 class="font-bold text-purple-900 mb-2">📥 Download Options</h3>
+                    
+                    <button id="download-image" class="w-full bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-bold py-3 px-4 rounded-lg transition shadow-lg">
+                        📷 Download Image
+                    </button>
+                    
+                    <button id="create-gif" class="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-bold py-3 px-4 rounded-lg transition shadow-lg">
+                        🎬 Create Animated GIF
+                    </button>
+                    
+                    <button id="show-qr" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition shadow-lg">
+                        📱 Share via QR Code
+                    </button>
+                    
+                    <button id="retake-btn" class="w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded-lg transition">
+                        🔄 Retake Photos
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div id="qr-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="glass-effect rounded-2xl p-8 max-w-md w-full">
+            <h2 class="text-2xl font-bold text-purple-900 mb-4 text-center">📱 Scan to Download</h2>
+            <div id="qr-code" class="bg-white p-4 rounded-lg mb-4 flex justify-center"></div>
+            <p class="text-gray-600 text-center mb-4">Scan this QR code with your phone to download the photo</p>
+            <button id="close-qr" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- GIF Progress Modal -->
+    <div id="gif-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="glass-effect rounded-2xl p-8 max-w-md w-full text-center">
+            <h2 class="text-2xl font-bold text-purple-900 mb-4">🎬 Creating GIF...</h2>
+            <div class="w-full bg-gray-200 rounded-full h-4 mb-4">
+                <div id="gif-progress" class="bg-gradient-to-r from-purple-500 to-pink-600 h-4 rounded-full transition-all" style="width: 0%"></div>
+            </div>
+            <p id="gif-status" class="text-gray-600">Please wait...</p>
+        </div>
+    </div>
+
+    <script>
+        // Get data from localStorage
+        const photoData = localStorage.getItem('finalCanvas');
+        if (!photoData) {
+            alert('No photo found! Redirecting to camera...');
+            const urlParams = new URLSearchParams(window.location.search);
+            window.location.href = `camera.html?${urlParams.toString()}`;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const layout = urlParams.get('layout') || 'A';
+        const poses = parseInt(urlParams.get('poses')) || 4;
+        const template = urlParams.get('template') || 'classic';
+
+        // Canvas setup
+        const canvas = document.getElementById('preview-canvas');
+        const ctx = canvas.getContext('2d');
+        const container = document.getElementById('canvas-container');
+
+        // Stickers array
+        let stickers = [];
+        let activeSticker = null;
+        let dragging = false;
+        let dragOffset = { x: 0, y: 0 };
+
+        // Frame color
+        let frameColor = '#FFFFFF';
+
+        // Load photo
+        const img = new Image();
+        img.onload = function() {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            redraw();
+        };
+        img.src = photoData;
+
+        // Redraw canvas
+        function redraw() {
+            // Draw frame background
+            ctx.fillStyle = frameColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw photo
+            ctx.drawImage(img, 0, 0);
+            
+            // Draw stickers
+            stickers.forEach(sticker => {
+                ctx.font = `${sticker.size}px Arial`;
+                ctx.fillText(sticker.emoji, sticker.x, sticker.y);
+            });
+        }
+
+        // Add sticker
+        document.querySelectorAll('.sticker-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const emoji = btn.dataset.sticker;
+                stickers.push({
+                    emoji: emoji,
+                    x: canvas.width / 2,
+                    y: canvas.height / 2,
+                    size: 60
+                });
+                redraw();
+            });
+        });
+
+        // Clear stickers
+        document.getElementById('clear-stickers').addEventListener('click', () => {
+            stickers = [];
+            redraw();
+        });
+
+        // Frame color selection
+        document.querySelectorAll('.frame-option').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.frame-option').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                frameColor = btn.dataset.color;
+                redraw();
+            });
+        });
+
+        // Canvas drag for stickers
+        canvas.addEventListener('mousedown', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const x = (e.clientX - rect.left) * scaleX;
+            const y = (e.clientY - rect.top) * scaleY;
+
+            // Find clicked sticker (reverse order for top-most)
+            for (let i = stickers.length - 1; i >= 0; i--) {
+                const s = stickers[i];
+                ctx.font = `${s.size}px Arial`;
+                const metrics = ctx.measureText(s.emoji);
+                const width = metrics.width;
+                
+                if (x >= s.x && x <= s.x + width && y >= s.y - s.size && y <= s.y) {
+                    dragging = true;
+                    activeSticker = i;
+                    dragOffset = { x: x - s.x, y: y - s.y };
+                    return;
+                }
+            }
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (dragging && activeSticker !== null) {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                const x = (e.clientX - rect.left) * scaleX;
+                const y = (e.clientY - rect.top) * scaleY;
+
+                stickers[activeSticker].x = x - dragOffset.x;
+                stickers[activeSticker].y = y - dragOffset.y;
+                redraw();
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            dragging = false;
+            activeSticker = null;
+        });
+
+        // Touch support
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const mouseEvent = new MouseEvent('mousedown', {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            canvas.dispatchEvent(mouseEvent);
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const mouseEvent = new MouseEvent('mousemove', {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            canvas.dispatchEvent(mouseEvent);
+        });
+
+        canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            canvas.dispatchEvent(new MouseEvent('mouseup'));
+        });
+
+        // Download image
+        document.getElementById('download-image').addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = `snapstrip-${Date.now()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+
+        // Create GIF
+        document.getElementById('create-gif').addEventListener('click', () => {
+            const modal = document.getElementById('gif-modal');
+            const progress = document.getElementById('gif-progress');
+            const status = document.getElementById('gif-status');
+            
+            modal.classList.remove('hidden');
+            
+            // Create GIF from photo strip (zoom animation)
+            const gif = new GIF({
+                workers: 2,
+                quality: 10,
+                width: canvas.width,
+                height: canvas.height
+            });
+
+            // Add frames with zoom effect
+            const frames = 30;
+            for (let i = 0; i < frames; i++) {
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = canvas.width;
+                tempCanvas.height = canvas.height;
+                const tempCtx = tempCanvas.getContext('2d');
+                
+                const scale = 1 + (Math.sin(i / frames * Math.PI * 2) * 0.05);
+                const offsetX = (canvas.width * (1 - scale)) / 2;
+                const offsetY = (canvas.height * (1 - scale)) / 2;
+                
+                tempCtx.fillStyle = frameColor;
+                tempCtx.fillRect(0, 0, canvas.width, canvas.height);
+                tempCtx.drawImage(img, offsetX, offsetY, canvas.width * scale, canvas.height * scale);
+                
+                // Draw stickers
+                stickers.forEach(sticker => {
+                    tempCtx.font = `${sticker.size}px Arial`;
+                    tempCtx.fillText(sticker.emoji, sticker.x, sticker.y);
+                });
+                
+                gif.addFrame(tempCanvas, { delay: 100 });
+                progress.style.width = ((i + 1) / frames * 50) + '%';
+            }
+
+            gif.on('finished', (blob) => {
+                progress.style.width = '100%';
+                status.textContent = 'Download starting...';
+                
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = `snapstrip-${Date.now()}.gif`;
+                link.href = url;
+                link.click();
+                
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    progress.style.width = '0%';
+                    status.textContent = 'Please wait...';
+                }, 1000);
+            });
+
+            gif.on('progress', (p) => {
+                progress.style.width = (50 + p * 50) + '%';
+                status.textContent = `Rendering: ${Math.round(p * 100)}%`;
+            });
+
+            gif.render();
+        });
+
+        // Show QR Code
+        document.getElementById('show-qr').addEventListener('click', () => {
+            const modal = document.getElementById('qr-modal');
+            const qrContainer = document.getElementById('qr-code');
+            qrContainer.innerHTML = '';
+            
+            // Convert canvas to data URL
+            const dataUrl = canvas.toDataURL('image/png');
+            
+            // Create QR code (using data URL directly - note: may be large)
+            new QRCode(qrContainer, {
+                text: dataUrl.substring(0, 2000), // Truncate for QR limit
+                width: 256,
+                height: 256
+            });
+            
+            modal.classList.remove('hidden');
+        });
+
+        document.getElementById('close-qr').addEventListener('click', () => {
+            document.getElementById('qr-modal').classList.add('hidden');
+        });
+
+        // Retake
+        document.getElementById('retake-btn').addEventListener('click', () => {
+            if (confirm('Discard this photo and retake?')) {
+                window.location.href = `camera.html?layout=${layout}&poses=${poses}&template=${template}`;
+            }
+        });
+    </script>
+</body>
+</html>
