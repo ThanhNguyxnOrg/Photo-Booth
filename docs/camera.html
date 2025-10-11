@@ -220,6 +220,34 @@
         const poses = parseInt(urlParams.get('poses')) || 4;
         const template = urlParams.get('template') || 'classic';
         
+        // Load customization from localStorage
+        let customization = {
+            username: '@yourname',
+            headline: 'HEADLINE',
+            subtitle: 'Subtitle text',
+            date: new Date().toLocaleDateString(),
+            location: 'Location',
+            message: 'Your message'
+        };
+        
+        try {
+            const savedCustomization = localStorage.getItem('templateCustomization');
+            if (savedCustomization) {
+                const parsed = JSON.parse(savedCustomization);
+                customization = {
+                    username: parsed.username || '@yourname',
+                    headline: parsed.headline || 'HEADLINE',
+                    subtitle: parsed.subtitle || 'Subtitle text',
+                    date: parsed.date ? new Date(parsed.date).toLocaleDateString() : new Date().toLocaleDateString(),
+                    location: parsed.location || 'Location',
+                    message: parsed.message || 'Your message'
+                };
+                console.log('✅ Loaded customization:', customization);
+            }
+        } catch (error) {
+            console.log('⚠️ Failed to load customization, using defaults');
+        }
+        
         // Debug: Log template selection
         console.log('📸 Camera Page Loaded');
         console.log('Layout:', layout, '| Poses:', poses, '| Template:', template);
@@ -830,6 +858,15 @@
                     // White inner frame
                     ctx.fillStyle = '#FFF';
                     ctx.fillRect(x + 8, y + 8, width - 16, height - 16);
+                    // Username at top (Instagram-style)
+                    ctx.fillStyle = '#000';
+                    ctx.font = 'bold 16px Arial';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(customization.username, x + 20, y + 30);
+                    // Heart icon
+                    ctx.font = '16px Arial';
+                    ctx.textAlign = 'right';
+                    ctx.fillText('❤️ 💬 📤', x + width - 20, y + height - 20);
                     break;
                     
                 case 'macbook':
@@ -881,6 +918,12 @@
                     keyboardGrad.addColorStop(1, '#1F2937');
                     ctx.fillStyle = keyboardGrad;
                     ctx.fillRect(x, y + height - keyboardHeight, width, keyboardHeight);
+                    
+                    // Username on screen
+                    ctx.fillStyle = '#FFF';
+                    ctx.font = 'bold 16px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(customization.username, x + width/2, y + height - keyboardHeight - 20);
                     
                     break;
                     
@@ -1033,38 +1076,88 @@
             const brandingY = height - brandingHeight + 20;
             
             switch(template) {
-                case 'newspaper':
+                case 'instagram':
+                    // Use custom username if provided
                     ctx.fillStyle = '#000';
-                    ctx.font = 'bold 28px "Times New Roman"';
+                    ctx.font = 'bold 18px Arial';
                     ctx.textAlign = 'center';
-                    ctx.fillText('THE DAILY SNAP', width / 2, brandingY);
-                    ctx.font = '14px "Times New Roman"';
-                    ctx.fillText('snapstripstudio.com', width / 2, brandingY + 25);
+                    ctx.fillText(customization.username, width / 2, brandingY);
+                    ctx.font = '14px Arial';
+                    ctx.fillText('SnapStrip Studio', width / 2, brandingY + 25);
                     break;
-                case 'magazine':
-                    ctx.fillStyle = '#EC4899';
-                    ctx.font = 'bold 32px Arial';
+                case 'macbook':
+                    // Use custom username
+                    ctx.fillStyle = '#FFF';
+                    ctx.font = 'bold 18px Arial';
                     ctx.textAlign = 'center';
-                    ctx.fillText('VOGUE', width / 2, brandingY);
-                    ctx.fillStyle = '#A855F7';
+                    ctx.fillText(customization.username, width / 2, brandingY);
+                    ctx.fillStyle = '#9CA3AF';
                     ctx.font = '12px Arial';
                     ctx.fillText('SnapStrip Studio', width / 2, brandingY + 25);
                     break;
-                case 'comic':
+                case 'newspaper':
+                    // Use custom headline and date
                     ctx.fillStyle = '#000';
-                    ctx.font = 'bold 36px "Comic Sans MS"';
+                    ctx.font = 'bold 28px "Times New Roman"';
                     ctx.textAlign = 'center';
-                    ctx.fillText('BOOM!', width / 2, brandingY);
-                    ctx.font = '14px "Comic Sans MS"';
-                    ctx.fillText('⚡ SnapStrip ⚡', width / 2, brandingY + 28);
+                    ctx.fillText(customization.headline, width / 2, brandingY);
+                    ctx.font = '14px "Times New Roman"';
+                    ctx.fillText(customization.date, width / 2, brandingY + 25);
+                    break;
+                case 'magazine':
+                    // Use custom headline
+                    ctx.fillStyle = '#EC4899';
+                    ctx.font = 'bold 32px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(customization.headline, width / 2, brandingY);
+                    ctx.fillStyle = '#A855F7';
+                    ctx.font = '12px Arial';
+                    ctx.fillText(customization.subtitle, width / 2, brandingY + 25);
                     break;
                 case 'movie':
+                    // Use custom headline
                     ctx.fillStyle = '#FCD34D';
                     ctx.font = 'bold 22px Arial';
                     ctx.textAlign = 'center';
-                    ctx.fillText('A SNAPSTRIP PRODUCTION', width / 2, brandingY);
+                    ctx.fillText(customization.headline, width / 2, brandingY);
                     ctx.font = '12px Arial';
-                    ctx.fillText('snapstripstudio.com', width / 2, brandingY + 25);
+                    ctx.fillText(customization.subtitle, width / 2, brandingY + 25);
+                    break;
+                case 'passport':
+                    // Use custom headline, date, location
+                    ctx.fillStyle = '#FCD34D';
+                    ctx.font = 'bold 16px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(customization.headline, width / 2, brandingY);
+                    ctx.font = '12px Arial';
+                    ctx.fillText(`${customization.location} - ${customization.date}`, width / 2, brandingY + 22);
+                    break;
+                case 'vintage':
+                    // Use custom message and date
+                    ctx.fillStyle = '#92400E';
+                    ctx.font = 'bold 18px "Times New Roman"';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(customization.message, width / 2, brandingY);
+                    ctx.font = '12px "Times New Roman"';
+                    ctx.fillText(customization.date, width / 2, brandingY + 22);
+                    break;
+                case 'comic':
+                    // Use custom message
+                    ctx.fillStyle = '#000';
+                    ctx.font = 'bold 28px "Comic Sans MS"';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(customization.message, width / 2, brandingY);
+                    ctx.font = '14px "Comic Sans MS"';
+                    ctx.fillText('⚡ SnapStrip ⚡', width / 2, brandingY + 28);
+                    break;
+                case 'scrapbook':
+                    // Use custom message
+                    ctx.fillStyle = '#EC4899';
+                    ctx.font = 'bold 18px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(customization.message, width / 2, brandingY);
+                    ctx.font = '12px Arial';
+                    ctx.fillText('SnapStrip Studio', width / 2, brandingY + 22);
                     break;
                 case 'neon':
                     ctx.shadowColor = '#EC4899';
