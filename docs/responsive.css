@@ -1,0 +1,226 @@
+/* ============================================
+   Mobile & Desktop Optimization Styles
+   ============================================ */
+
+/* ===== Base Mobile Optimizations ===== */
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+body {
+    /* Prevent pull-to-refresh */
+    overscroll-behavior-y: contain;
+    /* Better touch scrolling */
+    -webkit-overflow-scrolling: touch;
+    /* Prevent text size adjustment */
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* ===== Better Tap Targets (Minimum 44x44px) ===== */
+button,
+a.btn-primary,
+a.btn-start,
+.language-option,
+#mobile-menu-button,
+#language-button {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+}
+
+/* ===== Active States for Touch ===== */
+button:active,
+a:active,
+.btn-primary:active,
+.btn-start:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+}
+
+/* ===== Focus Indicators (Keyboard Navigation) ===== */
+*:focus-visible {
+    outline: 3px solid #FF6B9D;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ===== Responsive Images ===== */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===== Mobile-Specific Styles ===== */
+@media (max-width: 768px) {
+    /* Larger touch targets */
+    .btn-start {
+        font-size: 1.5rem !important;
+        padding: 1.25rem 3rem !important;
+        min-height: 60px;
+    }
+    
+    /* Better spacing */
+    .glass-effect {
+        padding: 1.5rem !important;
+        margin: 1rem 0.5rem !important;
+    }
+    
+    /* Sticky navigation */
+    nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Larger fonts for readability */
+    h1 {
+        font-size: 2rem !important;
+    }
+    
+    p {
+        font-size: 1rem !important;
+        line-height: 1.6;
+    }
+    
+    /* Full-width buttons on mobile */
+    .mobile-full-width {
+        width: 100%;
+    }
+    
+    /* Hide desktop-only elements */
+    .desktop-only {
+        display: none !important;
+    }
+}
+
+/* ===== Tablet Styles ===== */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .glass-effect {
+        padding: 2rem !important;
+    }
+    
+    /* Hide mobile-only elements */
+    .mobile-only {
+        display: none !important;
+    }
+}
+
+/* ===== Desktop Styles ===== */
+@media (min-width: 1025px) {
+    /* Keyboard shortcuts hint */
+    .keyboard-hint {
+        display: inline-block;
+        font-size: 0.75rem;
+        opacity: 0.7;
+        margin-left: 0.5rem;
+        padding: 0.25rem 0.5rem;
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+    }
+    
+    /* Hover effects */
+    .photo-strip:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
+    
+    /* Hide mobile-only elements */
+    .mobile-only {
+        display: none !important;
+    }
+}
+
+/* ===== Landscape Mode Optimization ===== */
+@media (orientation: landscape) and (max-height: 500px) {
+    /* Reduce padding in landscape on mobile */
+    .glass-effect {
+        padding: 1rem !important;
+    }
+    
+    nav {
+        height: auto;
+        min-height: 50px;
+    }
+    
+    .btn-start {
+        padding: 0.75rem 2rem !important;
+        font-size: 1.25rem !important;
+    }
+}
+
+/* ===== High DPI Displays ===== */
+@media (-webkit-min-device-pixel-ratio: 2),
+       (min-resolution: 192dpi) {
+    /* Sharper borders and shadows */
+    .glass-effect {
+        border-width: 0.5px;
+    }
+}
+
+/* ===== Dark Mode Support ===== */
+@media (prefers-color-scheme: dark) {
+    /* Optional: Add dark mode styles if needed */
+}
+
+/* ===== Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ===== Print Styles ===== */
+@media print {
+    body {
+        background: white !important;
+    }
+    
+    nav,
+    footer {
+        display: none;
+    }
+    
+    .glass-effect {
+        border: 1px solid #000;
+        background: white !important;
+    }
+}
+
+/* ===== Loading States ===== */
+.loading {
+    pointer-events: none;
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.loading::after {
+    content: "...";
+    animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+    0%, 20% { content: "."; }
+    40% { content: ".."; }
+    60%, 100% { content: "..."; }
+}
+
+/* ===== Smooth Scrolling ===== */
+html {
+    scroll-behavior: smooth;
+}
+
+/* ===== Safe Area for Notched Devices (iPhone X+) ===== */
+@supports (padding: max(0px)) {
+    body {
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+    }
+}
