@@ -63,6 +63,19 @@
             border: 3px solid #EC4899;
             transform: scale(1.05);
         }
+        
+        /* Collapsible section transitions */
+        #stickers-content, #frames-content, #downloads-content {
+            transition: all 0.3s ease-in-out;
+            overflow: hidden;
+        }
+        
+        #stickers-content.hidden, #frames-content.hidden, #downloads-content.hidden {
+            max-height: 0;
+            opacity: 0;
+            margin: 0;
+            padding: 0;
+        }
     </style>
 </head>
 <body class="p-4">
@@ -75,21 +88,36 @@
             <p class="text-gray-600 text-center mt-1">Add stickers, frames, and effects before downloading</p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div id="main-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-4 transition-all duration-300">
             <!-- Preview Canvas -->
-            <div class="lg:col-span-2 glass-effect rounded-xl p-6">
-                <div id="canvas-container" class="mx-auto">
+            <div id="canvas-section" class="lg:col-span-2 glass-effect rounded-xl p-6 flex items-center justify-center transition-all duration-300">
+                <div id="canvas-container">
                     <canvas id="preview-canvas"></canvas>
                 </div>
             </div>
 
             <!-- Controls Panel -->
-            <div class="glass-effect rounded-xl p-6 space-y-4 h-fit">
+            <div id="controls-panel" class="glass-effect rounded-xl p-6 space-y-4 flex flex-col transition-all duration-300">
+                
+                <!-- Panel Toggle Button -->
+                <button id="panel-toggle" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-2 px-4 rounded-lg hover:from-purple-600 hover:to-pink-600 transition flex items-center justify-center gap-2" onclick="togglePanel()">
+                    <svg id="panel-arrow" class="w-5 h-5 transform transition-transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
+                    </svg>
+                    <span id="panel-toggle-text">Hide Controls</span>
+                </button>
+                
+                <div id="panel-content" class="space-y-4">
                 
                 <!-- Stickers Section -->
                 <div class="border-b pb-4">
-                    <h3 class="font-bold text-purple-900 mb-3">🎨 Stickers</h3>
-                    <div class="grid grid-cols-6 gap-2">
+                    <button class="w-full flex items-center justify-between font-bold text-purple-900 mb-3 hover:text-purple-700 transition" onclick="toggleSection('stickers')">
+                        <span>🎨 Stickers</span>
+                        <svg id="stickers-arrow" class="w-5 h-5 transform transition-transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div id="stickers-content" class="grid grid-cols-6 gap-2 hidden">
                         <button class="sticker-btn text-3xl hover:scale-125 transition" data-sticker="❤️">❤️</button>
                         <button class="sticker-btn text-3xl hover:scale-125 transition" data-sticker="😊">😊</button>
                         <button class="sticker-btn text-3xl hover:scale-125 transition" data-sticker="😎">😎</button>
@@ -118,8 +146,13 @@
 
                 <!-- Frame Color Section -->
                 <div class="border-b pb-4">
-                    <h3 class="font-bold text-purple-900 mb-3">🖼️ Frame Color</h3>
-                    <div class="grid grid-cols-5 gap-2">
+                    <button class="w-full flex items-center justify-between font-bold text-purple-900 mb-3 hover:text-purple-700 transition" onclick="toggleSection('frames')">
+                        <span>🖼️ Frame Color</span>
+                        <svg id="frames-arrow" class="w-5 h-5 transform transition-transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div id="frames-content" class="grid grid-cols-5 gap-2 hidden">
                         <button class="frame-option w-full aspect-square rounded-lg border-2" style="background: white;" data-color="#FFFFFF"></button>
                         <button class="frame-option w-full aspect-square rounded-lg border-2" style="background: #FCE7F3;" data-color="#FCE7F3"></button>
                         <button class="frame-option w-full aspect-square rounded-lg border-2" style="background: #E0E7FF;" data-color="#E0E7FF"></button>
@@ -134,9 +167,15 @@
                 </div>
 
                 <!-- Download Options -->
-                <div class="space-y-3">
-                    <h3 class="font-bold text-purple-900 mb-2">📥 Download Options</h3>
+                <div class="flex-1 flex flex-col justify-end space-y-3">
+                    <button class="w-full flex items-center justify-between font-bold text-purple-900 mb-2 hover:text-purple-700 transition" onclick="toggleSection('downloads')">
+                        <span>📥 Download Options</span>
+                        <svg id="downloads-arrow" class="w-5 h-5 transform transition-transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
                     
+                    <div id="downloads-content" class="space-y-3 hidden">
                     <button id="download-image" class="w-full bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-bold py-3 px-4 rounded-lg transition shadow-lg">
                         📷 Download Image
                     </button>
@@ -153,9 +192,18 @@
                         🔄 Retake Photos
                     </button>
                 </div>
+                </div>
+                <!-- End of panel-content -->
             </div>
         </div>
     </div>
+    
+    <!-- Floating Toggle Button (when panel is hidden) -->
+    <button id="floating-toggle" class="hidden fixed bottom-8 right-8 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold p-4 rounded-full shadow-2xl hover:from-purple-600 hover:to-pink-600 transition transform hover:scale-110 z-50" onclick="togglePanel()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+        </svg>
+    </button>
 
     <!-- QR Code Modal -->
     <div id="qr-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -196,6 +244,59 @@
         const layout = urlParams.get('layout') || 'A';
         const poses = parseInt(urlParams.get('poses')) || 4;
         const template = urlParams.get('template') || 'classic';
+
+        // Toggle section function
+        function toggleSection(sectionName) {
+            const content = document.getElementById(sectionName + '-content');
+            const arrow = document.getElementById(sectionName + '-arrow');
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                arrow.classList.remove('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                arrow.classList.add('rotate-180');
+            }
+        }
+        
+        // Toggle entire panel function
+        function togglePanel() {
+            const panelContent = document.getElementById('panel-content');
+            const panelArrow = document.getElementById('panel-arrow');
+            const panelText = document.getElementById('panel-toggle-text');
+            const panel = document.getElementById('controls-panel');
+            const canvasSection = document.getElementById('canvas-section');
+            const floatingToggle = document.getElementById('floating-toggle');
+            
+            if (panelContent.classList.contains('hidden')) {
+                // Show panel
+                panelContent.classList.remove('hidden');
+                panelArrow.classList.remove('rotate-0');
+                panelArrow.classList.add('rotate-180');
+                panelText.textContent = 'Hide Controls';
+                // Reset layout to 2 columns
+                canvasSection.classList.remove('lg:col-span-3');
+                canvasSection.classList.add('lg:col-span-2');
+                panel.classList.remove('hidden');
+                floatingToggle.classList.add('hidden');
+            } else {
+                // Hide panel
+                panelContent.classList.add('hidden');
+                panelArrow.classList.add('rotate-0');
+                panelArrow.classList.remove('rotate-180');
+                panelText.textContent = 'Show Controls';
+                // Expand canvas to full width
+                canvasSection.classList.remove('lg:col-span-2');
+                canvasSection.classList.add('lg:col-span-3');
+                panel.classList.add('hidden');
+                floatingToggle.classList.remove('hidden');
+            }
+        }
+        
+        // Initialize all sections as open on load
+        window.addEventListener('DOMContentLoaded', () => {
+            // All sections start closed by default
+        });
 
         // Canvas setup
         const canvas = document.getElementById('preview-canvas');
