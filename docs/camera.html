@@ -751,7 +751,7 @@
                 
                 // Session complete - show continue and retake buttons
                 isCapturing = false;
-                document.getElementById('continue-btn').classList.remove('hidden');
+                continueBtn.classList.remove('hidden');
                 retakeBtn.classList.remove('hidden');
                 
             } else {
@@ -782,7 +782,7 @@
             if (manualPhotoIndex >= poses) {
                 manualCaptureBtn.classList.add('hidden');
                 isCapturing = false;
-                document.getElementById('continue-btn').classList.remove('hidden');
+                continueBtn.classList.remove('hidden');
                 retakeBtn.classList.remove('hidden');
             }
         });
