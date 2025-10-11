@@ -1082,102 +1082,122 @@
         
         // Draw text overlay on photos (after photo is drawn)
         function drawTemplateTextOverlay(ctx, canvasWidth, canvasHeight, padding) {
+            // Helper function for text with shadow/outline
+            function drawTextWithShadow(text, x, y, fillColor = '#FFF', shadowColor = '#000') {
+                ctx.shadowColor = shadowColor;
+                ctx.shadowBlur = 4;
+                ctx.shadowOffsetX = 2;
+                ctx.shadowOffsetY = 2;
+                ctx.fillStyle = fillColor;
+                ctx.fillText(text, x, y);
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+            }
+            
             switch(template) {
                 case 'instagram':
-                    // Username at top left on gradient background
+                    // Username at top - INSIDE the padding area (before photo starts)
                     ctx.fillStyle = '#FFF';
-                    ctx.fillRect(8, 8, canvasWidth - 16, 40);
+                    ctx.fillRect(8, 8, canvasWidth - 16, padding - 8);
                     ctx.fillStyle = '#000';
-                    ctx.font = 'bold 18px Arial';
+                    ctx.font = 'bold 24px Arial, sans-serif';
                     ctx.textAlign = 'left';
-                    ctx.fillText(customization.username, 20, 35);
+                    ctx.fillText(customization.username, 24, padding - 12);
                     
-                    // Icons at bottom on gradient background
+                    // Profile pic circle
+                    ctx.beginPath();
+                    ctx.arc(padding / 2 + 2, padding / 2 - 2, 16, 0, Math.PI * 2);
+                    ctx.strokeStyle = '#E91E63';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    
+                    // Icons at bottom - INSIDE the padding area (after photo ends)
+                    const photoEndY = canvasHeight - padding;
                     ctx.fillStyle = '#FFF';
-                    ctx.fillRect(8, canvasHeight - 48, canvasWidth - 16, 40);
-                    ctx.font = '24px Arial';
+                    ctx.fillRect(8, photoEndY + 8, canvasWidth - 16, padding - 16);
+                    ctx.font = '28px Arial';
                     ctx.textAlign = 'center';
-                    ctx.fillText('❤️ 💬 📤', canvasWidth / 2, canvasHeight - 18);
+                    ctx.fillText('❤️ 💬 📤', canvasWidth / 2, photoEndY + padding - 6);
                     break;
                     
                 case 'macbook':
-                    // Username on screen (just above keyboard)
-                    ctx.fillStyle = '#FFF';
-                    ctx.font = 'bold 18px Arial';
+                    // Username on screen (just above keyboard) - in bottom padding area
+                    ctx.font = 'bold 28px -apple-system, BlinkMacSystemFont, sans-serif';
                     ctx.textAlign = 'center';
-                    ctx.fillText(customization.username, canvasWidth / 2, canvasHeight - padding - 25);
+                    drawTextWithShadow(customization.username, canvasWidth / 2, canvasHeight - 18, '#FFF', '#000');
                     break;
                     
                 case 'newspaper':
-                    // Headline at top
-                    ctx.fillStyle = '#000';
-                    ctx.font = 'bold 24px "Times New Roman"';
+                    // Headline at top - in top padding area
+                    ctx.font = 'bold 28px "Times New Roman", Georgia, serif';
                     ctx.textAlign = 'center';
-                    ctx.fillText(customization.headline, canvasWidth / 2, 30);
-                    ctx.font = '14px "Times New Roman"';
-                    ctx.fillText(customization.subtitle || customization.date, canvasWidth / 2, 50);
+                    drawTextWithShadow(customization.headline, canvasWidth / 2, 30, '#000', '#FFF');
+                    ctx.font = '16px "Times New Roman", Georgia, serif';
+                    drawTextWithShadow(customization.subtitle || customization.date, canvasWidth / 2, 50, '#333', '#FFF');
                     break;
                     
                 case 'magazine':
-                    // Headline at top
-                    ctx.fillStyle = '#EC4899';
-                    ctx.font = 'bold 28px Arial';
+                    // Headline at top - in top padding area
+                    ctx.font = 'bold 32px Impact, Arial, sans-serif';
                     ctx.textAlign = 'center';
-                    ctx.fillText(customization.headline, canvasWidth / 2, 35);
-                    ctx.fillStyle = '#A855F7';
-                    ctx.font = '14px Arial';
-                    ctx.fillText(customization.subtitle, canvasWidth / 2, 58);
+                    drawTextWithShadow(customization.headline, canvasWidth / 2, 32, '#EC4899', '#FFF');
+                    ctx.font = 'bold 16px Arial, sans-serif';
+                    drawTextWithShadow(customization.subtitle, canvasWidth / 2, 52, '#A855F7', '#FFF');
                     break;
                     
                 case 'movie':
-                    // Title at top
-                    ctx.fillStyle = '#FCD34D';
-                    ctx.font = 'bold 22px Arial';
+                    // Title at top - in top padding area with cinematic style
+                    ctx.font = 'bold 26px "Bebas Neue", Impact, Arial, sans-serif';
                     ctx.textAlign = 'center';
-                    ctx.fillText(customization.headline, canvasWidth / 2, 32);
-                    ctx.font = '12px Arial';
-                    ctx.fillText(customization.subtitle, canvasWidth / 2, 50);
+                    drawTextWithShadow(customization.headline, canvasWidth / 2, 28, '#FCD34D', '#000');
+                    ctx.font = '14px Arial, sans-serif';
+                    drawTextWithShadow(customization.subtitle, canvasWidth / 2, 48, '#FFF', '#000');
                     break;
                     
                 case 'passport':
-                    // Info at top
-                    ctx.fillStyle = '#FCD34D';
-                    ctx.font = 'bold 16px Arial';
+                    // Info at top - in top padding area with official look
+                    ctx.font = 'bold 20px Arial, sans-serif';
                     ctx.textAlign = 'center';
-                    ctx.fillText(customization.headline, canvasWidth / 2, 30);
-                    ctx.font = '12px Arial';
-                    ctx.fillText(`${customization.location} - ${customization.date}`, canvasWidth / 2, 48);
+                    drawTextWithShadow(customization.headline, canvasWidth / 2, 26, '#FCD34D', '#000');
+                    ctx.font = '14px Arial, sans-serif';
+                    drawTextWithShadow(`${customization.location} - ${customization.date}`, canvasWidth / 2, 46, '#FFF', '#000');
                     break;
                     
                 case 'vintage':
-                    // Message at top
-                    ctx.fillStyle = '#92400E';
-                    ctx.font = 'bold 18px "Times New Roman"';
+                    // Message at top - in top padding area with retro style
+                    ctx.font = 'bold 24px "Brush Script MT", cursive, serif';
                     ctx.textAlign = 'center';
-                    ctx.fillText(customization.message, canvasWidth / 2, 32);
-                    ctx.font = '12px "Times New Roman"';
-                    ctx.fillText(customization.date, canvasWidth / 2, 50);
+                    drawTextWithShadow(customization.message, canvasWidth / 2, 28, '#92400E', '#FEFCE8');
+                    ctx.font = 'italic 14px "Times New Roman", Georgia, serif';
+                    drawTextWithShadow(customization.date, canvasWidth / 2, 48, '#78350F', '#FEFCE8');
                     break;
                     
                 case 'comic':
-                    // Message at top
-                    ctx.fillStyle = '#000';
-                    ctx.font = 'bold 28px "Comic Sans MS"';
+                    // Message at top - in top padding area with comic style
+                    ctx.font = 'bold 32px "Comic Sans MS", "Comic Neue", cursive';
                     ctx.textAlign = 'center';
-                    ctx.fillText(customization.message, canvasWidth / 2, 35);
+                    // Comic book outline effect
+                    ctx.strokeStyle = '#FFF';
+                    ctx.lineWidth = 6;
+                    ctx.strokeText(customization.message, canvasWidth / 2, 32);
+                    ctx.fillStyle = '#000';
+                    ctx.fillText(customization.message, canvasWidth / 2, 32);
                     break;
                     
                 case 'scrapbook':
-                    // Message at top
-                    ctx.fillStyle = '#EC4899';
-                    ctx.font = 'bold 20px Arial';
+                    // Message at top - in top padding area with handwritten style
+                    ctx.font = 'bold 26px "Comic Sans MS", cursive, sans-serif';
                     ctx.textAlign = 'center';
-                    ctx.fillText(customization.message, canvasWidth / 2, 35);
+                    drawTextWithShadow(customization.message, canvasWidth / 2, 32, '#EC4899', '#FFF');
                     break;
             }
             
-            // Reset text alignment
+            // Reset context
             ctx.textAlign = 'left';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
         }
         
         function drawTemplateBranding(ctx, width, height, brandingHeight) {
