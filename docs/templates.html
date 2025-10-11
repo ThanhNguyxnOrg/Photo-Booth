@@ -25,19 +25,35 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
         
-        .template-card {
-            transition: all 0.3s ease;
+        .template-item {
+            transition: all 0.2s ease;
             cursor: pointer;
         }
         
-        .template-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        .template-item:hover {
+            transform: translateX(4px);
+            background: rgba(139, 92, 246, 0.1);
         }
         
-        .template-card.selected {
-            border: 4px solid #C147E9;
-            transform: scale(1.05);
+        .template-item.selected {
+            background: rgba(139, 92, 246, 0.2);
+            border-left: 4px solid #8B5CF6;
+        }
+        
+        .template-preview {
+            transition: all 0.3s ease;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .template-preview.show {
+            max-height: 100px;
+            opacity: 1;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
         }
         
         .btn-continue {
@@ -102,279 +118,272 @@
     </nav>
     
     <!-- Main Content -->
-    <main class="py-4 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
+    <main class="py-1 sm:py-2 md:py-4 px-2 sm:px-4 lg:px-8">
+        <div class="max-w-4xl mx-auto">
             
-            <div class="glass-effect rounded-3xl shadow-2xl p-4 md:p-8">
+            <div class="glass-effect rounded-2xl sm:rounded-3xl shadow-2xl p-3 sm:p-4 md:p-8">
                 <!-- Back Button -->
-                <div class="mb-4">
-                    <button id="back-btn" class="text-gray-600 hover:text-purple-600 font-semibold flex items-center gap-2 transition">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="mb-2 sm:mb-3 md:mb-4">
+                    <button id="back-btn" class="text-gray-600 hover:text-purple-600 font-semibold flex items-center gap-2 transition text-sm sm:text-base">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                         </svg>
-                        Back to Layout Selection
+                        Back to Layout
                     </button>
                 </div>
                 
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2 text-center">Choose Your Template</h1>
-                <p class="text-lg md:text-xl text-gray-600 mb-6 text-center">
-                    Select a creative concept for your photo strip
+                <h1 class="text-xl sm:text-2xl md:text-4xl font-bold text-gray-800 mb-1 sm:mb-2 text-center">Choose Template</h1>
+                <p class="text-sm sm:text-base md:text-xl text-gray-600 mb-3 sm:mb-4 md:mb-6 text-center">
+                    Tap to preview, select to continue
                 </p>
                 
-                <!-- Template Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-6">
+                <!-- Compact Template List -->
+                <div class="space-y-1 sm:space-y-2 mb-3 sm:mb-4 md:mb-6 max-h-[50vh] sm:max-h-[60vh] overflow-y-auto">
                     
-                    <!-- Classic Template -->
-                    <div class="template-card bg-white rounded-xl shadow-lg overflow-hidden" data-template="classic">
-                        <div class="h-64 bg-gradient-to-br from-gray-100 to-gray-200 p-4 flex flex-col justify-between">
-                            <div class="space-y-2">
-                                <div class="h-12 bg-white rounded"></div>
-                                <div class="h-12 bg-white rounded"></div>
-                                <div class="h-12 bg-white rounded"></div>
-                                <div class="h-12 bg-white rounded"></div>
+                    <!-- Classic -->
+                    <div class="template-item bg-white rounded-lg p-2 sm:p-3 border-l-4 border-transparent" data-template="classic">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <span class="text-2xl sm:text-3xl">📸</span>
+                                <div>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Classic</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block">Traditional photo booth</p>
+                                </div>
                             </div>
-                            <div class="text-center text-xs text-gray-500">SnapStrip Studio</div>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
                         </div>
-                        <div class="bg-gradient-to-r from-gray-600 to-gray-700 p-4 text-center">
-                            <h3 class="text-white font-bold text-lg mb-1">Classic</h3>
-                            <p class="text-gray-200 text-sm">Traditional photo booth strip</p>
+                        <div class="template-preview hidden bg-gradient-to-br from-gray-100 to-gray-200 rounded text-center text-xs text-gray-500">
+                            Classic 4-strip layout with watermark
                         </div>
                     </div>
                     
-                    <!-- Newspaper Template -->
-                    <div class="template-card bg-white rounded-xl shadow-lg overflow-hidden" data-template="newspaper">
-                        <div class="h-64 bg-gradient-to-br from-yellow-50 to-yellow-100 p-4">
-                            <div class="border-4 border-black p-2">
-                                <div class="text-center border-b-2 border-black pb-2 mb-2">
-                                    <div class="text-2xl font-bold" style="font-family: 'Times New Roman', serif;">THE DAILY SNAP</div>
-                                    <div class="text-xs">Est. 2025</div>
-                                </div>
-                                <div class="space-y-1">
-                                    <div class="h-10 bg-gray-800 rounded"></div>
-                                    <div class="text-xs font-bold">BREAKING NEWS!</div>
-                                    <div class="h-10 bg-gray-800 rounded"></div>
-                                    <div class="text-xs">Latest Updates</div>
-                                    <div class="h-10 bg-gray-800 rounded"></div>
+                    <!-- Instagram -->
+                    <div class="template-item bg-white rounded-lg p-2 sm:p-3 border-l-4 border-transparent" data-template="instagram">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <span class="text-2xl sm:text-3xl">📱</span>
+                                <div>
+                                    <h3 class="font-bold text-sm sm:text-base bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Instagram</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block">Social media style</p>
                                 </div>
                             </div>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
                         </div>
-                        <div class="bg-gradient-to-r from-yellow-600 to-orange-600 p-4 text-center">
-                            <h3 class="text-white font-bold text-lg mb-1">📰 Newspaper</h3>
-                            <p class="text-yellow-100 text-sm">Make headlines!</p>
+                        <div class="template-preview hidden bg-gradient-to-br from-purple-400 to-pink-400 rounded text-center text-xs text-white">
+                            Instagram-style with @username
                         </div>
                     </div>
                     
-                    <!-- Magazine Template -->
-                    <div class="template-card bg-white rounded-xl shadow-lg overflow-hidden" data-template="magazine">
-                        <div class="h-64 bg-gradient-to-br from-pink-100 to-purple-100 p-4">
-                            <div class="border-2 border-pink-400 h-full p-3">
-                                <div class="text-2xl font-bold text-pink-600 mb-2" style="font-family: 'Arial', sans-serif;">VOGUE</div>
-                                <div class="h-32 bg-gradient-to-br from-pink-300 to-purple-300 rounded mb-2"></div>
-                                <div class="text-sm font-bold text-purple-700">FASHION ICON</div>
-                                <div class="text-xs text-gray-600">Style & Elegance</div>
+                    <!-- MacBook -->
+                    <div class="template-item bg-white rounded-lg p-2 sm:p-3 border-l-4 border-transparent" data-template="macbook">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <span class="text-2xl sm:text-3xl">💻</span>
+                                <div>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">MacBook Selfie <span class="text-xs text-pink-500">✨ Trending</span></h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block">Apple aesthetic</p>
+                                </div>
                             </div>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
                         </div>
-                        <div class="bg-gradient-to-r from-pink-600 to-purple-600 p-4 text-center">
-                            <h3 class="text-white font-bold text-lg mb-1">📸 Magazine</h3>
-                            <p class="text-pink-100 text-sm">Cover star moment</p>
+                        <div class="template-preview bg-gradient-to-b from-gray-800 to-black rounded p-2 text-center text-xs text-gray-400">
+                            MacBook screen with camera frame
                         </div>
                     </div>
                     
-                    <!-- Comic Book Template -->
-                    <div class="template-card bg-white rounded-xl shadow-lg overflow-hidden" data-template="comic">
-                        <div class="h-64 bg-gradient-to-br from-yellow-200 to-red-200 p-4">
-                            <div class="border-4 border-black p-2 h-full">
-                                <div class="text-2xl font-bold mb-2" style="font-family: 'Comic Sans MS', cursive;">BOOM!</div>
-                                <div class="grid grid-cols-2 gap-2">
-                                    <div class="h-20 bg-yellow-400 border-2 border-black rounded"></div>
-                                    <div class="h-20 bg-red-400 border-2 border-black rounded"></div>
-                                    <div class="h-20 bg-blue-400 border-2 border-black rounded"></div>
-                                    <div class="h-20 bg-green-400 border-2 border-black rounded"></div>
+                    <!-- Newspaper -->
+                    <div class="template-item bg-white rounded-lg p-2 sm:p-3 border-l-4 border-transparent" data-template="newspaper">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <span class="text-2xl sm:text-3xl">📰</span>
+                                <div>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Newspaper</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block">Breaking news style</p>
                                 </div>
-                                <div class="text-xs font-bold mt-2">⚡ POW! ⚡</div>
                             </div>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
                         </div>
-                        <div class="bg-gradient-to-r from-red-600 to-yellow-600 p-4 text-center">
-                            <h3 class="text-white font-bold text-lg mb-1">💥 Comic Book</h3>
-                            <p class="text-yellow-100 text-sm">Superhero vibes</p>
+                        <div class="template-preview bg-gradient-to-br from-yellow-50 to-yellow-100 rounded p-2 text-center text-xs border-2 border-black">
+                            THE DAILY SNAP - Front page news
                         </div>
                     </div>
                     
-                    <!-- Polaroid Template -->
-                    <div class="template-card bg-white rounded-xl shadow-lg overflow-hidden" data-template="polaroid">
-                        <div class="h-64 bg-gradient-to-br from-gray-50 to-gray-100 p-4 flex flex-col justify-center items-center">
-                            <div class="bg-white shadow-2xl p-3 pb-12 transform rotate-3">
-                                <div class="h-32 w-32 bg-gradient-to-br from-blue-200 to-purple-200"></div>
+                    <!-- Magazine -->
+                    <div class="template-item bg-white rounded-lg p-2 sm:p-3 border-l-4 border-transparent" data-template="magazine">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <span class="text-2xl sm:text-3xl">📸</span>
+                                <div>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Magazine</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block">Fashion cover style</p>
+                                </div>
                             </div>
-                            <div class="bg-white shadow-2xl p-3 pb-12 transform -rotate-6 -mt-8">
-                                <div class="h-32 w-32 bg-gradient-to-br from-pink-200 to-yellow-200"></div>
-                            </div>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
                         </div>
-                        <div class="bg-gradient-to-r from-blue-600 to-cyan-600 p-4 text-center">
-                            <h3 class="text-white font-bold text-lg mb-1">📷 Polaroid</h3>
-                            <p class="text-blue-100 text-sm">Instant classic</p>
+                        <div class="template-preview bg-gradient-to-br from-pink-100 to-purple-100 rounded p-2 text-center text-xs text-pink-600 font-bold">
+                            VOGUE-style magazine cover
                         </div>
                     </div>
                     
-                    <!-- Passport Template -->
-                    <div class="template-card bg-white rounded-xl shadow-lg overflow-hidden" data-template="passport">
-                        <div class="h-64 bg-gradient-to-br from-blue-900 to-red-900 p-4 text-white">
-                            <div class="border-4 border-yellow-400 p-3 h-full">
-                                <div class="text-center mb-2">
-                                    <div class="text-sm font-bold">🛂 PASSPORT</div>
-                                    <div class="text-xs">Official Document</div>
-                                </div>
-                                <div class="h-24 bg-gray-200 rounded mb-2"></div>
-                                <div class="text-xs space-y-1">
-                                    <div>Name: ___________</div>
-                                    <div>Date: ___________</div>
-                                    <div>Country: ________</div>
+                    <!-- Movie Poster -->
+                    <div class="template-item bg-white rounded-lg p-2 sm:p-3 border-l-4 border-transparent" data-template="movie">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <span class="text-2xl sm:text-3xl">🎬</span>
+                                <div>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Movie Poster</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block">Hollywood blockbuster</p>
                                 </div>
                             </div>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
                         </div>
-                        <div class="bg-gradient-to-r from-blue-800 to-red-800 p-4 text-center">
-                            <h3 class="text-white font-bold text-lg mb-1">🛂 Passport</h3>
-                            <p class="text-blue-100 text-sm">Official ID style</p>
+                        <div class="template-preview bg-gradient-to-br from-purple-900 to-red-900 rounded p-2 text-center text-xs text-yellow-300 font-bold">
+                            Coming Soon - Your Name Starring
                         </div>
                     </div>
                     
-                    <!-- Movie Poster Template -->
-                    <div class="template-card bg-white rounded-xl shadow-lg overflow-hidden" data-template="movie">
-                        <div class="h-64 bg-gradient-to-b from-black via-gray-900 to-black p-4 text-white">
-                            <div class="border-2 border-yellow-500 p-2 h-full flex flex-col justify-between">
-                                <div class="text-center">
-                                    <div class="text-xs">A SnapStrip Production</div>
-                                </div>
-                                <div class="h-32 bg-gradient-to-br from-red-900 to-purple-900 rounded"></div>
-                                <div class="text-center">
-                                    <div class="text-xl font-bold text-yellow-400">YOUR NAME</div>
-                                    <div class="text-xs">Coming Soon</div>
+                    <!-- Passport -->
+                    <div class="template-item bg-white rounded-lg p-2 sm:p-3 border-l-4 border-transparent" data-template="passport">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <span class="text-2xl sm:text-3xl">🛂</span>
+                                <div>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Passport</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block">Official ID style</p>
                                 </div>
                             </div>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
                         </div>
-                        <div class="bg-gradient-to-r from-purple-900 to-red-900 p-4 text-center">
-                            <h3 class="text-white font-bold text-lg mb-1">🎬 Movie Poster</h3>
-                            <p class="text-purple-100 text-sm">Hollywood star</p>
+                        <div class="template-preview bg-gradient-to-br from-blue-100 to-red-100 rounded p-2 text-center text-xs text-blue-900 border border-blue-900">
+                            Official passport photo format
                         </div>
                     </div>
                     
-                    <!-- Vintage Template -->
-                    <div class="template-card bg-white rounded-xl shadow-lg overflow-hidden" data-template="vintage">
-                        <div class="h-64 bg-gradient-to-br from-amber-100 to-orange-100 p-4">
-                            <div class="border-8 border-double border-amber-800 p-2 h-full bg-amber-50">
-                                <div class="text-center mb-2" style="font-family: 'Times New Roman', serif;">
-                                    <div class="text-lg font-bold text-amber-900">✨ Memories ✨</div>
-                                </div>
-                                <div class="space-y-2">
-                                    <div class="h-12 bg-sepia-200 border-2 border-amber-700 rounded"></div>
-                                    <div class="h-12 bg-sepia-200 border-2 border-amber-700 rounded"></div>
-                                    <div class="h-12 bg-sepia-200 border-2 border-amber-700 rounded"></div>
+                    <!-- Vintage -->
+                    <div class="template-item bg-white rounded-lg p-2 sm:p-3 border-l-4 border-transparent" data-template="vintage">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <span class="text-2xl sm:text-3xl">✨</span>
+                                <div>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Vintage</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block">Retro memories</p>
                                 </div>
                             </div>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
                         </div>
-                        <div class="bg-gradient-to-r from-amber-700 to-orange-700 p-4 text-center">
-                            <h3 class="text-white font-bold text-lg mb-1">✨ Vintage</h3>
-                            <p class="text-amber-100 text-sm">Retro memories</p>
+                        <div class="template-preview bg-gradient-to-br from-amber-100 to-orange-100 rounded p-2 text-center text-xs text-amber-900 border-4 border-double border-amber-700">
+                            Sepia-toned vintage aesthetics
                         </div>
                     </div>
                     
-                    <!-- Neon Template -->
-                    <div class="template-card bg-white rounded-xl shadow-lg overflow-hidden" data-template="neon">
-                        <div class="h-64 bg-black p-4">
-                            <div class="h-full flex flex-col justify-around">
-                                <div class="text-center text-4xl font-bold" style="text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff;">
-                                    <span class="text-cyan-400">NEON</span>
-                                </div>
-                                <div class="h-16 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 rounded" style="box-shadow: 0 0 30px rgba(236, 72, 153, 0.5);"></div>
-                                <div class="h-16 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded" style="box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);"></div>
-                                <div class="text-center text-sm" style="text-shadow: 0 0 10px #ff00ff;">
-                                    <span class="text-pink-400">⚡ ELECTRIC ⚡</span>
+                    <!-- Comic -->
+                    <div class="template-item bg-white rounded-lg p-2 sm:p-3 border-l-4 border-transparent" data-template="comic">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <span class="text-2xl sm:text-3xl">💥</span>
+                                <div>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Comic Book</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block">POW! Action style</p>
                                 </div>
                             </div>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
                         </div>
-                        <div class="bg-gradient-to-r from-pink-600 via-purple-600 to-cyan-600 p-4 text-center">
-                            <h3 class="text-white font-bold text-lg mb-1">⚡ Neon</h3>
-                            <p class="text-pink-100 text-sm">Electric vibes</p>
+                        <div class="template-preview bg-gradient-to-br from-yellow-200 to-red-200 rounded p-2 text-center text-xs font-bold border-4 border-black">
+                            💥 KAPOW! Comic book action
                         </div>
                     </div>
                     
-                    <!-- Scrapbook Template -->
-                    <div class="template-card bg-white rounded-xl shadow-lg overflow-hidden" data-template="scrapbook">
-                        <div class="h-64 bg-gradient-to-br from-pink-50 to-blue-50 p-4">
-                            <div class="h-full relative">
-                                <div class="absolute top-0 right-0 w-16 h-16 bg-yellow-300 rounded-full opacity-50"></div>
-                                <div class="absolute bottom-0 left-0 w-20 h-20 bg-pink-300 rounded-full opacity-50"></div>
-                                <div class="space-y-2 relative z-10">
-                                    <div class="h-14 bg-white border-2 border-dashed border-pink-300 rounded transform rotate-2"></div>
-                                    <div class="h-14 bg-white border-2 border-dashed border-blue-300 rounded transform -rotate-1"></div>
-                                    <div class="h-14 bg-white border-2 border-dashed border-yellow-300 rounded transform rotate-1"></div>
+                    <!-- Scrapbook -->
+                    <div class="template-item bg-white rounded-lg p-2 sm:p-3 border-l-4 border-transparent" data-template="scrapbook">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <span class="text-2xl sm:text-3xl">📌</span>
+                                <div>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Scrapbook</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block">Crafty & fun</p>
                                 </div>
-                                <div class="absolute top-2 left-2 text-2xl">📌</div>
-                                <div class="absolute bottom-2 right-2 text-2xl">✂️</div>
                             </div>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
                         </div>
-                        <div class="bg-gradient-to-r from-pink-500 to-blue-500 p-4 text-center">
-                            <h3 class="text-white font-bold text-lg mb-1">📌 Scrapbook</h3>
-                            <p class="text-pink-100 text-sm">Crafty & fun</p>
+                        <div class="template-preview bg-gradient-to-br from-pink-50 to-blue-50 rounded p-2 text-center text-xs">
+                            📌 Doodles, stickers & fun layouts
                         </div>
                     </div>
                     
-                    <!-- Minimalist Template -->
-                    <div class="template-card bg-white rounded-xl shadow-lg overflow-hidden" data-template="minimalist">
-                        <div class="h-64 bg-white p-8">
-                            <div class="h-full border border-gray-300 p-4 flex flex-col justify-between">
-                                <div class="text-xs text-gray-400 text-center">MINIMALIST</div>
-                                <div class="h-24 bg-gray-100"></div>
-                                <div class="h-24 bg-gray-100"></div>
-                                <div class="text-xs text-gray-400 text-center">SNAPSTRIP</div>
+                    <!-- Neon -->
+                    <div class="template-item bg-white rounded-lg p-2 sm:p-3 border-l-4 border-transparent" data-template="neon">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <span class="text-2xl sm:text-3xl">⚡</span>
+                                <div>
+                                    <h3 class="font-bold text-sm sm:text-base bg-gradient-to-r from-pink-600 to-cyan-600 bg-clip-text text-transparent">Neon</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block">Electric vibes</p>
+                                </div>
                             </div>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
                         </div>
-                        <div class="bg-gradient-to-r from-gray-700 to-gray-900 p-4 text-center">
-                            <h3 class="text-white font-bold text-lg mb-1">◻️ Minimalist</h3>
-                            <p class="text-gray-300 text-sm">Less is more</p>
+                        <div class="template-preview bg-black rounded p-2 text-center text-xs text-cyan-400 font-bold" style="text-shadow: 0 0 10px #00ffff;">
+                            ⚡ NEON ELECTRIC ⚡
                         </div>
                     </div>
                     
-                    <!-- Instagram Template -->
-                    <div class="template-card bg-white rounded-xl shadow-lg overflow-hidden" data-template="instagram">
-                        <div class="h-64 bg-gradient-to-br from-purple-400 via-pink-400 to-yellow-400 p-4">
-                            <div class="bg-white rounded-lg p-3 h-full">
-                                <div class="flex items-center gap-2 mb-2 pb-2 border-b">
-                                    <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full"></div>
-                                    <div class="text-sm font-bold">@yourname</div>
-                                </div>
-                                <div class="h-32 bg-gradient-to-br from-blue-200 to-purple-200 rounded mb-2"></div>
-                                <div class="flex gap-2 text-xl">
-                                    <span>❤️</span>
-                                    <span>💬</span>
-                                    <span>📤</span>
+                    <!-- Polaroid -->
+                    <div class="template-item bg-white rounded-lg p-2 sm:p-3 border-l-4 border-transparent" data-template="polaroid">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <span class="text-2xl sm:text-3xl">📷</span>
+                                <div>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Polaroid</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block">Instant camera style</p>
                                 </div>
                             </div>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
                         </div>
-                        <div class="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 p-4 text-center">
-                            <h3 class="text-white font-bold text-lg mb-1">📱 Instagram</h3>
-                            <p class="text-purple-100 text-sm">Social ready</p>
+                        <div class="template-preview bg-white rounded p-2 border-8 border-white shadow-lg text-center text-xs text-gray-500">
+                            Classic Polaroid instant photo
                         </div>
                     </div>
                     
-                    <!-- MacBook Selfie Template (Trending!) -->
-                    <div class="template-card bg-white rounded-xl shadow-lg overflow-hidden" data-template="macbook">
-                        <div class="h-64 bg-gradient-to-b from-gray-900 to-black p-4">
-                            <div class="bg-gray-800 rounded-t-lg p-2 border-2 border-gray-700">
-                                <div class="flex items-center gap-1 mb-2">
-                                    <div class="w-2 h-2 bg-red-500 rounded-full"></div>
-                                    <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                                    <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                                </div>
-                                <div class="bg-black h-36 rounded flex items-center justify-center text-gray-400 text-xs">
-                                    📸 Your Selfie
+                    <!-- Minimalist -->
+                    <div class="template-item bg-white rounded-lg p-2 sm:p-3 border-l-4 border-transparent" data-template="minimalist">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <span class="text-2xl sm:text-3xl">◻️</span>
+                                <div>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Minimalist</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block">Less is more</p>
                                 </div>
                             </div>
-                            <div class="h-2 bg-gradient-to-b from-gray-700 to-gray-800 rounded-b-lg"></div>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
                         </div>
-                        <div class="bg-gradient-to-r from-gray-700 to-gray-900 p-4 text-center">
-                            <h3 class="text-white font-bold text-lg mb-1">💻 MacBook Selfie</h3>
-                            <p class="text-gray-300 text-sm">✨ Trending!</p>
+                        <div class="template-preview bg-white rounded p-2 border border-gray-300 text-center text-xs text-gray-400">
+                            Clean, simple, elegant design
                         </div>
                     </div>
                     
@@ -382,10 +391,10 @@
                 
                 <!-- Continue Button -->
                 <div class="text-center">
-                    <button id="continue-btn" class="btn-continue text-white font-bold py-4 px-16 rounded-full text-xl shadow-2xl" disabled>
+                    <button id="continue-btn" class="btn-continue text-white font-bold py-2.5 sm:py-3 md:py-4 px-8 sm:px-12 md:px-16 rounded-full text-base sm:text-lg md:text-xl shadow-2xl" disabled>
                         <span>Continue</span>
                     </button>
-                    <p id="selection-message" class="text-gray-500 mt-4 text-sm">
+                    <p id="selection-message" class="text-gray-500 mt-2 sm:mt-3 md:mt-4 text-xs sm:text-sm">
                         Please select a template to continue
                     </p>
                 </div>
@@ -395,16 +404,16 @@
     </main>
     
     <!-- Footer -->
-    <footer class="mt-16 pb-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="glass-effect rounded-2xl p-8 text-center">
-                <p class="text-gray-700 font-semibold mb-2">
+    <footer class="mt-2 sm:mt-4 lg:mt-8 pb-2 sm:pb-4 lg:pb-8">
+        <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+            <div class="glass-effect rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-8 text-center">
+                <p class="text-xs sm:text-sm md:text-base text-gray-700 font-semibold mb-0.5 sm:mb-1">
                     SnapStrip Studio - Create Amazing Photo Strips
                 </p>
-                <p class="text-gray-600 mb-2">
+                <p class="text-[10px] sm:text-xs md:text-sm text-gray-600 mb-0.5 sm:mb-1 hidden sm:block">
                     Made with ❤️ by developers who love photography
                 </p>
-                <p class="text-gray-500 text-sm">
+                <p class="text-[10px] sm:text-xs text-gray-500">
                     © 2025 SnapStrip Studio. All Rights Reserved.
                 </p>
             </div>
@@ -419,7 +428,7 @@
         const poses = parseInt(urlParams.get('poses')) || 4;
         
         // Elements
-        const templateCards = document.querySelectorAll('.template-card');
+        const templateItems = document.querySelectorAll('.template-item');
         const continueBtn = document.getElementById('continue-btn');
         const selectionMessage = document.getElementById('selection-message');
         const backBtn = document.getElementById('back-btn');
@@ -430,23 +439,48 @@
             window.location.href = `layout.html`;
         });
         
-        // Template selection
-        templateCards.forEach(card => {
-            card.addEventListener('click', () => {
-                // Remove selected class from all cards
-                templateCards.forEach(c => c.classList.remove('selected'));
+        // Template selection with preview toggle
+        templateItems.forEach(item => {
+            const preview = item.querySelector('.template-preview');
+            
+            item.addEventListener('click', () => {
+                // If clicking the same item, toggle preview
+                const wasSame = item.classList.contains('selected');
                 
-                // Add selected class to clicked card
-                card.classList.add('selected');
+                // Remove selected class from all items and hide previews
+                templateItems.forEach(i => {
+                    i.classList.remove('selected');
+                    const previewEl = i.querySelector('.template-preview');
+                    if (previewEl) {
+                        previewEl.classList.add('hidden');
+                        previewEl.classList.remove('show');
+                    }
+                });
                 
-                // Get template info
-                selectedTemplate = card.dataset.template;
-                
-                // Enable continue button
-                continueBtn.disabled = false;
-                selectionMessage.textContent = `You selected: ${selectedTemplate.charAt(0).toUpperCase() + selectedTemplate.slice(1)} template`;
-                selectionMessage.classList.remove('text-gray-500');
-                selectionMessage.classList.add('text-purple-600', 'font-semibold');
+                if (!wasSame) {
+                    // Select this item and show preview
+                    item.classList.add('selected');
+                    if (preview) {
+                        preview.classList.remove('hidden');
+                        preview.classList.add('show');
+                    }
+                    
+                    // Get template info
+                    selectedTemplate = item.dataset.template;
+                    
+                    // Enable continue button
+                    continueBtn.disabled = false;
+                    selectionMessage.textContent = `Selected: ${selectedTemplate.charAt(0).toUpperCase() + selectedTemplate.slice(1)}`;
+                    selectionMessage.classList.remove('text-gray-500');
+                    selectionMessage.classList.add('text-purple-600', 'font-semibold');
+                } else {
+                    // Deselected
+                    selectedTemplate = null;
+                    continueBtn.disabled = true;
+                    selectionMessage.textContent = 'Please select a template to continue';
+                    selectionMessage.classList.remove('text-purple-600', 'font-semibold');
+                    selectionMessage.classList.add('text-gray-500');
+                }
             });
         });
         

@@ -49,13 +49,15 @@
         }
         
         .layout-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
         
         .layout-card.selected {
-            border: 4px solid #C147E9;
+            border-color: #8B5CF6 !important;
             transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%);
         }
         
         .btn-continue {
@@ -140,128 +142,68 @@
     </nav>
     
     <!-- Main Content -->
-    <main class="py-4 px-4 sm:px-6 lg:px-8">
+    <main class="py-1 sm:py-2 md:py-4 px-2 sm:px-4 lg:px-8">
         <div class="max-w-6xl mx-auto">
             
-            <div class="glass-effect rounded-3xl shadow-2xl p-4 md:p-8">
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2 text-center">Choose your layout</h1>
-                <p class="text-lg md:text-xl text-gray-600 mb-6 text-center">
+            <div class="glass-effect rounded-2xl sm:rounded-3xl shadow-2xl p-2 sm:p-3 md:p-8">
+                <h1 class="text-xl sm:text-2xl md:text-4xl font-bold text-gray-800 mb-1 text-center">Choose Layout</h1>
+                <p class="text-sm sm:text-base md:text-xl text-gray-600 mb-2 sm:mb-3 md:mb-6 text-center hidden sm:block">
                     Select a layout for your photo session
                 </p>
                 
                 <!-- Layout Options Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5 sm:gap-2 md:gap-3 mb-2 sm:mb-3 md:mb-6">
                     
                     <!-- Layout S - Single Photo -->
-                    <div class="layout-card bg-white rounded-xl shadow-lg overflow-hidden" data-layout="S" data-poses="1">
-                        <div class="p-4">
-                            <!-- Visual representation of single photo -->
-                            <div class="mb-4">
-                                <div class="aspect-square bg-gradient-to-br from-yellow-200 to-amber-200 rounded-lg flex items-center justify-center shadow-md">
-                                    <span class="text-amber-600 font-bold text-3xl">📸</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-gradient-to-r from-yellow-600 to-amber-600 p-4 text-center">
-                            <h3 class="text-white font-bold text-xl mb-1">Single Photo</h3>
-                            <p class="text-yellow-100">1 Pose</p>
+                    <div class="layout-card bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden border-2 border-transparent" data-layout="S" data-poses="1">
+                        <div class="p-3 sm:p-4 md:p-6 text-center">
+                            <div class="text-3xl sm:text-4xl md:text-5xl mb-2">📸</div>
+                            <h3 class="font-bold text-sm sm:text-base md:text-lg text-gray-800">Single</h3>
+                            <p class="text-xs sm:text-sm text-gray-500 mt-1">1 Pose</p>
                         </div>
                     </div>
                     
                     <!-- Layout A - 4 Pose -->
-                    <div class="layout-card bg-white rounded-xl shadow-lg overflow-hidden" data-layout="A" data-poses="4">
-                        <div class="p-4">
-                            <!-- Visual representation of 4 poses -->
-                            <div class="grid grid-rows-4 gap-2 mb-4">
-                                <div class="aspect-square bg-gradient-to-br from-purple-200 to-pink-200 rounded-lg flex items-center justify-center">
-                                    <span class="text-purple-600 font-bold text-2xl">1</span>
-                                </div>
-                                <div class="aspect-square bg-gradient-to-br from-blue-200 to-purple-200 rounded-lg flex items-center justify-center">
-                                    <span class="text-blue-600 font-bold text-2xl">2</span>
-                                </div>
-                                <div class="aspect-square bg-gradient-to-br from-pink-200 to-red-200 rounded-lg flex items-center justify-center">
-                                    <span class="text-pink-600 font-bold text-2xl">3</span>
-                                </div>
-                                <div class="aspect-square bg-gradient-to-br from-green-200 to-teal-200 rounded-lg flex items-center justify-center">
-                                    <span class="text-green-600 font-bold text-2xl">4</span>
-                                </div>
-                            </div>
+                    <div class="layout-card bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden border-2 border-transparent" data-layout="A" data-poses="4">
+                        <div class="p-3 sm:p-4 md:p-6 text-center">
+                            <div class="text-3xl sm:text-4xl md:text-5xl mb-2">4️⃣</div>
+                            <h3 class="font-bold text-sm sm:text-base md:text-lg text-gray-800">Layout A</h3>
+                            <p class="text-xs sm:text-sm text-gray-500 mt-1">4 Pose</p>
                         </div>
-                        <div class="bg-gradient-to-r from-purple-600 to-pink-600 p-4 text-center">
-                            <h3 class="text-white font-bold text-xl mb-1">Layout A</h3>
-                            <p class="text-purple-100">4 Pose</p>
+                    </div>
+                    <!-- Layout A - 4 Pose -->
+                    <div class="layout-card bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden border-2 border-transparent" data-layout="A" data-poses="4">
+                        <div class="p-3 sm:p-4 md:p-6 text-center">
+                            <div class="text-3xl sm:text-4xl md:text-5xl mb-2">4️⃣</div>
+                            <h3 class="font-bold text-sm sm:text-base md:text-lg text-gray-800">Layout A</h3>
+                            <p class="text-xs sm:text-sm text-gray-500 mt-1">4 Pose</p>
                         </div>
                     </div>
                     
                     <!-- Layout B - 3 Pose -->
-                    <div class="layout-card bg-white rounded-xl shadow-lg overflow-hidden" data-layout="B" data-poses="3">
-                        <div class="p-4">
-                            <!-- Visual representation of 3 poses -->
-                            <div class="grid grid-rows-3 gap-2 mb-4">
-                                <div class="aspect-square bg-gradient-to-br from-blue-200 to-indigo-200 rounded-lg flex items-center justify-center">
-                                    <span class="text-blue-600 font-bold text-2xl">1</span>
-                                </div>
-                                <div class="aspect-square bg-gradient-to-br from-purple-200 to-pink-200 rounded-lg flex items-center justify-center">
-                                    <span class="text-purple-600 font-bold text-2xl">2</span>
-                                </div>
-                                <div class="aspect-square bg-gradient-to-br from-pink-200 to-rose-200 rounded-lg flex items-center justify-center">
-                                    <span class="text-pink-600 font-bold text-2xl">3</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 text-center">
-                            <h3 class="text-white font-bold text-xl mb-1">Layout B</h3>
-                            <p class="text-blue-100">3 Pose</p>
+                    <div class="layout-card bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden border-2 border-transparent" data-layout="B" data-poses="3">
+                        <div class="p-3 sm:p-4 md:p-6 text-center">
+                            <div class="text-3xl sm:text-4xl md:text-5xl mb-2">3️⃣</div>
+                            <h3 class="font-bold text-sm sm:text-base md:text-lg text-gray-800">Layout B</h3>
+                            <p class="text-xs sm:text-sm text-gray-500 mt-1">3 Pose</p>
                         </div>
                     </div>
                     
                     <!-- Layout C - 2 Pose -->
-                    <div class="layout-card bg-white rounded-xl shadow-lg overflow-hidden" data-layout="C" data-poses="2">
-                        <div class="p-4">
-                            <!-- Visual representation of 2 poses -->
-                            <div class="grid grid-rows-2 gap-2 mb-4">
-                                <div class="aspect-square bg-gradient-to-br from-teal-200 to-cyan-200 rounded-lg flex items-center justify-center">
-                                    <span class="text-teal-600 font-bold text-2xl">1</span>
-                                </div>
-                                <div class="aspect-square bg-gradient-to-br from-cyan-200 to-blue-200 rounded-lg flex items-center justify-center">
-                                    <span class="text-cyan-600 font-bold text-2xl">2</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-gradient-to-r from-teal-600 to-cyan-600 p-4 text-center">
-                            <h3 class="text-white font-bold text-xl mb-1">Layout C</h3>
-                            <p class="text-teal-100">2 Pose</p>
+                    <div class="layout-card bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden border-2 border-transparent" data-layout="C" data-poses="2">
+                        <div class="p-3 sm:p-4 md:p-6 text-center">
+                            <div class="text-3xl sm:text-4xl md:text-5xl mb-2">2️⃣</div>
+                            <h3 class="font-bold text-sm sm:text-base md:text-lg text-gray-800">Layout C</h3>
+                            <p class="text-xs sm:text-sm text-gray-500 mt-1">2 Pose</p>
                         </div>
                     </div>
                     
                     <!-- Layout D - 6 Pose -->
-                    <div class="layout-card bg-white rounded-xl shadow-lg overflow-hidden" data-layout="D" data-poses="6">
-                        <div class="p-4">
-                            <!-- Visual representation of 6 poses -->
-                            <div class="grid grid-rows-6 gap-1 mb-4">
-                                <div class="aspect-square bg-gradient-to-br from-red-200 to-orange-200 rounded flex items-center justify-center">
-                                    <span class="text-red-600 font-bold text-lg">1</span>
-                                </div>
-                                <div class="aspect-square bg-gradient-to-br from-orange-200 to-yellow-200 rounded flex items-center justify-center">
-                                    <span class="text-orange-600 font-bold text-lg">2</span>
-                                </div>
-                                <div class="aspect-square bg-gradient-to-br from-yellow-200 to-green-200 rounded flex items-center justify-center">
-                                    <span class="text-yellow-600 font-bold text-lg">3</span>
-                                </div>
-                                <div class="aspect-square bg-gradient-to-br from-green-200 to-teal-200 rounded flex items-center justify-center">
-                                    <span class="text-green-600 font-bold text-lg">4</span>
-                                </div>
-                                <div class="aspect-square bg-gradient-to-br from-teal-200 to-blue-200 rounded flex items-center justify-center">
-                                    <span class="text-teal-600 font-bold text-lg">5</span>
-                                </div>
-                                <div class="aspect-square bg-gradient-to-br from-blue-200 to-purple-200 rounded flex items-center justify-center">
-                                    <span class="text-blue-600 font-bold text-lg">6</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-gradient-to-r from-orange-600 to-red-600 p-4 text-center">
-                            <h3 class="text-white font-bold text-xl mb-1">Layout D</h3>
-                            <p class="text-orange-100">6 pose</p>
+                    <div class="layout-card bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden border-2 border-transparent" data-layout="D" data-poses="6">
+                        <div class="p-3 sm:p-4 md:p-6 text-center">
+                            <div class="text-3xl sm:text-4xl md:text-5xl mb-2">6️⃣</div>
+                            <h3 class="font-bold text-sm sm:text-base md:text-lg text-gray-800">Layout D</h3>
+                            <p class="text-xs sm:text-sm text-gray-500 mt-1">6 Pose</p>
                         </div>
                     </div>
                     
@@ -269,10 +211,10 @@
                 
                 <!-- Continue Button -->
                 <div class="text-center">
-                    <button id="continue-btn" class="btn-continue text-white font-bold py-4 px-16 rounded-full text-xl shadow-2xl" disabled>
+                    <button id="continue-btn" class="btn-continue text-white font-bold py-2.5 sm:py-3 md:py-4 px-8 sm:px-10 md:px-16 rounded-full text-base sm:text-lg md:text-xl shadow-2xl" disabled>
                         <span>Continue</span>
                     </button>
-                    <p id="selection-message" class="text-gray-500 mt-4 text-sm">
+                    <p id="selection-message" class="text-gray-500 mt-1.5 sm:mt-2 md:mt-4 text-xs sm:text-sm">
                         Please select a layout to continue
                     </p>
                 </div>
@@ -282,16 +224,16 @@
     </main>
     
     <!-- Footer -->
-    <footer class="mt-16 pb-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="glass-effect rounded-2xl p-8 text-center">
-                <p class="text-gray-700 font-semibold mb-2">
+    <footer class="mt-2 sm:mt-4 lg:mt-8 pb-2 sm:pb-4 lg:pb-8">
+        <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+            <div class="glass-effect rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-8 text-center">
+                <p class="text-xs sm:text-sm md:text-base text-gray-700 font-semibold mb-0.5 sm:mb-1">
                     SnapStrip Studio - Create Amazing Photo Strips
                 </p>
-                <p class="text-gray-600 mb-2">
+                <p class="text-[10px] sm:text-xs md:text-sm text-gray-600 mb-0.5 sm:mb-1 hidden sm:block">
                     Made with ❤️ by developers who love photography
                 </p>
-                <p class="text-gray-500 text-sm">
+                <p class="text-[10px] sm:text-xs text-gray-500">
                     © 2025 SnapStrip Studio. All Rights Reserved.
                 </p>
             </div>
