@@ -292,14 +292,38 @@
                 const file = files[i];
                 const img = await loadImage(file);
                 
-                // Draw to canvas with filter
-                canvas.width = img.width;
-                canvas.height = img.height;
-                ctx.drawImage(img, 0, 0);
-                applyFilterToCanvas(currentFilter);
+                // Use original image dimensions (flexible aspect ratio)
+                const photoWidth = img.width;
+                const photoHeight = img.height;
+                
+                const photoCanvas = document.createElement('canvas');
+                photoCanvas.width = photoWidth;
+                photoCanvas.height = photoHeight;
+                const photoCtx = photoCanvas.getContext('2d');
+                
+                // Draw image to canvas
+                photoCtx.drawImage(img, 0, 0, photoWidth, photoHeight);
+                
+                // Apply filter
+                const imageData = photoCtx.getImageData(0, 0, photoWidth, photoHeight);
+                applyFilterToImageData(imageData);
+                photoCtx.putImageData(imageData, 0, 0);
+                
+                // Create final canvas with template
+                const templateCanvas = document.createElement('canvas');
+                const templateCtx = templateCanvas.getContext('2d');
+                const padding = 40;
+                templateCanvas.width = photoWidth + (padding * 2);
+                templateCanvas.height = photoHeight + (padding * 2);
+                
+                // Draw template background/border
+                drawPhotoTemplateFrame(templateCtx, 0, 0, templateCanvas.width, templateCanvas.height, i);
+                
+                // Draw photo in center
+                templateCtx.drawImage(photoCanvas, padding, padding, photoWidth, photoHeight);
                 
                 // Save photo
-                const photoData = canvas.toDataURL('image/jpeg', 0.9);
+                const photoData = templateCanvas.toDataURL('image/jpeg', 0.92);
                 capturedPhotos.push(photoData);
                 
                 // Update preview
@@ -337,9 +361,33 @@
             stripPhotos.innerHTML = '';
             for (let i = 0; i < poses; i++) {
                 const placeholder = document.createElement('div');
-                placeholder.className = 'photo-frame aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center';
-                placeholder.innerHTML = `<span class="text-gray-400 text-4xl">${i + 1}</span>`;
+                placeholder.className = 'photo-frame aspect-video bg-white rounded-lg overflow-hidden relative border-2 border-gray-200';
                 placeholder.id = `photo-${i}`;
+                
+                // Create canvas for template preview
+                const previewCanvas = document.createElement('canvas');
+                previewCanvas.width = 400;
+                previewCanvas.height = 400;
+                const previewCtx = previewCanvas.getContext('2d');
+                
+                // Draw template frame preview
+                drawPhotoTemplateFrame(previewCtx, 0, 0, 400, 400, i);
+                
+                // Add number overlay
+                previewCtx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+                previewCtx.fillRect(0, 0, 400, 400);
+                previewCtx.fillStyle = '#FFF';
+                previewCtx.font = 'bold 80px Arial';
+                previewCtx.textAlign = 'center';
+                previewCtx.textBaseline = 'middle';
+                previewCtx.fillText((i + 1).toString(), 200, 200);
+                
+                // Convert canvas to image
+                const previewImg = document.createElement('img');
+                previewImg.src = previewCanvas.toDataURL();
+                previewImg.className = 'w-full h-full object-cover';
+                placeholder.appendChild(previewImg);
+                
                 stripPhotos.appendChild(placeholder);
             }
         }
@@ -386,9 +434,15 @@
         // Apply filter to canvas (for uploaded images or captured photos)
         function applyFilterToCanvas(filter) {
             const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            applyFilterToImageData(imageData);
+            ctx.putImageData(imageData, 0, 0);
+        }
+        
+        // Apply filter to ImageData object
+        function applyFilterToImageData(imageData) {
             const data = imageData.data;
             
-            switch(filter) {
+            switch(currentFilter) {
                 case 'grayscale':
                     for (let i = 0; i < data.length; i += 4) {
                         const gray = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
@@ -426,8 +480,6 @@
                     }
                     break;
             }
-            
-            ctx.putImageData(imageData, 0, 0);
         }
         
         // Filter buttons
@@ -458,45 +510,56 @@
             flash.classList.add('flash');
             setTimeout(() => flash.classList.remove('flash'), 300);
             
-            // Draw current frame to canvas (mirrored for selfie mode)
-            ctx.save();
-            ctx.scale(-1, 1); // Mirror
-            ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
-            ctx.restore();
+            // Use actual video dimensions (flexible aspect ratio)
+            const photoWidth = video.videoWidth;
+            const photoHeight = video.videoHeight;
+            
+            const photoCanvas = document.createElement('canvas');
+            photoCanvas.width = photoWidth;
+            photoCanvas.height = photoHeight;
+            const photoCtx = photoCanvas.getContext('2d');
+            
+            // Draw video frame (mirrored for selfie mode)
+            photoCtx.save();
+            photoCtx.scale(-1, 1); // Mirror
+            photoCtx.drawImage(video, 0, 0, photoWidth, photoHeight, -photoWidth, 0, photoWidth, photoHeight);
+            photoCtx.restore();
             
             // Apply filter to canvas
-            applyFilterToCanvas(currentFilter);
+            const imageData = photoCtx.getImageData(0, 0, photoWidth, photoHeight);
+            applyFilterToImageData(imageData);
+            photoCtx.putImageData(imageData, 0, 0);
             
-            // Create a new canvas with template effects
+            // Create final canvas with template effects
             const templateCanvas = document.createElement('canvas');
             const templateCtx = templateCanvas.getContext('2d');
             
             // Set canvas size with padding for template effects
-            const padding = 20;
-            templateCanvas.width = canvas.width + (padding * 2);
-            templateCanvas.height = canvas.height + (padding * 2);
+            const padding = 40;
+            templateCanvas.width = photoWidth + (padding * 2);
+            templateCanvas.height = photoHeight + (padding * 2);
             
             // Draw template background/border
             drawPhotoTemplateFrame(templateCtx, 0, 0, templateCanvas.width, templateCanvas.height, capturedPhotos.length);
             
             // Draw the photo in the center
-            templateCtx.drawImage(canvas, padding, padding, canvas.width, canvas.height);
+            templateCtx.drawImage(photoCanvas, padding, padding, photoWidth, photoHeight);
             
             // Get image data with template
-            const imageData = templateCanvas.toDataURL('image/jpeg', 0.9);
-            capturedPhotos.push(imageData);
+            const finalImageData = templateCanvas.toDataURL('image/jpeg', 0.92);
+            capturedPhotos.push(finalImageData);
             
             // Update UI
             const photoIndex = capturedPhotos.length - 1;
             const photoElement = document.getElementById(`photo-${photoIndex}`);
             if (photoElement) {
-                photoElement.innerHTML = `<img src="${imageData}" class="w-full h-full object-cover rounded-lg">`;
+                photoElement.innerHTML = `<img src="${finalImageData}" class="w-full h-full object-cover rounded-lg">`;
             }
             
             // Update counter
             photoCount.textContent = `Photo ${capturedPhotos.length}/${poses}`;
             
-            return imageData;
+            return finalImageData;
         }
         
         // Start photo session
