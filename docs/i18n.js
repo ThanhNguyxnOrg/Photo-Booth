@@ -36,7 +36,7 @@ const translations = {
             vintage: "Vintage",
             cool: "Cool",
             warm: "Warm",
-            takePho: "Take Photo",
+            takePhoto: "Take Photo",
             retake: "Retake",
             download: "Download",
             share: "Share",

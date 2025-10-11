@@ -82,7 +82,7 @@
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
-                <span data-i18n="camera.back"></span>Back to Home</span>
+                <span data-i18n="camera.back">Back to Home</span>
             </a>
             
             <!-- Language Selector -->
@@ -95,28 +95,28 @@
                     </svg>
                 </button>
                 <div id="language-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-50">
-                    <a href="#" class="lang-option block px-4 py-2 hover:bg-gray-100 rounded-t-lg" data-lang="en">
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-gray-100 rounded-t-lg" data-lang="en">
                         <span class="mr-2">🇬🇧</span> English
                     </a>
-                    <a href="#" class="lang-option block px-4 py-2 hover:bg-gray-100" data-lang="vi">
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-gray-100" data-lang="vi">
                         <span class="mr-2">🇻🇳</span> Tiếng Việt
                     </a>
-                    <a href="#" class="lang-option block px-4 py-2 hover:bg-gray-100" data-lang="es">
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-gray-100" data-lang="es">
                         <span class="mr-2">🇪🇸</span> Español
                     </a>
-                    <a href="#" class="lang-option block px-4 py-2 hover:bg-gray-100" data-lang="fr">
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-gray-100" data-lang="fr">
                         <span class="mr-2">🇫🇷</span> Français
                     </a>
-                    <a href="#" class="lang-option block px-4 py-2 hover:bg-gray-100" data-lang="de">
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-gray-100" data-lang="de">
                         <span class="mr-2">🇩🇪</span> Deutsch
                     </a>
-                    <a href="#" class="lang-option block px-4 py-2 hover:bg-gray-100" data-lang="ja">
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-gray-100" data-lang="ja">
                         <span class="mr-2">🇯🇵</span> 日本語
                     </a>
-                    <a href="#" class="lang-option block px-4 py-2 hover:bg-gray-100" data-lang="ko">
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-gray-100" data-lang="ko">
                         <span class="mr-2">🇰🇷</span> 한국어
                     </a>
-                    <a href="#" class="lang-option block px-4 py-2 hover:bg-gray-100 rounded-b-lg" data-lang="zh">
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-gray-100 rounded-b-lg" data-lang="zh">
                         <span class="mr-2">🇨🇳</span> 中文
                     </a>
                 </div>
@@ -843,49 +843,56 @@
     <!-- Internationalization -->
     <script src="i18n.js"></script>
     <script>
-        // Language dropdown functionality
-        const languageBtn = document.getElementById('language-btn');
-        const languageDropdown = document.getElementById('language-dropdown');
-        const currentLangFlag = document.getElementById('current-lang-flag');
-        const currentLangName = document.getElementById('current-lang-name');
+        // Additional language UI updates for camera page
+        document.addEventListener('DOMContentLoaded', () => {
+            const languageBtn = document.getElementById('language-btn');
+            const languageDropdown = document.getElementById('language-dropdown');
+            const currentLangFlag = document.getElementById('current-lang-flag');
+            const currentLangName = document.getElementById('current-lang-name');
 
-        const languageNames = {
-            en: { flag: '🇬🇧', name: 'English' },
-            vi: { flag: '🇻🇳', name: 'Tiếng Việt' },
-            es: { flag: '🇪🇸', name: 'Español' },
-            fr: { flag: '🇫🇷', name: 'Français' },
-            de: { flag: '🇩🇪', name: 'Deutsch' },
-            ja: { flag: '🇯🇵', name: '日本語' },
-            ko: { flag: '🇰🇷', name: '한국어' },
-            zh: { flag: '🇨🇳', name: '中文' }
-        };
+            const languageNames = {
+                en: { flag: '🇬🇧', name: 'English' },
+                vi: { flag: '🇻🇳', name: 'Tiếng Việt' },
+                es: { flag: '🇪🇸', name: 'Español' },
+                fr: { flag: '🇫🇷', name: 'Français' },
+                de: { flag: '🇩🇪', name: 'Deutsch' },
+                ja: { flag: '🇯🇵', name: '日本語' },
+                ko: { flag: '🇰🇷', name: '한국어' },
+                zh: { flag: '🇨🇳', name: '中文' }
+            };
 
-        // Update button to show current language
-        const currentLang = getCurrentLanguage();
-        if (languageNames[currentLang]) {
-            currentLangFlag.textContent = languageNames[currentLang].flag;
-            currentLangName.textContent = languageNames[currentLang].name;
-        }
+            // Update button to show current language
+            const currentLang = getCurrentLanguage();
+            if (languageNames[currentLang]) {
+                currentLangFlag.textContent = languageNames[currentLang].flag;
+                currentLangName.textContent = languageNames[currentLang].name;
+            }
 
-        languageBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            languageDropdown.classList.toggle('hidden');
-        });
+            // Toggle dropdown on button click
+            if (languageBtn) {
+                languageBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    languageDropdown.classList.toggle('hidden');
+                });
+            }
 
-        document.querySelectorAll('.lang-option').forEach(option => {
-            option.addEventListener('click', (e) => {
-                e.preventDefault();
-                const lang = e.currentTarget.dataset.lang;
-                setLanguage(lang);
-                currentLangFlag.textContent = languageNames[lang].flag;
-                currentLangName.textContent = languageNames[lang].name;
-                languageDropdown.classList.add('hidden');
+            // Update flag/name when language changes
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const lang = option.getAttribute('data-lang');
+                    if (languageNames[lang]) {
+                        currentLangFlag.textContent = languageNames[lang].flag;
+                        currentLangName.textContent = languageNames[lang].name;
+                    }
+                });
             });
-        });
 
-        // Close dropdown when clicking outside
-        document.addEventListener('click', () => {
-            languageDropdown.classList.add('hidden');
+            // Close dropdown when clicking outside
+            document.addEventListener('click', () => {
+                if (languageDropdown) {
+                    languageDropdown.classList.add('hidden');
+                }
+            });
         });
     </script>
     
