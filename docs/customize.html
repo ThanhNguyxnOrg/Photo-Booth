@@ -283,26 +283,31 @@
                     ctx.fillStyle = instaGrad;
                     ctx.fillRect(0, 0, 300, 400);
                     
-                    // White card
+                    // White header card for username
                     ctx.fillStyle = '#FFF';
-                    ctx.fillRect(20, 20, 260, 360);
+                    ctx.fillRect(8, 8, 284, 40);
                     
                     // Username
                     ctx.fillStyle = '#000';
                     ctx.font = 'bold 16px Arial';
-                    ctx.fillText(username, 40, 50);
+                    ctx.textAlign = 'left';
+                    ctx.fillText(username, 20, 35);
                     
-                    // Photo placeholder
+                    // Photo placeholder area
                     ctx.fillStyle = '#E5E7EB';
-                    ctx.fillRect(30, 70, 240, 240);
+                    ctx.fillRect(8, 56, 284, 296);
                     ctx.fillStyle = '#9CA3AF';
                     ctx.font = '14px Arial';
                     ctx.textAlign = 'center';
                     ctx.fillText('Your photos here', 150, 200);
                     
+                    // White footer card for icons
+                    ctx.fillStyle = '#FFF';
+                    ctx.fillRect(8, 360, 284, 32);
+                    
                     // Icons
                     ctx.font = '20px Arial';
-                    ctx.fillText('❤️ 💬 📤', 150, 340);
+                    ctx.fillText('❤️ 💬 📤', 150, 383);
                     break;
                     
                 case 'newspaper':
