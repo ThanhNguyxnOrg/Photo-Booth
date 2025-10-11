@@ -56,6 +56,12 @@
                         </div>
                     </a>
                 </div>
+                
+                <!-- Language Selector -->
+                <select id="language-selector" class="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-600 transition">
+                    <option value="en">🇬🇧 EN</option>
+                    <option value="vi">🇻🇳 VI</option>
+                </select>
             </div>
         </div>
     </nav>
@@ -322,7 +328,7 @@
             // Draw template-specific preview
             switch(template) {
                 case 'instagram':
-                    // Instagram realistic UI design (matching camera.html)
+                    // Instagram realistic UI design - Enhanced version (matching camera.html)
                     ctx.fillStyle = '#FAFAFA';
                     ctx.fillRect(0, 0, 300, 400);
                     
@@ -334,42 +340,70 @@
                     instaGrad.addColorStop(0.8, '#FD1D1D');
                     instaGrad.addColorStop(1, '#FCAF45');
                     ctx.fillStyle = instaGrad;
-                    ctx.fillRect(8, 8, 284, 44);
+                    ctx.fillRect(8, 8, 284, 40);
                     
-                    // Profile section background (white)
+                    // Profile section background (white card)
                     ctx.fillStyle = '#FFF';
-                    ctx.fillRect(8, 56, 284, 46);
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
+                    ctx.shadowBlur = 6;
+                    ctx.shadowOffsetY = 2;
+                    ctx.fillRect(8, 52, 284, 50);
+                    ctx.shadowColor = 'transparent';
+                    ctx.shadowBlur = 0;
+                    ctx.shadowOffsetY = 0;
                     
-                    // Profile avatar with gradient ring
-                    const avatarX = 28;
-                    const avatarY = 76;
+                    // Profile avatar with realistic Instagram story ring
+                    ctx.save();
+                    const avatarX = 30;
+                    const avatarY = 74;
                     const avatarRadius = 16;
                     
-                    // Gradient ring
+                    // Outer gradient ring (story ring)
                     ctx.beginPath();
-                    ctx.arc(avatarX, avatarY, avatarRadius + 2, 0, Math.PI * 2);
+                    ctx.arc(avatarX, avatarY, avatarRadius + 3, 0, Math.PI * 2);
                     ctx.fillStyle = instaGrad;
                     ctx.fill();
                     
-                    // Inner circle
+                    // Middle white padding ring
+                    ctx.beginPath();
+                    ctx.arc(avatarX, avatarY, avatarRadius + 1.5, 0, Math.PI * 2);
+                    ctx.fillStyle = '#FFF';
+                    ctx.fill();
+                    
+                    // Inner avatar circle
                     ctx.beginPath();
                     ctx.arc(avatarX, avatarY, avatarRadius, 0, Math.PI * 2);
-                    ctx.fillStyle = '#E1E8ED';
+                    const avatarGrad = ctx.createLinearGradient(avatarX - avatarRadius, avatarY - avatarRadius, avatarX + avatarRadius, avatarY + avatarRadius);
+                    avatarGrad.addColorStop(0, '#667eea');
+                    avatarGrad.addColorStop(1, '#764ba2');
+                    ctx.fillStyle = avatarGrad;
                     ctx.fill();
                     
                     // Avatar icon
-                    ctx.fillStyle = '#AAB8C2';
-                    ctx.font = '20px Arial';
+                    ctx.fillStyle = '#FFF';
+                    ctx.font = `bold ${Math.round(avatarRadius * 1.1)}px Arial`;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    ctx.fillText('👤', avatarX, avatarY);
+                    ctx.fillText('�', avatarX, avatarY);
+                    ctx.restore();
                     
                     // Username text
                     ctx.fillStyle = '#262626';
                     ctx.font = `bold ${Math.round(14 * textScale)}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto`;
                     ctx.textAlign = 'left';
                     ctx.textBaseline = 'middle';
-                    ctx.fillText(username, 52, 76);
+                    ctx.fillText(username, 54, 68);
+                    
+                    // Location/timestamp
+                    ctx.fillStyle = '#8E8E8E';
+                    ctx.font = '10px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+                    ctx.fillText('Just now', 54, 82);
+                    
+                    // Three dots menu
+                    ctx.fillStyle = '#262626';
+                    ctx.font = 'bold 18px Arial';
+                    ctx.textAlign = 'right';
+                    ctx.fillText('⋯', 285, 74);
                     
                     // White content area (photo placeholder)
                     ctx.fillStyle = '#FFF';
@@ -378,6 +412,10 @@
                     // Photo placeholder
                     ctx.fillStyle = '#E5E7EB';
                     ctx.fillRect(12, 110, 276, 232);
+                    ctx.strokeStyle = '#EFEFEF';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(12, 110, 276, 232);
+                    
                     ctx.fillStyle = '#9CA3AF';
                     ctx.font = '14px Arial';
                     ctx.textAlign = 'center';
@@ -388,15 +426,35 @@
                     ctx.fillStyle = '#FFF';
                     ctx.fillRect(8, 350, 284, 42);
                     
-                    // Action icons
-                    ctx.font = '20px Arial';
-                    ctx.textAlign = 'left';
-                    ctx.fillText('❤️', 16, 375);
-                    ctx.fillText('💬', 48, 375);
-                    ctx.fillText('📤', 80, 375);
+                    // Top border line
+                    ctx.strokeStyle = '#EFEFEF';
+                    ctx.lineWidth = 0.5;
+                    ctx.beginPath();
+                    ctx.moveTo(8, 350);
+                    ctx.lineTo(292, 350);
+                    ctx.stroke();
                     
-                    // Bookmark icon
-                    ctx.fillText('🔖', 268, 375);
+                    // Action icons
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'middle';
+                    
+                    ctx.font = '22px Arial';
+                    ctx.fillText('❤️', 16, 368);
+                    ctx.font = '21px Arial';
+                    ctx.fillText('💬', 50, 368);
+                    ctx.font = '21px Arial';
+                    ctx.fillText('📤', 84, 368);
+                    
+                    ctx.font = '20px Arial';
+                    ctx.textAlign = 'right';
+                    ctx.fillText('🔖', 276, 368);
+                    
+                    // Like count
+                    ctx.fillStyle = '#262626';
+                    ctx.font = 'bold 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+                    ctx.textAlign = 'left';
+                    ctx.fillText('0 likes', 16, 386);
+                    
                     break;
                     
                 case 'newspaper':
@@ -998,6 +1056,9 @@
             window.location.href = `camera.html?layout=${layout}&poses=${poses}&template=${template}`;
         });
     </script>
+    
+    <!-- i18n Script -->
+    <script src="i18n.js"></script>
     
 </body>
 </html>

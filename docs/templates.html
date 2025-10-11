@@ -72,7 +72,7 @@
         }
     </style>
 </head>
-<body class="font-sans">
+<body class="font-sans" data-page-title="templates.title">
     
     <!-- Navigation -->
     <nav class="bg-white shadow-lg sticky top-0 z-50">
@@ -105,22 +105,56 @@
                     </a>
                 </div>
                 
-                <div class="hidden md:flex space-x-8">
-                    <a href="index.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition">Home</a>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="nav.home">Home</a>
                     <a href="faq.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition">FAQ</a>
-                    <a href="privacy-policy.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition">Privacy Policy</a>
-                    <a href="contact.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition">Contact</a>
+                    <a href="privacy-policy.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="privacy.title">Privacy Policy</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="contact.title">Contact</a>
+                    
+                    <!-- Language Selector -->
+                    <select id="language-selector" class="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-600 transition">
+                        <option value="en">🇬🇧 English</option>
+                        <option value="vi">🇻🇳 Tiếng Việt</option>
+                    </select>
                 </div>
                 
                 <!-- Star on GitHub Button -->
-                <div class="flex-shrink-0">
+                <div class="hidden md:flex flex-shrink-0">
                     <a href="https://github.com/ThanhNguyxn/Photo-Booth" target="_blank" rel="noopener noreferrer" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg transition shadow-md flex items-center gap-2">
                         ⭐ Star on GitHub
                     </a>
                 </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center gap-2">
+                    <!-- Mobile Language Selector -->
+                    <select id="language-selector-mobile-inline" class="bg-white border border-gray-300 rounded-lg px-2 py-1 text-xs font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600">
+                        <option value="en">🇬🇧</option>
+                        <option value="vi">🇻🇳</option>
+                    </select>
+                    
+                    <button type="button" id="mobile-menu-button" class="text-gray-700 hover:text-purple-600 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
-        </div>
-    </nav>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <a href="index.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition" data-i18n="nav.home">Home</a>
+                <a href="faq.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition">FAQ</a>
+                <a href="privacy-policy.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition" data-i18n="privacy.title">Privacy Policy</a>
+                <a href="contact.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition" data-i18n="contact.title">Contact</a>
+                
+                <!-- GitHub Button Mobile -->
+                <div class="px-3 py-2">
+                    <a href="https://github.com/ThanhNguyxn/Photo-Booth" target="_blank" rel="noopener noreferrer" class="block bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg transition shadow-md text-center">
+                        ⭐ Star on GitHub
+                    </a>
+                </div>
+            </div>
     
     <!-- Main Content -->
     <main class="py-1 sm:py-2 md:py-4 px-2 sm:px-4 lg:px-8">
@@ -133,13 +167,13 @@
                         <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                         </svg>
-                        Back to Layout
+                        <span data-i18n="common.back">Back</span>
                     </button>
                 </div>
                 
-                <h1 class="text-xl sm:text-2xl md:text-4xl font-bold text-gray-800 mb-1 sm:mb-2 text-center">Choose Template</h1>
-                <p class="text-sm sm:text-base md:text-xl text-gray-600 mb-3 sm:mb-4 md:mb-6 text-center">
-                    Tap to preview, select to continue
+                <h1 class="text-xl sm:text-2xl md:text-4xl font-bold text-gray-800 mb-1 sm:mb-2 text-center" data-i18n="templates.title">Choose Your Template</h1>
+                <p class="text-sm sm:text-base md:text-xl text-gray-600 mb-3 sm:mb-4 md:mb-6 text-center" data-i18n="templates.subtitle">
+                    Select a template style for your photo booth strip
                 </p>
                 
                 <!-- Compact Template List -->
@@ -151,8 +185,8 @@
                             <div class="flex items-center gap-2 sm:gap-3">
                                 <span class="text-2xl sm:text-3xl">📸</span>
                                 <div>
-                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Classic</h3>
-                                    <p class="text-xs text-gray-500 hidden sm:block">Traditional photo booth</p>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800" data-i18n="templates.classic">Classic</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block" data-i18n="templates.classic.desc">Traditional photo booth</p>
                                 </div>
                             </div>
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -172,8 +206,8 @@
                             <div class="flex items-center gap-2 sm:gap-3">
                                 <span class="text-2xl sm:text-3xl">📱</span>
                                 <div>
-                                    <h3 class="font-bold text-sm sm:text-base bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Instagram</h3>
-                                    <p class="text-xs text-gray-500 hidden sm:block">Social media style</p>
+                                    <h3 class="font-bold text-sm sm:text-base bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent" data-i18n="templates.instagram">Instagram</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block" data-i18n="templates.instagram.desc">Social media style</p>
                                 </div>
                             </div>
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -200,8 +234,8 @@
                             <div class="flex items-center gap-2 sm:gap-3">
                                 <span class="text-2xl sm:text-3xl">💻</span>
                                 <div>
-                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">MacBook Selfie <span class="text-xs text-pink-500">✨ Trending</span></h3>
-                                    <p class="text-xs text-gray-500 hidden sm:block">Apple aesthetic</p>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800"><span data-i18n="templates.macbook">MacBook Selfie</span> <span class="text-xs text-pink-500">✨ Trending</span></h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block" data-i18n="templates.macbook.desc">Apple aesthetic</p>
                                 </div>
                             </div>
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -227,8 +261,8 @@
                             <div class="flex items-center gap-2 sm:gap-3">
                                 <span class="text-2xl sm:text-3xl">📰</span>
                                 <div>
-                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Newspaper</h3>
-                                    <p class="text-xs text-gray-500 hidden sm:block">Breaking news style</p>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800" data-i18n="templates.newspaper">Newspaper</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block" data-i18n="templates.newspaper.desc">Breaking news style</p>
                                 </div>
                             </div>
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -253,8 +287,8 @@
                             <div class="flex items-center gap-2 sm:gap-3">
                                 <span class="text-2xl sm:text-3xl">📸</span>
                                 <div>
-                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Magazine</h3>
-                                    <p class="text-xs text-gray-500 hidden sm:block">Fashion cover style</p>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800" data-i18n="templates.magazine">Magazine</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block" data-i18n="templates.magazine.desc">Fashion cover style</p>
                                 </div>
                             </div>
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -276,8 +310,8 @@
                             <div class="flex items-center gap-2 sm:gap-3">
                                 <span class="text-2xl sm:text-3xl">🎬</span>
                                 <div>
-                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Movie Poster</h3>
-                                    <p class="text-xs text-gray-500 hidden sm:block">Hollywood blockbuster</p>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800" data-i18n="templates.movie">Movie Poster</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block" data-i18n="templates.movie.desc">Hollywood blockbuster</p>
                                 </div>
                             </div>
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -299,8 +333,8 @@
                             <div class="flex items-center gap-2 sm:gap-3">
                                 <span class="text-2xl sm:text-3xl">🛂</span>
                                 <div>
-                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Passport</h3>
-                                    <p class="text-xs text-gray-500 hidden sm:block">Official ID style</p>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800" data-i18n="templates.passport">Passport</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block" data-i18n="templates.passport.desc">Official ID style</p>
                                 </div>
                             </div>
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -328,8 +362,8 @@
                             <div class="flex items-center gap-2 sm:gap-3">
                                 <span class="text-2xl sm:text-3xl">✨</span>
                                 <div>
-                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Vintage</h3>
-                                    <p class="text-xs text-gray-500 hidden sm:block">Retro memories</p>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800" data-i18n="templates.vintage">Vintage</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block" data-i18n="templates.vintage.desc">Retro memories</p>
                                 </div>
                             </div>
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -354,8 +388,8 @@
                             <div class="flex items-center gap-2 sm:gap-3">
                                 <span class="text-2xl sm:text-3xl">💥</span>
                                 <div>
-                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Comic Book</h3>
-                                    <p class="text-xs text-gray-500 hidden sm:block">POW! Action style</p>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800" data-i18n="templates.comic">Comic Book</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block" data-i18n="templates.comic.desc">POW! Action style</p>
                                 </div>
                             </div>
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -379,8 +413,8 @@
                             <div class="flex items-center gap-2 sm:gap-3">
                                 <span class="text-2xl sm:text-3xl">📌</span>
                                 <div>
-                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Scrapbook</h3>
-                                    <p class="text-xs text-gray-500 hidden sm:block">Crafty & fun</p>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800" data-i18n="templates.scrapbook">Scrapbook</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block" data-i18n="templates.scrapbook.desc">Crafty & fun</p>
                                 </div>
                             </div>
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -406,8 +440,8 @@
                             <div class="flex items-center gap-2 sm:gap-3">
                                 <span class="text-2xl sm:text-3xl">⚡</span>
                                 <div>
-                                    <h3 class="font-bold text-sm sm:text-base bg-gradient-to-r from-pink-600 to-cyan-600 bg-clip-text text-transparent">Neon</h3>
-                                    <p class="text-xs text-gray-500 hidden sm:block">Electric vibes</p>
+                                    <h3 class="font-bold text-sm sm:text-base bg-gradient-to-r from-pink-600 to-cyan-600 bg-clip-text text-transparent" data-i18n="templates.neon">Neon</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block" data-i18n="templates.neon.desc">Electric vibes</p>
                                 </div>
                             </div>
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -429,8 +463,8 @@
                             <div class="flex items-center gap-2 sm:gap-3">
                                 <span class="text-2xl sm:text-3xl">📷</span>
                                 <div>
-                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Polaroid</h3>
-                                    <p class="text-xs text-gray-500 hidden sm:block">Instant camera style</p>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800" data-i18n="templates.polaroid">Polaroid</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block" data-i18n="templates.polaroid.desc">Instant camera style</p>
                                 </div>
                             </div>
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -451,8 +485,8 @@
                             <div class="flex items-center gap-2 sm:gap-3">
                                 <span class="text-2xl sm:text-3xl">◻️</span>
                                 <div>
-                                    <h3 class="font-bold text-sm sm:text-base text-gray-800">Minimalist</h3>
-                                    <p class="text-xs text-gray-500 hidden sm:block">Less is more</p>
+                                    <h3 class="font-bold text-sm sm:text-base text-gray-800" data-i18n="templates.minimalist">Minimalist</h3>
+                                    <p class="text-xs text-gray-500 hidden sm:block" data-i18n="templates.minimalist.desc">Less is more</p>
                                 </div>
                             </div>
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -583,6 +617,20 @@
                 }
             }
         });
+    </script>
+    
+    <!-- i18n Script -->
+    <script src="i18n.js"></script>
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
     </script>
     
 </body>

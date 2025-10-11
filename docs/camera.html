@@ -87,12 +87,20 @@
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
-                <span>Back</span>
+                <span data-i18n="common.back">Back</span>
             </button>
             
-            <div class="text-white text-right">
-                <p class="font-bold" id="layout-info">Layout A - 4 Poses</p>
-                <p class="text-sm" id="photo-count"><span>Photo</span> 0/4</p>
+            <div class="flex items-center gap-4">
+                <!-- Language Selector -->
+                <select id="language-selector" class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg px-2 py-1 text-xs font-medium text-white focus:outline-none focus:ring-2 focus:ring-white/50 transition">
+                    <option value="en" class="text-gray-800">🇬🇧</option>
+                    <option value="vi" class="text-gray-800">🇻🇳</option>
+                </select>
+                
+                <div class="text-white text-right">
+                    <p class="font-bold" id="layout-info">Layout A - 4 Poses</p>
+                    <p class="text-sm" id="photo-count"><span data-i18n="camera.photo">Photo</span> 0/4</p>
+                </div>
             </div>
         </div>
         
@@ -1706,7 +1714,7 @@
                     break;
                     
                 case 'instagram':
-                    // Instagram-style realistic UI design
+                    // Instagram-style realistic UI design - Enhanced version
                     ctx.fillStyle = '#FAFAFA';
                     ctx.fillRect(x, y, width, height);
                     
@@ -1718,61 +1726,119 @@
                     instaGrad.addColorStop(0.8, '#FD1D1D');
                     instaGrad.addColorStop(1, '#FCAF45');
                     ctx.fillStyle = instaGrad;
-                    ctx.fillRect(x + 8, y + 8, width - 16, 44);
+                    ctx.fillRect(x + 8, y + 8, width - 16, 50);
                     
-                    // Profile section background (white)
+                    // Profile section background (white card)
                     ctx.fillStyle = '#FFF';
-                    ctx.fillRect(x + 8, y + 56, width - 16, 46);
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
+                    ctx.shadowBlur = 8;
+                    ctx.shadowOffsetY = 2;
+                    ctx.fillRect(x + 8, y + 62, width - 16, 54);
+                    ctx.shadowColor = 'transparent';
+                    ctx.shadowBlur = 0;
+                    ctx.shadowOffsetY = 0;
                     
-                    // Profile avatar (gradient ring)
+                    // Profile avatar with realistic Instagram story ring
                     ctx.save();
-                    const avatarX = x + 28;
-                    const avatarY = y + 76;
-                    const avatarRadius = 16;
+                    const avatarX = x + 32;
+                    const avatarY = y + 86;
+                    const avatarRadius = 18;
                     
-                    // Gradient ring (story-like)
+                    // Outer gradient ring (story ring) - thicker and more vibrant
                     ctx.beginPath();
-                    ctx.arc(avatarX, avatarY, avatarRadius + 2, 0, Math.PI * 2);
+                    ctx.arc(avatarX, avatarY, avatarRadius + 3, 0, Math.PI * 2);
                     ctx.fillStyle = instaGrad;
                     ctx.fill();
                     
-                    // Inner white circle
+                    // Middle white padding ring
                     ctx.beginPath();
-                    ctx.arc(avatarX, avatarY, avatarRadius, 0, Math.PI * 2);
-                    ctx.fillStyle = '#E1E8ED';
+                    ctx.arc(avatarX, avatarY, avatarRadius + 1.5, 0, Math.PI * 2);
+                    ctx.fillStyle = '#FFF';
                     ctx.fill();
                     
-                    // Avatar icon
-                    ctx.fillStyle = '#AAB8C2';
-                    ctx.font = `${Math.round(avatarRadius * 1.2)}px Arial`;
+                    // Inner avatar circle with realistic photo placeholder
+                    ctx.beginPath();
+                    ctx.arc(avatarX, avatarY, avatarRadius, 0, Math.PI * 2);
+                    const avatarGrad = ctx.createLinearGradient(avatarX - avatarRadius, avatarY - avatarRadius, avatarX + avatarRadius, avatarY + avatarRadius);
+                    avatarGrad.addColorStop(0, '#667eea');
+                    avatarGrad.addColorStop(1, '#764ba2');
+                    ctx.fillStyle = avatarGrad;
+                    ctx.fill();
+                    
+                    // Avatar icon with better styling
+                    ctx.fillStyle = '#FFF';
+                    ctx.font = `bold ${Math.round(avatarRadius * 1.1)}px Arial`;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    ctx.fillText('👤', avatarX, avatarY);
+                    ctx.fillText('�', avatarX, avatarY);
                     ctx.restore();
                     
-                    // Username text
+                    // Username text with verified badge style
                     ctx.fillStyle = '#262626';
-                    ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+                    ctx.font = 'bold 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue"';
                     ctx.textAlign = 'left';
                     ctx.textBaseline = 'middle';
-                    ctx.fillText(customization.username || '@username', x + 52, y + 76);
+                    ctx.fillText(customization.username || '@username', x + 58, y + 80);
                     
-                    // White content area
+                    // Location/timestamp text (subtle gray)
+                    ctx.fillStyle = '#8E8E8E';
+                    ctx.font = '11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+                    ctx.fillText('Just now', x + 58, y + 96);
+                    
+                    // Three dots menu (top right of profile section)
+                    ctx.fillStyle = '#262626';
+                    ctx.font = 'bold 20px Arial';
+                    ctx.textAlign = 'right';
+                    ctx.fillText('⋯', x + width - 20, y + 88);
+                    
+                    // White content area (photo area)
                     ctx.fillStyle = '#FFF';
-                    ctx.fillRect(x + 8, y + 106, width - 16, height - 164);
+                    ctx.fillRect(x + 8, y + 120, width - 16, height - 196);
                     
-                    // Bottom interaction bar (white)
+                    // Photo placeholder with subtle border
+                    ctx.strokeStyle = '#EFEFEF';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(x + 8, y + 120, width - 16, height - 196);
+                    
+                    // Bottom interaction bar (white) with shadow
                     ctx.fillStyle = '#FFF';
-                    ctx.fillRect(x + 8, y + height - 54, width - 16, 46);
+                    ctx.fillRect(x + 8, y + height - 72, width - 16, 64);
                     
-                    // Action icons (heart, comment, share)
-                    ctx.font = '20px Arial';
-                    ctx.fillText('❤️', x + 16, y + height - 26);
-                    ctx.fillText('💬', x + 48, y + height - 26);
-                    ctx.fillText('📤', x + 80, y + height - 26);
+                    // Top border line for interaction bar
+                    ctx.strokeStyle = '#EFEFEF';
+                    ctx.lineWidth = 0.5;
+                    ctx.beginPath();
+                    ctx.moveTo(x + 8, y + height - 72);
+                    ctx.lineTo(x + width - 8, y + height - 72);
+                    ctx.stroke();
+                    
+                    // Action icons row (heart, comment, share, bookmark)
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'middle';
+                    
+                    // Heart icon (like)
+                    ctx.font = '24px Arial';
+                    ctx.fillText('❤️', x + 16, y + height - 48);
+                    
+                    // Comment icon
+                    ctx.font = '23px Arial';
+                    ctx.fillText('💬', x + 54, y + height - 48);
+                    
+                    // Share icon
+                    ctx.font = '23px Arial';
+                    ctx.fillText('📤', x + 92, y + height - 48);
                     
                     // Bookmark icon (right side)
-                    ctx.fillText('🔖', x + width - 32, y + height - 26);
+                    ctx.font = '22px Arial';
+                    ctx.textAlign = 'right';
+                    ctx.fillText('🔖', x + width - 16, y + height - 48);
+                    
+                    // Like count text
+                    ctx.fillStyle = '#262626';
+                    ctx.font = 'bold 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+                    ctx.textAlign = 'left';
+                    ctx.fillText('0 likes', x + 16, y + height - 22);
+                    
                     break;
                     
                 case 'macbook':
@@ -2373,6 +2439,9 @@
             }
         });
     </script>
+    
+    <!-- i18n Script -->
+    <script src="i18n.js"></script>
     
 </body>
 </html>

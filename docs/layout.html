@@ -81,7 +81,7 @@
         }
     </style>
 </head>
-<body class="font-sans">
+<body class="font-sans" data-page-title="layout.title">
     
     <!-- Navigation -->
     <nav class="bg-white shadow-lg sticky top-0 z-50">
@@ -114,17 +114,23 @@
                     </a>
                 </div>
                 
-                <div class="hidden md:flex space-x-8">
-                    <a href="index.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition">Home</a>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="nav.home">Home</a>
                     <a href="faq.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition">FAQ</a>
-                    <a href="privacy-policy.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition">Privacy Policy</a>
-                    <a href="contact.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition">Contact</a>
+                    <a href="privacy-policy.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="privacy.title">Privacy Policy</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="contact.title">Contact</a>
+                    
+                    <!-- Language Selector -->
+                    <select id="language-selector" class="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-600 transition">
+                        <option value="en">🇬🇧 English</option>
+                        <option value="vi">🇻🇳 Tiếng Việt</option>
+                    </select>
                 </div>
                 
                 <!-- Star on GitHub Button -->
-                <div class="flex-shrink-0">
+                <div class="hidden md:flex flex-shrink-0">
                     <a href="https://github.com/ThanhNguyxn/Photo-Booth" target="_blank" rel="noopener noreferrer" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg transition shadow-md flex items-center gap-2">
-                        ⭐ <span></span>Star on GitHub</span>
+                        ⭐ <span>Star on GitHub</span>
                     </a>
                 </div>
                 
@@ -138,10 +144,18 @@
             </div>
             
             <div id="mobile-menu" class="hidden md:hidden pb-4">
-                <a href="index.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition">Home</a>
+                <a href="index.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition" data-i18n="nav.home">Home</a>
                 <a href="faq.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition">FAQ</a>
-                <a href="privacy-policy.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition">Privacy Policy</a>
-                <a href="contact.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition">Contact</a>
+                <a href="privacy-policy.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition" data-i18n="privacy.title">Privacy Policy</a>
+                <a href="contact.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition" data-i18n="contact.title">Contact</a>
+                
+                <!-- Language Selector Mobile -->
+                <div class="px-3 py-2">
+                    <select id="language-selector-mobile" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600">
+                        <option value="en">🇬🇧 English</option>
+                        <option value="vi">🇻🇳 Tiếng Việt</option>
+                    </select>
+                </div>
             </div>
         </div>
     </nav>
@@ -151,9 +165,9 @@
         <div class="max-w-6xl mx-auto">
             
             <div class="glass-effect rounded-2xl sm:rounded-3xl shadow-2xl p-2 sm:p-3 md:p-8">
-                <h1 class="text-xl sm:text-2xl md:text-4xl font-bold text-gray-800 mb-1 text-center">Choose Layout</h1>
-                <p class="text-sm sm:text-base md:text-xl text-gray-600 mb-2 sm:mb-3 md:mb-6 text-center hidden sm:block">
-                    Select a layout for your photo session
+                <h1 class="text-xl sm:text-2xl md:text-4xl font-bold text-gray-800 mb-1 text-center" data-i18n="layout.title">Choose Layout</h1>
+                <p class="text-sm sm:text-base md:text-xl text-gray-600 mb-2 sm:mb-3 md:mb-6 text-center hidden sm:block" data-i18n="layout.subtitle">
+                    Select how many photos you want in your strip
                 </p>
                 
                 <!-- Layout Options Grid -->
@@ -163,8 +177,8 @@
                     <div class="layout-card bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden border-2 border-transparent" data-layout="S" data-poses="1">
                         <div class="p-3 sm:p-4 md:p-6 text-center">
                             <div class="text-3xl sm:text-4xl md:text-5xl mb-2">🖼️</div>
-                            <h3 class="font-bold text-sm sm:text-base md:text-lg text-gray-800">Single</h3>
-                            <p class="text-xs sm:text-sm text-gray-500 mt-1">1 Pose</p>
+                            <h3 class="font-bold text-sm sm:text-base md:text-lg text-gray-800" data-i18n="layout.single">Single</h3>
+                            <p class="text-xs sm:text-sm text-gray-500 mt-1" data-i18n="layout.single.desc">1 photo</p>
                         </div>
                     </div>
                     
@@ -172,8 +186,8 @@
                     <div class="layout-card bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden border-2 border-transparent" data-layout="A" data-poses="4">
                         <div class="p-3 sm:p-4 md:p-6 text-center">
                             <div class="text-3xl sm:text-4xl md:text-5xl mb-2">🎞️</div>
-                            <h3 class="font-bold text-sm sm:text-base md:text-lg text-gray-800">Layout A</h3>
-                            <p class="text-xs sm:text-sm text-gray-500 mt-1">4 Pose</p>
+                            <h3 class="font-bold text-sm sm:text-base md:text-lg text-gray-800" data-i18n="layout.layoutC">Layout A</h3>
+                            <p class="text-xs sm:text-sm text-gray-500 mt-1" data-i18n="layout.layoutC.desc">4 photos</p>
                         </div>
                     </div>
                     
@@ -181,8 +195,8 @@
                     <div class="layout-card bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden border-2 border-transparent" data-layout="B" data-poses="3">
                         <div class="p-3 sm:p-4 md:p-6 text-center">
                             <div class="text-3xl sm:text-4xl md:text-5xl mb-2">📷</div>
-                            <h3 class="font-bold text-sm sm:text-base md:text-lg text-gray-800">Layout B</h3>
-                            <p class="text-xs sm:text-sm text-gray-500 mt-1">3 Pose</p>
+                            <h3 class="font-bold text-sm sm:text-base md:text-lg text-gray-800" data-i18n="layout.layoutB">Layout B</h3>
+                            <p class="text-xs sm:text-sm text-gray-500 mt-1" data-i18n="layout.layoutB.desc">3 photos</p>
                         </div>
                     </div>
                     
@@ -190,8 +204,8 @@
                     <div class="layout-card bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden border-2 border-transparent" data-layout="C" data-poses="2">
                         <div class="p-3 sm:p-4 md:p-6 text-center">
                             <div class="text-3xl sm:text-4xl md:text-5xl mb-2">📸</div>
-                            <h3 class="font-bold text-sm sm:text-base md:text-lg text-gray-800">Layout C</h3>
-                            <p class="text-xs sm:text-sm text-gray-500 mt-1">2 Pose</p>
+                            <h3 class="font-bold text-sm sm:text-base md:text-lg text-gray-800" data-i18n="layout.layoutA">Layout C</h3>
+                            <p class="text-xs sm:text-sm text-gray-500 mt-1" data-i18n="layout.layoutA.desc">2 photos</p>
                         </div>
                     </div>
                     
@@ -199,8 +213,8 @@
                     <div class="layout-card bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden border-2 border-transparent" data-layout="D" data-poses="6">
                         <div class="p-3 sm:p-4 md:p-6 text-center">
                             <div class="text-3xl sm:text-4xl md:text-5xl mb-2">🎬</div>
-                            <h3 class="font-bold text-sm sm:text-base md:text-lg text-gray-800">Layout D</h3>
-                            <p class="text-xs sm:text-sm text-gray-500 mt-1">6 Pose</p>
+                            <h3 class="font-bold text-sm sm:text-base md:text-lg text-gray-800" data-i18n="layout.layoutD">Layout D</h3>
+                            <p class="text-xs sm:text-sm text-gray-500 mt-1" data-i18n="layout.layoutD.desc">6 photos</p>
                         </div>
                     </div>
                     
@@ -209,10 +223,10 @@
                 <!-- Continue Button -->
                 <div class="text-center">
                     <button id="continue-btn" class="btn-continue text-white font-bold py-2.5 sm:py-3 md:py-4 px-8 sm:px-10 md:px-16 rounded-full text-base sm:text-lg md:text-xl shadow-2xl" disabled>
-                        <span>Continue</span>
+                        <span data-i18n="common.continue">Continue</span>
                     </button>
                     <p id="selection-message" class="text-gray-500 mt-1.5 sm:mt-2 md:mt-4 text-xs sm:text-sm">
-                        Please select a layout to continue
+                        <span data-i18n="layout.selectMessage">Please select a layout to continue</span>
                     </p>
                 </div>
             </div>
@@ -283,6 +297,9 @@
             }
         });
     </script>
+    
+    <!-- i18n Script -->
+    <script src="i18n.js"></script>
     
 </body>
 </html>

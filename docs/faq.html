@@ -99,21 +99,34 @@
                     </a>
                 </div>
                 
-                <div class="hidden md:flex space-x-8">
-                    <a href="index.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition">Home</a>
-                    <a href="faq.html" class="text-purple-600 border-b-2 border-purple-600 px-3 py-2 rounded-md text-sm font-medium">FAQ</a>
-                    <a href="privacy-policy.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition">Privacy Policy</a>
-                    <a href="contact.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition">Contact</a>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="nav.home">Home</a>
+                    <a href="faq.html" class="text-purple-600 border-b-2 border-purple-600 px-3 py-2 rounded-md text-sm font-medium" data-i18n="faq.title">FAQ</a>
+                    <a href="privacy-policy.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="privacy.title">Privacy Policy</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="contact.title">Contact</a>
+                    
+                    <!-- Language Selector -->
+                    <select id="language-selector" class="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-600 transition">
+                        <option value="en">🇬🇧 English</option>
+                        <option value="vi">🇻🇳 Tiếng Việt</option>
+                    </select>
                 </div>
                 
                 <!-- Star on GitHub Button -->
-                <div class="flex-shrink-0">
+                <div class="hidden md:flex flex-shrink-0">
                     <a href="https://github.com/ThanhNguyxn/Photo-Booth" target="_blank" rel="noopener noreferrer" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg transition shadow-md flex items-center gap-2">
                         ⭐ Star on GitHub
                     </a>
                 </div>
                 
-                <div class="md:hidden">
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center gap-2">
+                    <!-- Mobile Language Selector -->
+                    <select id="language-selector-mobile-inline" class="bg-white border border-gray-300 rounded-lg px-2 py-1 text-xs font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600">
+                        <option value="en">🇬🇧</option>
+                        <option value="vi">🇻🇳</option>
+                    </select>
+                    
                     <button type="button" id="mobile-menu-button" class="text-gray-700 hover:text-purple-600 focus:outline-none">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -123,10 +136,17 @@
             </div>
             
             <div id="mobile-menu" class="hidden md:hidden pb-4">
-                <a href="index.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition">Home</a>
-                <a href="faq.html" class="block text-purple-600 font-medium px-3 py-2">FAQ</a>
-                <a href="privacy-policy.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition">Privacy Policy</a>
-                <a href="contact.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition">Contact</a>
+                <a href="index.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition" data-i18n="nav.home">Home</a>
+                <a href="faq.html" class="block text-purple-600 font-medium px-3 py-2" data-i18n="faq.title">FAQ</a>
+                <a href="privacy-policy.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition" data-i18n="privacy.title">Privacy Policy</a>
+                <a href="contact.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition" data-i18n="contact.title">Contact</a>
+                
+                <!-- GitHub Button Mobile -->
+                <div class="px-3 py-2">
+                    <a href="https://github.com/ThanhNguyxn/Photo-Booth" target="_blank" rel="noopener noreferrer" class="block bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg transition shadow-md text-center">
+                        ⭐ Star on GitHub
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
@@ -136,21 +156,21 @@
         <div class="max-w-4xl mx-auto">
             
             <div class="glass-effect rounded-3xl shadow-2xl p-8 md:p-12">
-                <h1 class="text-4xl font-bold text-gray-800 mb-8 text-center">Frequently Asked Questions</h1>
+                <h1 class="text-4xl font-bold text-gray-800 mb-8 text-center" data-i18n="faq.heading">Frequently Asked Questions</h1>
                 
                 <div class="space-y-4">
                     
                     <!-- FAQ Item 1 -->
                     <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
                         <button class="accordion-button w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition">
-                            <h3 class="text-lg font-semibold text-gray-800">What is SnapStrip Studio?</h3>
+                            <h3 class="text-lg font-semibold text-gray-800" data-i18n="faq.q1">What is SnapStrip Studio?</h3>
                             <svg class="accordion-icon w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
                         <div class="accordion-content">
                             <div class="p-6 pt-0 text-gray-600">
-                                <p>SnapStrip Studio is a free online photo booth application that allows you to create fun photo strips from the comfort of your home. Simply use your webcam to take pictures with various filters and frames, then download or share your photo strips.</p>
+                                <p data-i18n="faq.a1">SnapStrip Studio is a free online photo booth application that allows you to create fun photo strips from the comfort of your home. Simply use your webcam to take pictures with various filters and frames, then download or share your photo strips.</p>
                             </div>
                         </div>
                     </div>
@@ -158,14 +178,14 @@
                     <!-- FAQ Item 2 -->
                     <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
                         <button class="accordion-button w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition">
-                            <h3 class="text-lg font-semibold text-gray-800">Is it really free to use?</h3>
+                            <h3 class="text-lg font-semibold text-gray-800" data-i18n="faq.q2">Is it really free to use?</h3>
                             <svg class="accordion-icon w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
                         <div class="accordion-content">
                             <div class="p-6 pt-0 text-gray-600">
-                                <p>Yes! SnapStrip Studio is completely free to use. There are no hidden fees or subscription costs. You can take as many photos as you like and download them without any limitations. If you enjoy the service, we appreciate donations to help keep the service running.</p>
+                                <p data-i18n="faq.a2">Yes! SnapStrip Studio is completely free to use. There are no hidden fees or subscription costs. You can take as many photos as you like and download them without any limitations. If you enjoy the service, we appreciate donations to help keep the service running.</p>
                             </div>
                         </div>
                     </div>
@@ -173,14 +193,14 @@
                     <!-- FAQ Item 3 -->
                     <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
                         <button class="accordion-button w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition">
-                            <h3 class="text-lg font-semibold text-gray-800">What equipment do I need?</h3>
+                            <h3 class="text-lg font-semibold text-gray-800" data-i18n="faq.q3">What equipment do I need?</h3>
                             <svg class="accordion-icon w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
                         <div class="accordion-content">
                             <div class="p-6 pt-0 text-gray-600">
-                                <p>All you need is a device with a webcam (computer, laptop, or tablet) and an internet connection. Make sure to grant camera permissions when prompted by your browser.</p>
+                                <p data-i18n="faq.a3">All you need is a device with a webcam (computer, laptop, or tablet) and an internet connection. Make sure to grant camera permissions when prompted by your browser.</p>
                             </div>
                         </div>
                     </div>
@@ -188,14 +208,14 @@
                     <!-- FAQ Item 4 -->
                     <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
                         <button class="accordion-button w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition">
-                            <h3 class="text-lg font-semibold text-gray-800">How do I take photos?</h3>
+                            <h3 class="text-lg font-semibold text-gray-800" data-i18n="faq.q4">How do I take photos?</h3>
                             <svg class="accordion-icon w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
                         <div class="accordion-content">
                             <div class="p-6 pt-0 text-gray-600">
-                                <p>Click the START button on the homepage, select your preferred layout (2, 3, 4, or 6 poses), allow camera access when prompted, and then follow the on-screen countdown to take your photos. The camera will automatically capture images at timed intervals.</p>
+                                <p data-i18n="faq.a4">Click the START button on the homepage, select your preferred layout (2, 3, 4, or 6 poses), allow camera access when prompted, and then follow the on-screen countdown to take your photos. The camera will automatically capture images at timed intervals.</p>
                             </div>
                         </div>
                     </div>
@@ -203,14 +223,14 @@
                     <!-- FAQ Item 5 -->
                     <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
                         <button class="accordion-button w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition">
-                            <h3 class="text-lg font-semibold text-gray-800">Can I add filters or frames to my photos?</h3>
+                            <h3 class="text-lg font-semibold text-gray-800" data-i18n="faq.q5">Can I add filters or frames to my photos?</h3>
                             <svg class="accordion-icon w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
                         <div class="accordion-content">
                             <div class="p-6 pt-0 text-gray-600">
-                                <p>Yes! SnapStrip Studio offers various filters and frames that you can apply to your photos. Choose from different styles before or after taking your pictures to create unique photo strips.</p>
+                                <p data-i18n="faq.a5">Yes! SnapStrip Studio offers various filters and frames that you can apply to your photos. Choose from different styles before or after taking your pictures to create unique photo strips.</p>
                             </div>
                         </div>
                     </div>
@@ -218,14 +238,14 @@
                     <!-- FAQ Item 6 -->
                     <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
                         <button class="accordion-button w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition">
-                            <h3 class="text-lg font-semibold text-gray-800">How do I download my photo strips?</h3>
+                            <h3 class="text-lg font-semibold text-gray-800" data-i18n="faq.q6">How do I download my photo strips?</h3>
                             <svg class="accordion-icon w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
                         <div class="accordion-content">
                             <div class="p-6 pt-0 text-gray-600">
-                                <p>After taking your photos, you'll see a preview of your photo strip. Simply click the download button to save the image to your device. The photo strip will be downloaded as a high-quality image file.</p>
+                                <p data-i18n="faq.a6">After taking your photos, you'll see a preview of your photo strip. Simply click the download button to save the image to your device. The photo strip will be downloaded as a high-quality image file.</p>
                             </div>
                         </div>
                     </div>
@@ -233,14 +253,14 @@
                     <!-- FAQ Item 7 -->
                     <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
                         <button class="accordion-button w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition">
-                            <h3 class="text-lg font-semibold text-gray-800">Are my photos stored on your servers?</h3>
+                            <h3 class="text-lg font-semibold text-gray-800" data-i18n="faq.q7">Are my photos stored on your servers?</h3>
                             <svg class="accordion-icon w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
                         <div class="accordion-content">
                             <div class="p-6 pt-0 text-gray-600">
-                                <p>No! Your privacy is important to us. All photos are processed locally in your browser and are never uploaded to our servers. Your photos remain completely private and are only saved if you choose to download them.</p>
+                                <p data-i18n="faq.a7">No! Your privacy is important to us. All photos are processed locally in your browser and are never uploaded to our servers. Your photos remain completely private and are only saved if you choose to download them.</p>
                             </div>
                         </div>
                     </div>
@@ -248,14 +268,14 @@
                     <!-- FAQ Item 8 -->
                     <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
                         <button class="accordion-button w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition">
-                            <h3 class="text-lg font-semibold text-gray-800">Can I use this on mobile devices?</h3>
+                            <h3 class="text-lg font-semibold text-gray-800" data-i18n="faq.q8">Can I use this on mobile devices?</h3>
                             <svg class="accordion-icon w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
                         <div class="accordion-content">
                             <div class="p-6 pt-0 text-gray-600">
-                                <p>Yes, SnapStrip Studio works on mobile devices with cameras. For the best experience, we recommend using it on a tablet or computer with a webcam, but smartphones work great too!</p>
+                                <p data-i18n="faq.a8">Yes, SnapStrip Studio works on mobile devices with cameras. For the best experience, we recommend using it on a tablet or computer with a webcam, but smartphones work great too!</p>
                             </div>
                         </div>
                     </div>
@@ -263,14 +283,14 @@
                     <!-- FAQ Item 9 -->
                     <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
                         <button class="accordion-button w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition">
-                            <h3 class="text-lg font-semibold text-gray-800">What browsers are supported?</h3>
+                            <h3 class="text-lg font-semibold text-gray-800" data-i18n="faq.q9">What browsers are supported?</h3>
                             <svg class="accordion-icon w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
                         <div class="accordion-content">
                             <div class="p-6 pt-0 text-gray-600">
-                                <p>SnapStrip Studio works best on modern browsers including Google Chrome, Firefox, Safari, and Microsoft Edge. Make sure your browser is up to date for the best experience.</p>
+                                <p data-i18n="faq.a9">SnapStrip Studio works best on modern browsers including Google Chrome, Firefox, Safari, and Microsoft Edge. Make sure your browser is up to date for the best experience.</p>
                             </div>
                         </div>
                     </div>
@@ -278,14 +298,14 @@
                     <!-- FAQ Item 10 -->
                     <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
                         <button class="accordion-button w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition">
-                            <h3 class="text-lg font-semibold text-gray-800">I'm having issues with camera access. What should I do?</h3>
+                            <h3 class="text-lg font-semibold text-gray-800" data-i18n="faq.q10">I'm having issues with camera access. What should I do?</h3>
                             <svg class="accordion-icon w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
                         <div class="accordion-content">
                             <div class="p-6 pt-0 text-gray-600">
-                                <p>Make sure you've granted camera permissions in your browser settings. Check that no other application is using your camera. If the problem persists, try refreshing the page or using a different browser. You can also contact us for further assistance.</p>
+                                <p data-i18n="faq.a10">Make sure you've granted camera permissions in your browser settings. Check that no other application is using your camera. If the problem persists, try refreshing the page or using a different browser. You can also contact us for further assistance.</p>
                             </div>
                         </div>
                     </div>
@@ -294,11 +314,11 @@
                 
                 <!-- Still Have Questions -->
                 <div class="mt-12 pt-8 border-t border-gray-200 text-center">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Still have questions?</h3>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4" data-i18n="faq.stillQuestions">Still have questions?</h3>
                     <p class="text-gray-600 mb-6">
-                        Can't find the answer you're looking for? Feel free to reach out to us.
+                        <span data-i18n="faq.contactUs">Feel free to</span> <a href="contact.html" class="text-purple-600 hover:underline" data-i18n="faq.contactLink">contact us</a> <span data-i18n="faq.contactEnd">and we'll be happy to help!</span>
                     </p>
-                    <a href="contact.html" class="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition">
+                    <a href="contact.html" class="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition" data-i18n="contact.title">
                         Contact Us
                     </a>
                 </div>
@@ -311,13 +331,13 @@
     <footer class="mt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="glass-effect rounded-2xl p-8 text-center">
-                <p class="text-gray-700 font-semibold mb-2">
+                <p class="text-gray-700 font-semibold mb-2" data-i18n="footer.tagline">
                     SnapStrip Studio - Create Amazing Photo Strips
                 </p>
-                <p class="text-gray-600 mb-2">
+                <p class="text-gray-600 mb-2" data-i18n="footer.made">
                     Made with ❤️ by developers who love photography
                 </p>
-                <p class="text-gray-500 text-sm">
+                <p class="text-gray-500 text-sm" data-i18n="footer.copyright">
                     © 2025 SnapStrip Studio. All Rights Reserved.
                 </p>
             </div>
@@ -381,6 +401,9 @@
             });
         });
     </script>
+    
+    <!-- i18n Script -->
+    <script src="i18n.js"></script>
     
 </body>
 </html>

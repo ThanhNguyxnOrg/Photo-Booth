@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - SnapStrip Studio | Free Online Photo Booth</title>
+    <title data-page-title="privacy.title">Privacy Policy - SnapStrip Studio | Free Online Photo Booth</title>
     <meta name="description" content="Privacy Policy for SnapStrip Studio - Learn how we protect your privacy and handle your data.">
     
     <!-- Favicon -->
@@ -77,21 +77,34 @@
                     </a>
                 </div>
                 
-                <div class="hidden md:flex space-x-8">
-                    <a href="index.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition">Home</a>
-                    <a href="faq.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition">FAQ</a>
-                    <a href="privacy-policy.html" class="text-purple-600 border-b-2 border-purple-600 px-3 py-2 rounded-md text-sm font-medium">Privacy Policy</a>
-                    <a href="contact.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition">Contact</a>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="nav.home">Home</a>
+                    <a href="faq.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="faq.title">FAQ</a>
+                    <a href="privacy-policy.html" class="text-purple-600 border-b-2 border-purple-600 px-3 py-2 rounded-md text-sm font-medium" data-i18n="privacy.title">Privacy Policy</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="contact.title">Contact</a>
+                    
+                    <!-- Language Selector -->
+                    <select id="language-selector" class="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-600 transition">
+                        <option value="en">🇬🇧 English</option>
+                        <option value="vi">🇻🇳 Tiếng Việt</option>
+                    </select>
                 </div>
                 
                 <!-- Star on GitHub Button -->
-                <div class="flex-shrink-0">
+                <div class="hidden md:flex flex-shrink-0">
                     <a href="https://github.com/ThanhNguyxn/Photo-Booth" target="_blank" rel="noopener noreferrer" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg transition shadow-md flex items-center gap-2">
                         ⭐ Star on GitHub
                     </a>
                 </div>
                 
-                <div class="md:hidden">
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center gap-2">
+                    <!-- Mobile Language Selector -->
+                    <select id="language-selector-mobile-inline" class="bg-white border border-gray-300 rounded-lg px-2 py-1 text-xs font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600">
+                        <option value="en">🇬🇧</option>
+                        <option value="vi">🇻🇳</option>
+                    </select>
+                    
                     <button type="button" id="mobile-menu-button" class="text-gray-700 hover:text-purple-600 focus:outline-none">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -101,10 +114,17 @@
             </div>
             
             <div id="mobile-menu" class="hidden md:hidden pb-4">
-                <a href="index.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition">Home</a>
-                <a href="faq.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition">FAQ</a>
-                <a href="privacy-policy.html" class="block text-purple-600 font-medium px-3 py-2">Privacy Policy</a>
-                <a href="contact.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition">Contact</a>
+                <a href="index.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition" data-i18n="nav.home">Home</a>
+                <a href="faq.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition" data-i18n="faq.title">FAQ</a>
+                <a href="privacy-policy.html" class="block text-purple-600 font-medium px-3 py-2" data-i18n="privacy.title">Privacy Policy</a>
+                <a href="contact.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition" data-i18n="contact.title">Contact</a>
+                
+                <!-- GitHub Button Mobile -->
+                <div class="px-3 py-2">
+                    <a href="https://github.com/ThanhNguyxn/Photo-Booth" target="_blank" rel="noopener noreferrer" class="block bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg transition shadow-md text-center">
+                        ⭐ Star on GitHub
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
@@ -129,54 +149,54 @@
                     
                     <!-- Information We Collect -->
                     <section class="mb-8">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Information We Collect</h2>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4" data-i18n="privacy.infoCollect">Information We Collect</h2>
                         <p class="text-gray-600 mb-4">
-                            <strong>Photos and Camera Access:</strong> When you use our photo booth service, you grant us temporary access to your device's camera. However, all photos are processed entirely in your browser and are never uploaded to our servers or stored anywhere unless you explicitly choose to download them.
+                            <strong data-i18n="privacy.photoAccess">Photos and Camera Access:</strong> <span data-i18n="privacy.photoAccessDesc">When you use our photo booth service, you grant us temporary access to your device's camera. However, all photos are processed entirely in your browser and are never uploaded to our servers or stored anywhere unless you explicitly choose to download them.</span>
                         </p>
                         <p class="text-gray-600 mb-4">
-                            <strong>Usage Data:</strong> We may collect non-personal information about how you interact with our website, such as pages visited, features used, and general usage statistics through analytics services.
+                            <strong data-i18n="privacy.usageData">Usage Data:</strong> <span data-i18n="privacy.usageDataDesc">We may collect non-personal information about how you interact with our website, such as pages visited, features used, and general usage statistics through analytics services.</span>
                         </p>
                         <p class="text-gray-600 mb-4">
-                            <strong>Cookies:</strong> We use cookies and similar tracking technologies to improve your experience, remember your preferences, and analyze site traffic.
+                            <strong data-i18n="privacy.cookies">Cookies:</strong> <span data-i18n="privacy.cookiesDesc">We use cookies and similar tracking technologies to improve your experience, remember your preferences, and analyze site traffic.</span>
                         </p>
                     </section>
                     
                     <!-- How We Use Your Information -->
                     <section class="mb-8">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4">How We Use Your Information</h2>
-                        <p class="text-gray-600 mb-4">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4" data-i18n="privacy.howWeUse">How We Use Your Information</h2>
+                        <p class="text-gray-600 mb-4" data-i18n="privacy.howWeUseIntro">
                             We use the information we collect to:
                         </p>
                         <ul class="list-disc list-inside text-gray-600 mb-4 space-y-2">
-                            <li>Provide and maintain our photo booth service</li>
-                            <li>Improve and optimize our website functionality</li>
-                            <li>Analyze usage patterns to enhance user experience</li>
-                            <li>Communicate with you about updates, features, or support</li>
-                            <li>Detect and prevent technical issues or security threats</li>
+                            <li data-i18n="privacy.usage1">Provide and maintain our photo booth service</li>
+                            <li data-i18n="privacy.usage2">Improve and optimize our website functionality</li>
+                            <li data-i18n="privacy.usage3">Analyze usage patterns to enhance user experience</li>
+                            <li data-i18n="privacy.usage4">Communicate with you about updates, features, or support</li>
+                            <li data-i18n="privacy.usage5">Detect and prevent technical issues or security threats</li>
                         </ul>
                     </section>
                     
                     <!-- Data Storage and Security -->
                     <section class="mb-8">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Data Storage and Security</h2>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4" data-i18n="privacy.storage">Data Storage and Security</h2>
                         <p class="text-gray-600 mb-4">
-                            <strong>Your Photos Are Private:</strong> We want to emphasize that your photos are never uploaded to our servers. All photo processing happens locally in your browser using JavaScript. Your images remain on your device and are only saved if you choose to download them.
+                            <strong data-i18n="privacy.photosPrivate">Your Photos Are Private:</strong> <span data-i18n="privacy.photosPrivateDesc">We want to emphasize that your photos are never uploaded to our servers. All photo processing happens locally in your browser using JavaScript. Your images remain on your device and are only saved if you choose to download them.</span>
                         </p>
-                        <p class="text-gray-600 mb-4">
+                        <p class="text-gray-600 mb-4" data-i18n="privacy.security">
                             We implement appropriate security measures to protect any data we do collect (such as usage statistics) from unauthorized access, alteration, or destruction.
                         </p>
                     </section>
                     
                     <!-- Third-Party Services -->
                     <section class="mb-8">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Third-Party Services</h2>
-                        <p class="text-gray-600 mb-4">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4" data-i18n="privacy.thirdParty">Third-Party Services</h2>
+                        <p class="text-gray-600 mb-4" data-i18n="privacy.thirdPartyDesc">
                             We may use third-party services for analytics, advertising, or other purposes. These services may collect information about your use of our website. We recommend reviewing the privacy policies of these third-party services:
                         </p>
                         <ul class="list-disc list-inside text-gray-600 mb-4 space-y-2">
-                            <li>Google Analytics - for website traffic analysis</li>
-                            <li>Google AdSense - for displaying advertisements</li>
-                            <li>PayPal - for processing donations</li>
+                            <li data-i18n="privacy.service1">Google Analytics - for website traffic analysis</li>
+                            <li data-i18n="privacy.service2">Google AdSense - for displaying advertisements</li>
+                            <li data-i18n="privacy.service3">PayPal - for processing donations</li>
                         </ul>
                     </section>
                     
@@ -296,7 +316,12 @@
                 }
             });
         }
-        
+    </script>
+    
+    <!-- i18n Script -->
+    <script src="i18n.js"></script>
+    
+    <script>
         // Mobile Menu Toggle
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
