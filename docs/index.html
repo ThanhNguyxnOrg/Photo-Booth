@@ -38,6 +38,9 @@
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="responsive.css">
     
+    <!-- Page Transitions CSS -->
+    <link rel="stylesheet" href="page-transitions.css">
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -223,7 +226,7 @@
                 <!-- Navigation Links -->
                 <div class="hidden md:flex space-x-8 items-center">
                     <a href="/" class="text-purple-600 border-b-2 border-purple-600 px-3 py-2 rounded-md text-sm font-medium" data-i18n="nav.home">Home</a>
-                    <a href="faq.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition">FAQ</a>
+                    <a href="faq.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="nav.faq">FAQ</a>
                     <a href="privacy-policy.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="privacy.title">Privacy Policy</a>
                     <a href="contact.html" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium transition" data-i18n="contact.title">Contact</a>
                     
@@ -254,7 +257,7 @@
             <!-- Mobile Menu -->
             <div id="mobile-menu" class="hidden md:hidden pb-4">
                 <a href="/" class="block text-purple-600 font-medium px-3 py-2" data-i18n="nav.home">Home</a>
-                <a href="faq.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition">FAQ</a>
+                <a href="faq.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition" data-i18n="nav.faq">FAQ</a>
                 <a href="privacy-policy.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition" data-i18n="privacy.title">Privacy Policy</a>
                 <a href="contact.html" class="block text-gray-700 hover:text-purple-600 px-3 py-2 transition" data-i18n="contact.title">Contact</a>
                 
@@ -468,6 +471,9 @@
     
     <!-- i18n Script -->
     <script src="i18n.js"></script>
+    
+    <!-- Page Transitions Script -->
+    <script src="page-transitions.js"></script>
     
 </body>
 </html>
