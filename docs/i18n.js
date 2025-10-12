@@ -182,8 +182,6 @@ const translations = {
         // Contact Page
         'contact.title': 'Contact Us',
         'contact.subtitle': 'Get in touch',
-        'contact.heading': 'Get In Touch',
-        'contact.description': 'Choose how you\'d like to contact me:',
         'contact.emailTitle': 'Email Me',
         'contact.emailDesc': 'Send me a direct email for general inquiries',
         'contact.openEmail': '📧 Open Email',
@@ -444,8 +442,6 @@ const translations = {
         // Contact Page
         'contact.title': 'Liên Hệ',
         'contact.subtitle': 'Liên lạc với chúng tôi',
-        'contact.heading': 'Liên Hệ Với Chúng Tôi',
-        'contact.description': 'Chọn cách liên hệ với tôi:',
         'contact.emailTitle': 'Gửi Email',
         'contact.emailDesc': 'Gửi email trực tiếp cho các câu hỏi chung',
         'contact.openEmail': '📧 Mở Email',

@@ -32,12 +32,20 @@
     </script>
     
     <style>
+        /* Smooth page transitions */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         html {
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
         
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            animation: fadeIn 0.4s ease-out;
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -46,6 +54,17 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        body.page-transition {
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease-in;
+        }
+        
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         .layout-card {
@@ -300,6 +319,22 @@
     
     <!-- i18n Script -->
     <script src="i18n.js"></script>
+    
+    <!-- Smooth Page Transition -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('a[href$=".html"]');
+            links.forEach(link => {
+                if (link.getAttribute('target') === '_blank') return;
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    document.body.classList.add('page-transition');
+                    setTimeout(() => window.location.href = href, 300);
+                });
+            });
+        });
+    </script>
     
 </body>
 </html>
