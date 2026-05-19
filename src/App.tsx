@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 
 type Theme = "light" | "dark";
-type View = "studio" | "develop" | "faq" | "privacy" | "contact";
+type View = "intro" | "studio" | "develop" | "faq" | "privacy" | "contact";
 type LayoutId = "S" | "A" | "B" | "C" | "D";
 type FilterId =
   | "BARE"
@@ -190,7 +190,7 @@ function wait(ms: number): Promise<void> {
 }
 
 export default function App() {
-  const [view, setView] = useState<View>("studio");
+  const [view, setView] = useState<View>("intro");
   const [theme, setTheme] = useState<Theme>(() => {
     const saved = window.localStorage.getItem("snapbooth-theme");
     if (saved === "light" || saved === "dark") return saved;
@@ -438,6 +438,16 @@ export default function App() {
       />
 
       <main>
+        {view === "intro" && (
+          <Intro
+            onBegin={() => setView("studio")}
+            onJumpSamples={() => {
+              const target = document.getElementById("intro-samples");
+              target?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+          />
+        )}
+
         {view === "studio" && (
           <Studio
             layout={layout}
@@ -490,7 +500,7 @@ export default function App() {
             onBack={() => setView("studio")}
             onStartNew={() => {
               retakeAll();
-              setView("studio");
+              setView("intro");
             }}
           />
         )}
@@ -778,6 +788,128 @@ function Studio(props: StudioProps) {
 
           <p className="notice">{props.notice}</p>
         </aside>
+      </div>
+    </section>
+  );
+}
+
+function Intro({
+  onBegin,
+  onJumpSamples
+}: {
+  onBegin: () => void;
+  onJumpSamples: () => void;
+}) {
+  const steps = [
+    ["01", "Pick a layout", "Choose from single, strip, pair, quad, or contact sheet."],
+    ["02", "Set the frame", "Select a paper tone and decide how much text belongs on the print."],
+    ["03", "Shoot and develop", "Capture by webcam or upload, then export PNG, GIF, or QR."]
+  ];
+
+  const samples = [
+    { layout: "B" as LayoutId, frame: "BROADSHEET" as FrameId, title: "LAYOUT B", note: "KODAK / BROADSHEET" },
+    { layout: "A" as LayoutId, frame: "COVER" as FrameId, title: "LAYOUT A", note: "PORTRA / COVER" },
+    { layout: "C" as LayoutId, frame: "PANEL" as FrameId, title: "LAYOUT C", note: "INK / PANEL" },
+    { layout: "D" as LayoutId, frame: "MIDNIGHT" as FrameId, title: "LAYOUT D", note: "NOIR / MIDNIGHT" },
+    { layout: "S" as LayoutId, frame: "DOCUMENT" as FrameId, title: "LAYOUT S", note: "BRIGHT / DOCUMENT" },
+    { layout: "B" as LayoutId, frame: "KEEPSAKE" as FrameId, title: "LAYOUT B", note: "DUSK / KEEPSAKE" }
+  ];
+
+  return (
+    <section className="intro-page">
+      <div className="intro-hero">
+        <div className="intro-copy">
+          <p className="eyebrow">Browser darkroom / privacy-first / no account</p>
+          <h1>Take a photo strip in thirty seconds.</h1>
+          <p className="intro-lead">
+            Snapbooth keeps the classic photobooth idea and strips away the clutter. Capture in the browser, keep
+            the edit flow tight, and export only what you need.
+          </p>
+          <div className="intro-actions">
+            <Button icon={<Aperture size={15} />} onClick={onBegin}>
+              Begin roll
+            </Button>
+            <Button variant="secondary" icon={<Camera size={15} />} onClick={onJumpSamples}>
+              View samples
+            </Button>
+          </div>
+          <div className="intro-kpis">
+            <div>
+              <span>01</span>
+              <strong>Layouts</strong>
+            </div>
+            <div>
+              <span>02</span>
+              <strong>Frames</strong>
+            </div>
+            <div>
+              <span>03</span>
+              <strong>Exports</strong>
+            </div>
+          </div>
+        </div>
+
+        <div className="intro-stage">
+          <div className="intro-tilt">
+            <StripPreview
+              layout="B"
+              frame="MIDNIGHT"
+              photos={emptyPhotos("B")}
+              caption="BROWSER DARKROOM"
+              note="LAYOUT B / 3 FRAMES"
+              textScale={1}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="intro-band">
+        <p className="eyebrow">How it works</p>
+        <div className="intro-steps">
+          {steps.map(([number, title, copy]) => (
+            <article key={number}>
+              <span>{number}</span>
+              <h2>{title}</h2>
+              <p>{copy}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div className="intro-band" id="intro-samples">
+        <p className="eyebrow">Field samples</p>
+        <div className="intro-samples-rail">
+          {samples.map((sample, index) => (
+            <div className="intro-sample" key={`${sample.title}-${index}`}>
+              <StripPreview
+                layout={sample.layout}
+                frame={sample.frame}
+                photos={emptyPhotos(sample.layout)}
+                caption={sample.title}
+                note={sample.note}
+                textScale={0.92}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="intro-band intro-faq">
+        <p className="eyebrow">Quick answers</p>
+        <div className="intro-faq-grid">
+          <details open>
+            <summary>Is anything uploaded by default?</summary>
+            <p>No. Capture and upload stay local unless you choose the QR share flow.</p>
+          </details>
+          <details open>
+            <summary>Can I use my own photos?</summary>
+            <p>Yes. Upload one or more images and the booth fills the remaining frames.</p>
+          </details>
+          <details open>
+            <summary>What happens after export?</summary>
+            <p>You get PNG and GIF downloads, plus an optional temporary link for another device.</p>
+          </details>
+        </div>
       </div>
     </section>
   );
@@ -1161,6 +1293,7 @@ function TopBar({
   onToggleTheme: () => void;
 }) {
   const links: { view: View; label: string }[] = [
+    { view: "intro", label: "Home" },
     { view: "studio", label: "Studio" },
     { view: "faq", label: "FAQ" },
     { view: "privacy", label: "Privacy" },
@@ -1169,7 +1302,7 @@ function TopBar({
 
   return (
     <header className="topbar">
-      <button className="wordmark" onClick={() => onNavigate("studio")}>
+      <button className="wordmark" onClick={() => onNavigate("intro")}>
         Snapbooth<span>.</span>
       </button>
       <nav aria-label="Primary navigation">
