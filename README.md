@@ -2,6 +2,8 @@
 
 Privacy-first browser photo booth rebuilt around an editorial, analog studio UI.
 
+Live site: [https://thanhnguyxnorg.github.io/Photo-Booth/](https://thanhnguyxnorg.github.io/Photo-Booth/)
+
 ## Run locally
 
 ```bash
@@ -16,6 +18,7 @@ npm run build
 ```
 
 The production build outputs to `docs/` for Pages deployment.
+GitHub Pages is published from `main` + `docs/`.
 
 ## What changed
 
