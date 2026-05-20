@@ -548,6 +548,102 @@ video {
   margin-bottom: 16px;
 }
 
+.preset-block {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.preset-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--ink-secondary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.preset-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  background: var(--bg-elevated);
+  color: var(--ink-primary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  transition: border-color 140ms ease, background 140ms ease, color 140ms ease;
+}
+
+.preset-action:hover {
+  border-color: var(--ink-primary);
+  background: var(--bg-inset);
+}
+
+.caption-presets {
+  display: grid;
+  gap: 12px;
+  max-height: 260px;
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.caption-group {
+  display: grid;
+  gap: 8px;
+}
+
+.caption-group p {
+  margin: 0;
+  color: var(--ink-secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.caption-chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.caption-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  background: var(--bg-elevated);
+  color: var(--ink-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  transition: border-color 140ms ease, background 140ms ease, color 140ms ease;
+}
+
+.caption-chip:hover:not(.is-active) {
+  border-color: var(--ink-primary);
+  color: var(--ink-primary);
+}
+
+.caption-chip.is-active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--ink-primary);
+}
+
 .field input[type="text"],
 .field input:not([type]) {
   width: 100%;
@@ -947,6 +1043,8 @@ video {
   font-weight: 500;
   line-height: 1.1;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 .strip-caption span {

@@ -15,6 +15,7 @@ import {
   QrCode,
   RotateCcw,
   Sparkles,
+  Shuffle,
   Square,
   Sun,
   Timer,
@@ -27,12 +28,14 @@ type Theme = "light" | "dark";
 type View = "intro" | "studio" | "develop" | "faq" | "privacy" | "contact";
 type LayoutId = "S" | "A" | "B" | "C" | "D";
 type CameraFacing = "user" | "environment";
+type CaptionGroup = "EDITORIAL" | "ANALOG" | "PLAYFUL" | "MINIMAL";
 type FilterId =
   | "BARE"
   | "BRIGHT"
   | "BLOOM"
   | "COOL"
   | "VIVID"
+  | "WARM"
   | "INK"
   | "SILVER"
   | "CHARCOAL"
@@ -40,9 +43,14 @@ type FilterId =
   | "PORTRA"
   | "CINESTILL"
   | "FADE"
+  | "VELVET"
   | "DUSK"
+  | "EXPIRED"
   | "RISO"
   | "NOIR"
+  | "NEON"
+  | "TUNGSTEN"
+  | "FLASH"
   | "CHROME"
   | "HALATION"
   | "SOLAR";
@@ -58,6 +66,12 @@ type FrameId =
   | "PANEL"
   | "BULLETIN"
   | "EXPOSURE"
+  | "POLAROID"
+  | "TICKET"
+  | "ALBUM"
+  | "INDEX"
+  | "ZINE"
+  | "ARCHIVE"
   | "MIDNIGHT"
   | "BLANK";
 
@@ -85,6 +99,11 @@ interface FilterSpec {
   label: string;
   group: "DAYLIGHT" | "MONO" | "FILM" | "MOOD" | "LAB";
   css: string;
+}
+
+interface CaptionPreset {
+  value: string;
+  group: CaptionGroup;
 }
 
 type PhotoSlot = string | null;
@@ -154,6 +173,12 @@ const FRAMES: FrameSpec[] = [
   { id: "PANEL", label: "Panel", tone: "Gallery edge", paper: "#FDFDF9", ink: "#141414", accent: "#29384A" },
   { id: "BULLETIN", label: "Bulletin", tone: "Pinned note", paper: "#FFF9D9", ink: "#17130A", accent: "#D39A13" },
   { id: "EXPOSURE", label: "Exposure", tone: "Contact proof", paper: "#E9E9E1", ink: "#0D0D0C", accent: "#76766C" },
+  { id: "POLAROID", label: "Polaroid", tone: "Instant border", paper: "#F8F2E6", ink: "#1C1A17", accent: "#C96B42" },
+  { id: "TICKET", label: "Ticket", tone: "Stub print", paper: "#F4E9C5", ink: "#211B16", accent: "#D28B2A" },
+  { id: "ALBUM", label: "Album", tone: "Memory page", paper: "#FDF7F0", ink: "#1A1512", accent: "#7A5A46" },
+  { id: "INDEX", label: "Index", tone: "Contact index", paper: "#F1EEE7", ink: "#171717", accent: "#4D5B6B" },
+  { id: "ZINE", label: "Zine", tone: "Soft print", paper: "#F5E8F1", ink: "#231A27", accent: "#7F4D78" },
+  { id: "ARCHIVE", label: "Archive", tone: "Filed proof", paper: "#EDE8DF", ink: "#20201F", accent: "#8A6B3C" },
   { id: "MIDNIGHT", label: "Midnight", tone: "Darkroom", paper: "#0E0D0B", ink: "#F1ECDF", accent: "#FF6B49" },
   { id: "BLANK", label: "Blank", tone: "No caption", paper: "#FFFFFF", ink: "#141414", accent: "#FFFFFF" }
 ];
@@ -164,6 +189,7 @@ const FILTERS: FilterSpec[] = [
   { id: "BLOOM", label: "Bloom", group: "DAYLIGHT", css: "brightness(1.08) contrast(0.95) saturate(0.95)" },
   { id: "COOL", label: "Cool", group: "DAYLIGHT", css: "brightness(1.04) contrast(1.04) saturate(0.96) hue-rotate(10deg)" },
   { id: "VIVID", label: "Vivid", group: "DAYLIGHT", css: "brightness(1.04) contrast(1.12) saturate(1.42)" },
+  { id: "WARM", label: "Warm", group: "DAYLIGHT", css: "brightness(1.08) contrast(1.02) saturate(1.12) sepia(0.08)" },
   { id: "INK", label: "Ink", group: "MONO", css: "grayscale(1) contrast(1.38) brightness(1.03)" },
   { id: "SILVER", label: "Silver", group: "MONO", css: "grayscale(1) contrast(0.94) brightness(1.06)" },
   { id: "CHARCOAL", label: "Charcoal", group: "MONO", css: "grayscale(1) contrast(1.28) brightness(0.92)" },
@@ -171,15 +197,49 @@ const FILTERS: FilterSpec[] = [
   { id: "PORTRA", label: "Portra", group: "FILM", css: "sepia(0.12) saturate(0.96) contrast(1.02)" },
   { id: "CINESTILL", label: "Cinestill", group: "FILM", css: "saturate(1.22) hue-rotate(-8deg) contrast(1.1)" },
   { id: "FADE", label: "Fade", group: "FILM", css: "sepia(0.12) saturate(0.78) contrast(0.88) brightness(1.08)" },
+  { id: "VELVET", label: "Velvet", group: "FILM", css: "sepia(0.1) saturate(0.86) contrast(1.12) brightness(0.99)" },
   { id: "DUSK", label: "Dusk", group: "MOOD", css: "sepia(0.28) hue-rotate(-24deg) saturate(1.18) contrast(1.08)" },
+  { id: "EXPIRED", label: "Expired", group: "MOOD", css: "sepia(0.36) saturate(0.74) contrast(0.92) brightness(1.06)" },
   { id: "RISO", label: "Riso", group: "MOOD", css: "saturate(0.68) contrast(1.28) hue-rotate(8deg)" },
   { id: "NOIR", label: "Noir", group: "MOOD", css: "grayscale(0.86) contrast(1.42) brightness(0.9)" },
+  { id: "NEON", label: "Neon", group: "LAB", css: "saturate(1.72) contrast(1.18) hue-rotate(-18deg) brightness(1.02)" },
+  { id: "TUNGSTEN", label: "Tungsten", group: "LAB", css: "sepia(0.2) saturate(1.1) hue-rotate(-16deg) contrast(1.1)" },
+  { id: "FLASH", label: "Flash", group: "LAB", css: "brightness(1.18) contrast(1.22) saturate(0.94)" },
   { id: "CHROME", label: "Chrome", group: "LAB", css: "contrast(1.26) saturate(1.28) brightness(0.98)" },
   { id: "HALATION", label: "Halation", group: "LAB", css: "sepia(0.18) saturate(1.36) contrast(1.06) brightness(1.08)" },
   { id: "SOLAR", label: "Solar", group: "LAB", css: "invert(1) hue-rotate(180deg) saturate(1.25) contrast(1.1)" }
 ];
 
 const FILTER_GROUPS: FilterSpec["group"][] = ["DAYLIGHT", "MONO", "FILM", "MOOD", "LAB"];
+
+const CAPTION_GROUPS: CaptionGroup[] = ["EDITORIAL", "ANALOG", "PLAYFUL", "MINIMAL"];
+
+const CAPTION_PRESETS: CaptionPreset[] = [
+  { group: "EDITORIAL", value: "BROWSER DARKROOM" },
+  { group: "EDITORIAL", value: "CONTACT SHEET CLUB" },
+  { group: "EDITORIAL", value: "PAPER MEMORY" },
+  { group: "EDITORIAL", value: "FRAME THE MOMENT" },
+  { group: "EDITORIAL", value: "ARCHIVE THIS" },
+  { group: "EDITORIAL", value: "BIG MOOD ONLY" },
+  { group: "ANALOG", value: "FLASH BETWEEN FRIENDS" },
+  { group: "ANALOG", value: "AFTERLIGHT SESSION" },
+  { group: "ANALOG", value: "GOOD LIGHT ONLY" },
+  { group: "ANALOG", value: "KEEP IT IN THE ROLL" },
+  { group: "ANALOG", value: "ONE MORE FOR THE WALL" },
+  { group: "ANALOG", value: "SOFT PRESS PAPER" },
+  { group: "PLAYFUL", value: "PRESS, POSE, PRINT" },
+  { group: "PLAYFUL", value: "PROOF OF LIFE" },
+  { group: "PLAYFUL", value: "NO RETAKE ENERGY" },
+  { group: "PLAYFUL", value: "ONE MORE STRIP" },
+  { group: "PLAYFUL", value: "FLASH ME AGAIN" },
+  { group: "PLAYFUL", value: "POCKET TIME CAPSULE" },
+  { group: "MINIMAL", value: "LOCAL ONLY" },
+  { group: "MINIMAL", value: "MADE IN THE BROWSER" },
+  { group: "MINIMAL", value: "FRAME BY FRAME" },
+  { group: "MINIMAL", value: "NO CLOUD REQUIRED" },
+  { group: "MINIMAL", value: "FAST ROLL" },
+  { group: "MINIMAL", value: "SILENT SHUTTER" }
+];
 
 function getFilter(id: FilterId): FilterSpec {
   return FILTERS.find((filter) => filter.id === id) ?? FILTERS[0];
@@ -361,6 +421,15 @@ export default function App() {
     setNotice("Switching camera.");
   }, []);
 
+  const randomCaption = useCallback(() => {
+    const current = caption.trim();
+    const pool = CAPTION_PRESETS.filter((preset) => preset.value !== current);
+    const source = pool.length ? pool : CAPTION_PRESETS;
+    const next = source[Math.floor(Math.random() * source.length)].value;
+    setCaption(next);
+    setNotice(`Caption preset: ${next.toLowerCase()}.`);
+  }, [caption]);
+
   const fillDemoRoll = useCallback(() => {
     const next = Array.from({ length: total }, (_, index) =>
       createDemoPhoto(index, LAYOUTS[layout].cellAspect, getFilter(filter).css)
@@ -515,6 +584,7 @@ export default function App() {
             onMirror={() => setMirror((current) => !current)}
             onSwitchCamera={switchCamera}
             onDemoRoll={fillDemoRoll}
+            onRandomCaption={randomCaption}
             onCaption={setCaption}
             onNote={setNote}
             onTextScale={setTextScale}
@@ -584,6 +654,7 @@ interface StudioProps {
   onMirror: () => void;
   onSwitchCamera: () => void;
   onDemoRoll: () => void;
+  onRandomCaption: () => void;
   onCaption: (value: string) => void;
   onNote: (value: string) => void;
   onTextScale: (value: number) => void;
@@ -659,12 +730,40 @@ function Studio(props: StudioProps) {
           <RailSection title="03 Customize">
             <label className="field">
               <span>Roll title</span>
-              <input value={props.caption} onChange={(event) => props.onCaption(event.target.value)} maxLength={36} />
+              <input value={props.caption} onChange={(event) => props.onCaption(event.target.value)} maxLength={56} />
             </label>
             <label className="field">
               <span>Caption</span>
               <input value={props.note} onChange={(event) => props.onNote(event.target.value)} maxLength={48} />
             </label>
+            <div className="preset-block">
+              <div className="preset-head">
+                <span>Caption presets</span>
+                <button className="preset-action" onClick={props.onRandomCaption} type="button">
+                  <Shuffle size={13} />
+                  Shuffle
+                </button>
+              </div>
+              <div className="caption-presets">
+                {CAPTION_GROUPS.map((group) => (
+                  <div key={group} className="caption-group">
+                    <p>{group}</p>
+                    <div className="caption-chip-grid">
+                      {CAPTION_PRESETS.filter((item) => item.group === group).map((item) => (
+                        <button
+                          key={item.value}
+                          className={`caption-chip ${props.caption === item.value ? "is-active" : ""}`}
+                          onClick={() => props.onCaption(item.value)}
+                          type="button"
+                        >
+                          {item.value}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
             <label className="field">
               <span>Text scale {Math.round(props.textScale * 100)}%</span>
               <input
@@ -851,17 +950,17 @@ function Intro({
 }) {
   const steps = [
     ["01", "Pick a layout", "Choose from single, strip, pair, quad, or contact sheet."],
-    ["02", "Set the frame", "Select a paper tone and decide how much text belongs on the print."],
-    ["03", "Shoot and develop", "Capture by webcam or upload, then export PNG, GIF, or QR."]
+    ["02", "Set the frame", "Select a paper tone, caption preset, and decide how much text belongs on the print."],
+    ["03", "Shoot and develop", "Capture by webcam or upload, then export PNG, GIF, boomerang GIF, or QR."]
   ];
 
   const samples = [
-    { layout: "B" as LayoutId, frame: "BROADSHEET" as FrameId, title: "LAYOUT B", note: "KODAK / BROADSHEET" },
-    { layout: "A" as LayoutId, frame: "COVER" as FrameId, title: "LAYOUT A", note: "PORTRA / COVER" },
-    { layout: "C" as LayoutId, frame: "PANEL" as FrameId, title: "LAYOUT C", note: "INK / PANEL" },
-    { layout: "D" as LayoutId, frame: "MIDNIGHT" as FrameId, title: "LAYOUT D", note: "NOIR / MIDNIGHT" },
-    { layout: "S" as LayoutId, frame: "DOCUMENT" as FrameId, title: "LAYOUT S", note: "BRIGHT / DOCUMENT" },
-    { layout: "B" as LayoutId, frame: "KEEPSAKE" as FrameId, title: "LAYOUT B", note: "DUSK / KEEPSAKE" }
+    { layout: "B" as LayoutId, frame: "BROADSHEET" as FrameId, title: "CONTACT SHEET CLUB", note: "KODAK / BROADSHEET" },
+    { layout: "A" as LayoutId, frame: "POLAROID" as FrameId, title: "PRESS, POSE, PRINT", note: "PORTRA / POLAROID" },
+    { layout: "C" as LayoutId, frame: "PANEL" as FrameId, title: "AFTERLIGHT SESSION", note: "INK / PANEL" },
+    { layout: "D" as LayoutId, frame: "MIDNIGHT" as FrameId, title: "NO RETAKE ENERGY", note: "NOIR / MIDNIGHT" },
+    { layout: "S" as LayoutId, frame: "ALBUM" as FrameId, title: "LOCAL ONLY", note: "BRIGHT / ALBUM" },
+    { layout: "B" as LayoutId, frame: "ZINE" as FrameId, title: "ONE MORE STRIP", note: "DUSK / ZINE" }
   ];
 
   return (
@@ -1765,9 +1864,14 @@ async function renderStripCanvas(options: {
     ctx.fillStyle = frame.ink;
     ctx.textAlign = "center";
     ctx.font = `${Math.round(34 * options.textScale)}px Fraunces, Georgia, serif`;
-    ctx.fillText(options.caption.toUpperCase(), width / 2, textY);
+    ctx.fillText(options.caption.toUpperCase(), width / 2, textY, width - pad * 2);
     ctx.font = `${Math.round(18 * options.textScale)}px JetBrains Mono, monospace`;
-    ctx.fillText(`${options.note} / ${layout.code} / ${getFilter(options.filter).label} / ${options.timestamp}`.toUpperCase(), width / 2, textY + 40);
+    ctx.fillText(
+      `${options.note} / ${layout.code} / ${getFilter(options.filter).label} / ${options.timestamp}`.toUpperCase(),
+      width / 2,
+      textY + 40,
+      width - pad * 2
+    );
   }
 
   return canvas;
