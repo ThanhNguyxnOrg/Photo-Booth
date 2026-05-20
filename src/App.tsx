@@ -14,6 +14,7 @@ import {
   Moon,
   QrCode,
   RotateCcw,
+  Sparkles,
   Square,
   Sun,
   Timer,
@@ -25,19 +26,26 @@ import {
 type Theme = "light" | "dark";
 type View = "intro" | "studio" | "develop" | "faq" | "privacy" | "contact";
 type LayoutId = "S" | "A" | "B" | "C" | "D";
+type CameraFacing = "user" | "environment";
 type FilterId =
   | "BARE"
   | "BRIGHT"
   | "BLOOM"
+  | "COOL"
+  | "VIVID"
   | "INK"
   | "SILVER"
   | "CHARCOAL"
   | "KODAK"
   | "PORTRA"
   | "CINESTILL"
+  | "FADE"
   | "DUSK"
   | "RISO"
-  | "NOIR";
+  | "NOIR"
+  | "CHROME"
+  | "HALATION"
+  | "SOLAR";
 type FrameId =
   | "CLASSIC"
   | "POST"
@@ -75,7 +83,7 @@ interface FrameSpec {
 interface FilterSpec {
   id: FilterId;
   label: string;
-  group: "DAYLIGHT" | "MONO" | "FILM" | "MOOD";
+  group: "DAYLIGHT" | "MONO" | "FILM" | "MOOD" | "LAB";
   css: string;
 }
 
@@ -154,18 +162,24 @@ const FILTERS: FilterSpec[] = [
   { id: "BARE", label: "Bare", group: "DAYLIGHT", css: "none" },
   { id: "BRIGHT", label: "Bright", group: "DAYLIGHT", css: "brightness(1.12) contrast(1.04) saturate(1.04)" },
   { id: "BLOOM", label: "Bloom", group: "DAYLIGHT", css: "brightness(1.08) contrast(0.95) saturate(0.95)" },
+  { id: "COOL", label: "Cool", group: "DAYLIGHT", css: "brightness(1.04) contrast(1.04) saturate(0.96) hue-rotate(10deg)" },
+  { id: "VIVID", label: "Vivid", group: "DAYLIGHT", css: "brightness(1.04) contrast(1.12) saturate(1.42)" },
   { id: "INK", label: "Ink", group: "MONO", css: "grayscale(1) contrast(1.38) brightness(1.03)" },
   { id: "SILVER", label: "Silver", group: "MONO", css: "grayscale(1) contrast(0.94) brightness(1.06)" },
   { id: "CHARCOAL", label: "Charcoal", group: "MONO", css: "grayscale(1) contrast(1.28) brightness(0.92)" },
   { id: "KODAK", label: "Kodak", group: "FILM", css: "sepia(0.24) saturate(1.16) contrast(1.05) brightness(1.03)" },
   { id: "PORTRA", label: "Portra", group: "FILM", css: "sepia(0.12) saturate(0.96) contrast(1.02)" },
   { id: "CINESTILL", label: "Cinestill", group: "FILM", css: "saturate(1.22) hue-rotate(-8deg) contrast(1.1)" },
+  { id: "FADE", label: "Fade", group: "FILM", css: "sepia(0.12) saturate(0.78) contrast(0.88) brightness(1.08)" },
   { id: "DUSK", label: "Dusk", group: "MOOD", css: "sepia(0.28) hue-rotate(-24deg) saturate(1.18) contrast(1.08)" },
   { id: "RISO", label: "Riso", group: "MOOD", css: "saturate(0.68) contrast(1.28) hue-rotate(8deg)" },
-  { id: "NOIR", label: "Noir", group: "MOOD", css: "grayscale(0.86) contrast(1.42) brightness(0.9)" }
+  { id: "NOIR", label: "Noir", group: "MOOD", css: "grayscale(0.86) contrast(1.42) brightness(0.9)" },
+  { id: "CHROME", label: "Chrome", group: "LAB", css: "contrast(1.26) saturate(1.28) brightness(0.98)" },
+  { id: "HALATION", label: "Halation", group: "LAB", css: "sepia(0.18) saturate(1.36) contrast(1.06) brightness(1.08)" },
+  { id: "SOLAR", label: "Solar", group: "LAB", css: "invert(1) hue-rotate(180deg) saturate(1.25) contrast(1.1)" }
 ];
 
-const FILTER_GROUPS: FilterSpec["group"][] = ["DAYLIGHT", "MONO", "FILM", "MOOD"];
+const FILTER_GROUPS: FilterSpec["group"][] = ["DAYLIGHT", "MONO", "FILM", "MOOD", "LAB"];
 
 function getFilter(id: FilterId): FilterSpec {
   return FILTERS.find((filter) => filter.id === id) ?? FILTERS[0];
@@ -203,6 +217,7 @@ export default function App() {
   const [mode, setMode] = useState<"MANUAL" | "AUTO">("MANUAL");
   const [timerSec, setTimerSec] = useState(3);
   const [mirror, setMirror] = useState(true);
+  const [cameraFacing, setCameraFacing] = useState<CameraFacing>("user");
   const [caption, setCaption] = useState("BROWSER DARKROOM");
   const [note, setNote] = useState("SNAPBOOTH / ROLL 001");
   const [textScale, setTextScale] = useState(1);
@@ -260,7 +275,7 @@ export default function App() {
         const stream = await navigator.mediaDevices.getUserMedia({
           audio: false,
           video: {
-            facingMode: "user",
+            facingMode: { ideal: cameraFacing },
             width: { ideal: 1280 },
             height: { ideal: 960 }
           }
@@ -291,7 +306,7 @@ export default function App() {
       streamRef.current?.getTracks().forEach((track) => track.stop());
       streamRef.current = null;
     };
-  }, [view]);
+  }, [view, cameraFacing]);
 
   useEffect(() => {
     if (videoRef.current && streamRef.current) {
@@ -336,6 +351,27 @@ export default function App() {
     setNotice("Frame captured.");
     return true;
   }, [addPhoto, filter, layout, mirror]);
+
+  const switchCamera = useCallback(() => {
+    setCameraFacing((current) => {
+      const next = current === "user" ? "environment" : "user";
+      setMirror(next === "user");
+      return next;
+    });
+    setNotice("Switching camera.");
+  }, []);
+
+  const fillDemoRoll = useCallback(() => {
+    const next = Array.from({ length: total }, (_, index) =>
+      createDemoPhoto(index, LAYOUTS[layout].cellAspect, getFilter(filter).css)
+    );
+    photosRef.current = next;
+    setPhotos(next);
+    autoRef.current = false;
+    setAutoRunning(false);
+    setCountdown(null);
+    setNotice("Demo roll loaded for preview and export.");
+  }, [filter, layout, total]);
 
   const startAuto = useCallback(async () => {
     if (autoRef.current || complete) return;
@@ -457,6 +493,7 @@ export default function App() {
             mode={mode}
             timerSec={timerSec}
             mirror={mirror}
+            cameraFacing={cameraFacing}
             caption={caption}
             note={note}
             textScale={textScale}
@@ -476,6 +513,8 @@ export default function App() {
             onMode={setMode}
             onTimer={setTimerSec}
             onMirror={() => setMirror((current) => !current)}
+            onSwitchCamera={switchCamera}
+            onDemoRoll={fillDemoRoll}
             onCaption={setCaption}
             onNote={setNote}
             onTextScale={setTextScale}
@@ -523,6 +562,7 @@ interface StudioProps {
   mode: "MANUAL" | "AUTO";
   timerSec: number;
   mirror: boolean;
+  cameraFacing: CameraFacing;
   caption: string;
   note: string;
   textScale: number;
@@ -542,6 +582,8 @@ interface StudioProps {
   onMode: (mode: "MANUAL" | "AUTO") => void;
   onTimer: (value: number) => void;
   onMirror: () => void;
+  onSwitchCamera: () => void;
+  onDemoRoll: () => void;
   onCaption: (value: string) => void;
   onNote: (value: string) => void;
   onTextScale: (value: number) => void;
@@ -662,6 +704,7 @@ function Studio(props: StudioProps) {
               videoRef={props.videoRef}
               cameraState={props.cameraState}
               cameraMessage={props.cameraMessage}
+              filterCss={filterSpec.css}
             />
 
             {props.countdown !== null && <div className="countdown">{props.countdown}</div>}
@@ -754,8 +797,14 @@ function Studio(props: StudioProps) {
               <Button variant="secondary" icon={<Upload size={15} />} onClick={() => props.fileRef.current?.click()}>
                 Upload
               </Button>
+              <Button variant="secondary" icon={<Camera size={15} />} onClick={props.onSwitchCamera}>
+                {props.cameraFacing === "user" ? "Front cam" : "Rear cam"}
+              </Button>
               <Button variant="secondary" icon={<FlipHorizontal size={15} />} onClick={props.onMirror}>
                 {props.mirror ? "Mirror" : "Normal"}
+              </Button>
+              <Button variant="secondary" icon={<Sparkles size={15} />} onClick={props.onDemoRoll}>
+                Demo roll
               </Button>
             </div>
 
@@ -922,7 +971,8 @@ function ViewfinderGrid({
   mirror,
   videoRef,
   cameraState,
-  cameraMessage
+  cameraMessage,
+  filterCss
 }: {
   layout: LayoutId;
   photos: PhotoSlot[];
@@ -931,6 +981,7 @@ function ViewfinderGrid({
   videoRef: RefObject<HTMLVideoElement>;
   cameraState: "idle" | "ready" | "error" | "unsupported";
   cameraMessage: string;
+  filterCss: string;
 }) {
   const layoutSpec = LAYOUTS[layout];
   const [cols, rows] = layoutSpec.grid;
@@ -958,7 +1009,7 @@ function ViewfinderGrid({
                     autoPlay
                     muted
                     playsInline
-                    style={{ transform: mirror ? "scaleX(-1)" : "none" }}
+                    style={{ filter: filterCss, transform: mirror ? "scaleX(-1)" : "none" }}
                   />
                   {cameraState === "idle" && <div className="camera-message">{cameraMessage}</div>}
                 </>
@@ -996,7 +1047,7 @@ function Develop({
   onBack: () => void;
   onStartNew: () => void;
 }) {
-  const [busy, setBusy] = useState<null | "png" | "gif" | "qr">(null);
+  const [busy, setBusy] = useState<null | "png" | "gif" | "boomerang" | "qr">(null);
   const [gifProgress, setGifProgress] = useState(0);
   const [share, setShare] = useState<{ qr?: string; link?: string; error?: string }>({});
   const [shareOpen, setShareOpen] = useState(false);
@@ -1067,6 +1118,62 @@ function Develop({
       setGifProgress(1);
     });
     gif.render();
+  }
+
+  async function exportBoomerangGif() {
+    setBusy("boomerang");
+    setGifProgress(0);
+
+    try {
+      const images = await Promise.all(photos.map(loadImage));
+      const keyedImages = images.map((image, index) => ({ image, index }));
+      const sequence = keyedImages.length > 1 ? [...keyedImages, ...keyedImages.slice(1, -1).reverse()] : keyedImages;
+      const first = renderPoseFrameCanvas({
+        layout,
+        frame,
+        image: sequence[0].image,
+        caption,
+        note,
+        textScale,
+        timestamp,
+        index: sequence[0].index + 1,
+        total: images.length
+      });
+      const gif = new GIF({
+        workers: 2,
+        quality: 10,
+        width: first.width,
+        height: first.height,
+        workerScript: gifWorkerUrl
+      });
+
+      sequence.forEach(({ image, index }) => {
+        const canvas = renderPoseFrameCanvas({
+          layout,
+          frame,
+          image,
+          caption,
+          note,
+          textScale,
+          timestamp,
+          index: index + 1,
+          total: images.length
+        });
+        gif.addFrame(canvas, { delay: index === 0 ? 320 : 170, copy: true });
+      });
+
+      gif.on("progress", (progress) => setGifProgress(progress));
+      gif.on("finished", (blob) => {
+        downloadBlob(blob, filename.replace(".png", "_boomerang.gif"));
+        setBusy(null);
+        setGifProgress(1);
+      });
+      gif.render();
+    } catch (error) {
+      console.error(error);
+      setBusy(null);
+      setGifProgress(0);
+    }
   }
 
   async function createShareQr() {
@@ -1148,6 +1255,9 @@ function Develop({
               </Button>
               <Button variant="secondary" icon={<Download size={15} />} onClick={() => void exportGif()} disabled={busy !== null}>
                 {busy === "gif" ? `GIF ${Math.round(gifProgress * 100)}%` : "Export GIF"}
+              </Button>
+              <Button variant="secondary" icon={<Download size={15} />} onClick={() => void exportBoomerangGif()} disabled={busy !== null}>
+                {busy === "boomerang" ? `Boomerang ${Math.round(gifProgress * 100)}%` : "Boomerang GIF"}
               </Button>
               <Button variant="secondary" icon={<QrCode size={15} />} onClick={() => void createShareQr()} disabled={busy !== null}>
                 {busy === "qr" ? "Uploading" : "Share QR"}
@@ -1472,6 +1582,68 @@ function getViewfinderMaxWidth(layout: LayoutSpec): number {
   return 760;
 }
 
+function createDemoPhoto(index: number, aspect: number, filterCss: string): string {
+  const width = 960;
+  const height = Math.round(width / aspect);
+  const base = document.createElement("canvas");
+  base.width = width;
+  base.height = height;
+  const baseCtx = base.getContext("2d");
+  if (!baseCtx) return "";
+
+  const palettes = [
+    ["#F5D6B8", "#9BB7A7", "#282521"],
+    ["#D7E1EA", "#E84A2A", "#171717"],
+    ["#F7E0D4", "#5E7A8A", "#2B211B"],
+    ["#E7D7A8", "#2F6F4E", "#141414"],
+    ["#E8C4C4", "#29384A", "#F9F1E7"],
+    ["#D8D6C9", "#B5302A", "#111111"]
+  ];
+  const [paper, accent, ink] = palettes[index % palettes.length];
+  const gradient = baseCtx.createLinearGradient(0, 0, width, height);
+  gradient.addColorStop(0, paper);
+  gradient.addColorStop(0.62, "#f7f1df");
+  gradient.addColorStop(1, accent);
+  baseCtx.fillStyle = gradient;
+  baseCtx.fillRect(0, 0, width, height);
+
+  baseCtx.fillStyle = "rgba(255,255,255,0.28)";
+  baseCtx.fillRect(width * 0.08, height * 0.08, width * 0.84, height * 0.84);
+  baseCtx.fillStyle = accent;
+  baseCtx.beginPath();
+  baseCtx.ellipse(width * 0.5, height * 0.44, width * 0.18, height * 0.18, 0, 0, Math.PI * 2);
+  baseCtx.fill();
+  baseCtx.fillStyle = ink;
+  baseCtx.beginPath();
+  baseCtx.ellipse(width * 0.5, height * 0.84, width * 0.32, height * 0.26, 0, Math.PI, Math.PI * 2);
+  baseCtx.fill();
+  baseCtx.strokeStyle = "rgba(20,20,20,0.22)";
+  baseCtx.lineWidth = 10;
+  baseCtx.strokeRect(44, 44, width - 88, height - 88);
+
+  baseCtx.fillStyle = "rgba(20,20,20,0.12)";
+  for (let dot = 0; dot < 220; dot += 1) {
+    const x = (dot * 47 + index * 83) % width;
+    const y = (dot * 71 + index * 53) % height;
+    baseCtx.fillRect(x, y, 2, 2);
+  }
+
+  baseCtx.fillStyle = ink;
+  baseCtx.font = "600 40px JetBrains Mono, monospace";
+  baseCtx.textAlign = "center";
+  baseCtx.fillText(`POSE ${String(index + 1).padStart(2, "0")}`, width / 2, height - 72);
+
+  if (filterCss === "none") return base.toDataURL("image/jpeg", 0.92);
+  const filtered = document.createElement("canvas");
+  filtered.width = width;
+  filtered.height = height;
+  const filteredCtx = filtered.getContext("2d");
+  if (!filteredCtx) return base.toDataURL("image/jpeg", 0.92);
+  filteredCtx.filter = filterCss;
+  filteredCtx.drawImage(base, 0, 0);
+  return filtered.toDataURL("image/jpeg", 0.92);
+}
+
 function captureSourceToDataUrl({
   source,
   sourceWidth,
@@ -1596,6 +1768,64 @@ async function renderStripCanvas(options: {
     ctx.fillText(options.caption.toUpperCase(), width / 2, textY);
     ctx.font = `${Math.round(18 * options.textScale)}px JetBrains Mono, monospace`;
     ctx.fillText(`${options.note} / ${layout.code} / ${getFilter(options.filter).label} / ${options.timestamp}`.toUpperCase(), width / 2, textY + 40);
+  }
+
+  return canvas;
+}
+
+function renderPoseFrameCanvas(options: {
+  layout: LayoutId;
+  frame: FrameId;
+  image: HTMLImageElement;
+  caption: string;
+  note: string;
+  textScale: number;
+  timestamp: string;
+  index: number;
+  total: number;
+}): HTMLCanvasElement {
+  const layout = LAYOUTS[options.layout];
+  const frame = getFrame(options.frame);
+  const width = 720;
+  const pad = 38;
+  const captionHeight = options.frame === "BLANK" ? 28 : 112;
+  const imageWidth = width - pad * 2;
+  const imageHeight = Math.round(imageWidth / layout.cellAspect);
+  const height = pad * 2 + imageHeight + captionHeight;
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return canvas;
+
+  ctx.fillStyle = frame.paper;
+  ctx.fillRect(0, 0, width, height);
+  ctx.strokeStyle = frame.accent;
+  ctx.lineWidth = options.frame === "BLANK" ? 0 : 8;
+  if (ctx.lineWidth > 0) {
+    ctx.strokeRect(16, 16, width - 32, height - 32);
+  }
+
+  const x = pad;
+  const y = pad;
+  ctx.drawImage(options.image, x, y, imageWidth, imageHeight);
+  ctx.strokeStyle = "rgba(20,20,20,0.22)";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(x, y, imageWidth, imageHeight);
+
+  if (options.frame !== "BLANK") {
+    const textY = y + imageHeight + 48;
+    ctx.fillStyle = frame.ink;
+    ctx.textAlign = "center";
+    ctx.font = `${Math.round(28 * options.textScale)}px Fraunces, Georgia, serif`;
+    ctx.fillText(options.caption.toUpperCase(), width / 2, textY, width - pad * 2);
+    ctx.font = `${Math.round(14 * options.textScale)}px JetBrains Mono, monospace`;
+    ctx.fillText(
+      `${options.note} / POSE ${String(options.index).padStart(2, "0")}-${String(options.total).padStart(2, "0")} / ${options.timestamp}`.toUpperCase(),
+      width / 2,
+      textY + 34,
+      width - pad * 2
+    );
   }
 
   return canvas;
