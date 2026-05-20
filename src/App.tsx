@@ -293,6 +293,7 @@ export default function App() {
   const streamRef = useRef<MediaStream | null>(null);
   const photosRef = useRef<PhotoSlot[]>(photos);
   const autoRef = useRef(false);
+  const countdownRef = useRef(0);
 
   const total = LAYOUTS[layout].frames;
   const filled = photos.filter(Boolean).length;
@@ -311,6 +312,7 @@ export default function App() {
     setPhotos(next);
     autoRef.current = false;
     setAutoRunning(false);
+    countdownRef.current += 1;
     setCountdown(null);
     setNotice(`Layout ${LAYOUTS[layout].code} armed.`);
   }, [layout]);
@@ -412,6 +414,36 @@ export default function App() {
     return true;
   }, [addPhoto, filter, layout, mirror]);
 
+  const cancelCountdown = useCallback(() => {
+    countdownRef.current += 1;
+    setCountdown(null);
+  }, []);
+
+  const runCountdown = useCallback(
+    async (noticeLabel: string) => {
+      const token = ++countdownRef.current;
+      setNotice(noticeLabel);
+
+      for (let tick = timerSec; tick > 0; tick -= 1) {
+        if (countdownRef.current !== token) return false;
+        setCountdown(tick);
+        await wait(1000);
+      }
+
+      if (countdownRef.current !== token) return false;
+      setCountdown(null);
+      return true;
+    },
+    [timerSec]
+  );
+
+  const captureWithCountdown = useCallback(async () => {
+    if (complete) return;
+    const ready = await runCountdown(`Capture in ${timerSec}s.`);
+    if (!ready) return;
+    captureVideo();
+  }, [captureVideo, complete, runCountdown, timerSec]);
+
   const switchCamera = useCallback(() => {
     setCameraFacing((current) => {
       const next = current === "user" ? "environment" : "user";
@@ -438,9 +470,9 @@ export default function App() {
     setPhotos(next);
     autoRef.current = false;
     setAutoRunning(false);
-    setCountdown(null);
+    cancelCountdown();
     setNotice("Demo roll loaded for preview and export.");
-  }, [filter, layout, total]);
+  }, [cancelCountdown, filter, layout, total]);
 
   const startAuto = useCallback(async () => {
     if (autoRef.current || complete) return;
@@ -449,42 +481,41 @@ export default function App() {
     setNotice("Auto roll armed.");
 
     while (autoRef.current && photosRef.current.some((photo) => !photo)) {
-      for (let tick = timerSec; tick > 0; tick -= 1) {
-        if (!autoRef.current) break;
-        setCountdown(tick);
-        await wait(1000);
-      }
-
-      if (!autoRef.current) break;
-      setCountdown(null);
+      const ready = await runCountdown(`Auto capture in ${timerSec}s.`);
+      if (!ready || !autoRef.current) break;
       const captured = captureVideo();
       if (!captured) break;
       await wait(480);
     }
 
+    const finishedNaturally = !photosRef.current.some((photo) => !photo);
     autoRef.current = false;
     setAutoRunning(false);
-    setCountdown(null);
-  }, [captureVideo, complete, timerSec]);
+    cancelCountdown();
+    if (finishedNaturally) {
+      setNotice("Auto roll complete.");
+    }
+  }, [cancelCountdown, captureVideo, complete, runCountdown, timerSec]);
 
   const handleShutter = useCallback(() => {
     if (mode === "AUTO") {
       void startAuto();
       return;
     }
-    captureVideo();
-  }, [captureVideo, mode, startAuto]);
+    void captureWithCountdown();
+  }, [captureWithCountdown, mode, startAuto]);
 
   const stopAuto = useCallback(() => {
     autoRef.current = false;
     setAutoRunning(false);
-    setCountdown(null);
+    cancelCountdown();
     setNotice("Auto roll stopped.");
-  }, []);
+  }, [cancelCountdown]);
 
   const handleUpload = useCallback(
     async (files: FileList | null) => {
       if (!files?.length) return;
+      if (!autoRef.current) cancelCountdown();
       const available = total - photosRef.current.filter(Boolean).length;
       const selected = Array.from(files).slice(0, available);
 
@@ -505,10 +536,11 @@ export default function App() {
 
       setNotice(`${selected.length} upload${selected.length === 1 ? "" : "s"} added.`);
     },
-    [addPhoto, filter, layout, total]
+    [addPhoto, cancelCountdown, filter, layout, total]
   );
 
   const retakeLast = useCallback(() => {
+    cancelCountdown();
     setPhotos((current) => {
       const next = [...current];
       const index = next.map(Boolean).lastIndexOf(true);
@@ -517,21 +549,31 @@ export default function App() {
       return next;
     });
     setNotice("Last frame cleared.");
-  }, []);
+  }, [cancelCountdown]);
 
   const retakeAll = useCallback(() => {
     const next = emptyPhotos(layout);
     photosRef.current = next;
     setPhotos(next);
+    cancelCountdown();
     setNotice("Roll cleared.");
-  }, [layout]);
+  }, [cancelCountdown, layout]);
 
   const startDevelop = useCallback(() => {
     if (!complete) return;
     autoRef.current = false;
     setAutoRunning(false);
+    cancelCountdown();
     setView("develop");
-  }, [complete]);
+  }, [cancelCountdown, complete]);
+
+  const setCaptureMode = useCallback(
+    (nextMode: "MANUAL" | "AUTO") => {
+      cancelCountdown();
+      setMode(nextMode);
+    },
+    [cancelCountdown]
+  );
 
   return (
     <div className="app-shell">
@@ -579,7 +621,7 @@ export default function App() {
             onLayout={setLayout}
             onFrame={setFrame}
             onFilter={setFilter}
-            onMode={setMode}
+            onMode={setCaptureMode}
             onTimer={setTimerSec}
             onMirror={() => setMirror((current) => !current)}
             onSwitchCamera={switchCamera}
@@ -822,7 +864,11 @@ function Studio(props: StudioProps) {
             <button className="mode-pill" onClick={() => props.onMode(props.mode === "AUTO" ? "MANUAL" : "AUTO")}>
               {props.mode}
             </button>
-            <button className="shutter" onClick={props.autoRunning ? props.onStopAuto : props.onShutter} disabled={props.complete}>
+            <button
+              className="shutter"
+              onClick={props.autoRunning ? props.onStopAuto : props.onShutter}
+              disabled={props.complete || (props.countdown !== null && !props.autoRunning)}
+            >
               {props.autoRunning ? <Square size={18} /> : <Aperture size={22} />}
             </button>
             <button className="icon-plain" onClick={() => props.fileRef.current?.click()} aria-label="Upload photos">
@@ -859,7 +905,7 @@ function Studio(props: StudioProps) {
               <button
                 className="shutter"
                 onClick={props.autoRunning ? props.onStopAuto : props.onShutter}
-                disabled={props.complete}
+                disabled={props.complete || (props.countdown !== null && !props.autoRunning)}
                 aria-label={props.autoRunning ? "Stop auto capture" : "Capture photo"}
               >
                 {props.autoRunning ? <Square size={22} /> : <Aperture size={28} />}
@@ -879,18 +925,19 @@ function Studio(props: StudioProps) {
               ))}
             </div>
 
-            {props.mode === "AUTO" && (
-              <label className="field">
-                <span>Timer {props.timerSec}s</span>
-                <input
-                  type="range"
-                  min="1"
-                  max="10"
-                  value={props.timerSec}
-                  onChange={(event) => props.onTimer(Number(event.target.value))}
-                />
-              </label>
-            )}
+            <label className="field">
+              <span className="field-head">
+                <Timer size={12} />
+                Count-in {props.timerSec}s
+              </span>
+              <input
+                type="range"
+                min="1"
+                max="10"
+                value={props.timerSec}
+                onChange={(event) => props.onTimer(Number(event.target.value))}
+              />
+            </label>
 
             <div className="button-grid">
               <Button variant="secondary" icon={<Upload size={15} />} onClick={() => props.fileRef.current?.click()}>
@@ -951,7 +998,7 @@ function Intro({
   const steps = [
     ["01", "Pick a layout", "Choose from single, strip, pair, quad, or contact sheet."],
     ["02", "Set the frame", "Select a paper tone, caption preset, and decide how much text belongs on the print."],
-    ["03", "Shoot and develop", "Capture by webcam or upload, then export PNG, GIF, boomerang GIF, or QR."]
+    ["03", "Shoot and develop", "Capture with count-in by webcam or upload, then export PNG, GIF, boomerang GIF, or QR."]
   ];
 
   const samples = [

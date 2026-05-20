@@ -16,5 +16,10 @@ test.describe("Snapbooth smoke", () => {
     await expect(page.locator(".studio-page")).toBeVisible();
     await expect(page.getByText("Caption presets")).toBeVisible();
     await expect(page.getByRole("button", { name: /shuffle/i })).toBeVisible();
+    await expect(page.getByText(/count-in 3s/i)).toBeVisible();
+
+    await page.getByRole("button", { name: /capture photo/i }).click();
+    await expect(page.locator(".countdown")).toHaveText("3");
+    await expect(page.getByText(/camera is not ready yet/i)).toBeVisible();
   });
 });

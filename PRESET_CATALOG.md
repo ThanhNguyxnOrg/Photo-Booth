@@ -54,6 +54,7 @@ These are the behaviors that inspired the current implementation:
 - Camera switching and demo mode from [AungMyoKyaw/photo-booth](https://sveltethemes.dev/AungMyoKyaw/photo-booth)
 - Live preview, frame/image overlays, filters, GIF, boomerang, and text overlay ideas from [photobooth-app/photobooth-app](https://github.com/photobooth-app/photobooth-app)
 - Filter-after-capture, frame printing, QR download, and gallery-style workflow cues from [PhotoboothProject/photobooth](https://github.com/PhotoboothProject/photobooth)
+- Count-in shutter timing from [dwolters/photobooth](https://github.com/dwolters/photobooth) and [reuterbal/photobooth](https://github.com/reuterbal/photobooth)
 
 ## Notes
 

@@ -548,6 +548,12 @@ video {
   margin-bottom: 16px;
 }
 
+.field-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .preset-block {
   display: grid;
   gap: 12px;

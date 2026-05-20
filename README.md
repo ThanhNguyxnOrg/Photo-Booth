@@ -9,12 +9,28 @@ Privacy-first browser photo booth with a clean studio UI, curated presets, and s
 
 Live site: [https://thanhnguyxnorg.github.io/Photo-Booth/](https://thanhnguyxnorg.github.io/Photo-Booth/)
 
+> Browser-only. Count-in shutter. Filters, frames, GIFs, QR share.
+
+## Sticker Wall
+
+[![Browser only](https://img.shields.io/badge/Browser--only-yes-111111)](https://thanhnguyxnorg.github.io/Photo-Booth/)
+[![No backend](https://img.shields.io/badge/No_backend-required-222222)](https://github.com/ThanhNguyxnOrg/Photo-Booth)
+[![Count-in](https://img.shields.io/badge/Count--in-on-ffd166)](https://github.com/ThanhNguyxnOrg/Photo-Booth)
+[![Webcam](https://img.shields.io/badge/Webcam-ready-4cc9f0)](https://github.com/ThanhNguyxnOrg/Photo-Booth)
+[![Upload fallback](https://img.shields.io/badge/Upload_fallback-on-8ecae6)](https://github.com/ThanhNguyxnOrg/Photo-Booth)
+[![GIF export](https://img.shields.io/badge/GIF-export-ff6b6b)](https://github.com/ThanhNguyxnOrg/Photo-Booth)
+[![Boomerang](https://img.shields.io/badge/Boomerang-on-f72585)](https://github.com/ThanhNguyxnOrg/Photo-Booth)
+[![QR share](https://img.shields.io/badge/QR_share-ready-8338ec)](https://github.com/ThanhNguyxnOrg/Photo-Booth)
+[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-live-222)](https://thanhnguyxnorg.github.io/Photo-Booth/)
+[![Smoke tested](https://img.shields.io/badge/Smoke_test-pass-2a9d8f)](https://github.com/ThanhNguyxnOrg/Photo-Booth/actions)
+
 ## What It Is
 
 Snapbooth is a single-page React app that turns the browser into a photobooth workflow:
 
 - intro screen before the studio
 - webcam capture and upload fallback
+- count-in shutter delay for manual and auto capture
 - live filter preview
 - layout, frame, caption, and text-scale presets
 - PNG, GIF, boomerang GIF, and QR export
@@ -22,6 +38,16 @@ Snapbooth is a single-page React app that turns the browser into a photobooth wo
 - demo roll for camera-less preview
 
 The app stays browser-only unless you use the temporary QR share flow.
+
+## Capture Flow
+
+| Step | What happens |
+| --- | --- |
+| 1 | Enter the intro screen and start a roll |
+| 2 | Pick layout, frame, filter, and caption preset |
+| 3 | Set the count-in delay |
+| 4 | Capture manually or run an auto roll |
+| 5 | Develop, export, and share from the browser |
 
 ## Preset Snapshot
 
@@ -60,7 +86,7 @@ npm run test:e2e
 - Rebuilt the old multi-page HTML app into one React/Vite experience
 - Added the intro/landing screen before the studio
 - Added caption presets, more frames, more filters, and live camera filter preview
-- Added front/rear switching, demo roll generation, and boomerang GIF export
+- Added front/rear switching, count-in capture, demo roll generation, and boomerang GIF export
 - Kept the core booth flow: layout, frame, filter, capture, develop, share
 - Added Dependabot automation for patch/minor updates
 - Published the app from GitHub Pages
@@ -82,12 +108,20 @@ Ideas were selected from real photobooth projects instead of being invented blin
 - [photobooth-app/photobooth-app](https://github.com/photobooth-app/photobooth-app)
 - [PhotoboothProject/photobooth](https://github.com/PhotoboothProject/photobooth)
 - [AungMyoKyaw/photo-booth](https://sveltethemes.dev/AungMyoKyaw/photo-booth)
+- [dwolters/photobooth](https://github.com/dwolters/photobooth)
+- [reuterbal/photobooth](https://github.com/reuterbal/photobooth)
 
 ## Deploy
 
 - Default branch: `main`
 - Pages source: `main` + `docs/`
 - Live URL: [thanhnguyxnorg.github.io/Photo-Booth](https://thanhnguyxnorg.github.io/Photo-Booth/)
+
+## GitHub Topics
+
+The repo metadata now carries the same tags as the product:
+
+`photobooth` `browser` `webcam` `countdown` `gif` `boomerang` `frames` `filters` `qr-code` `react` `vite` `typescript` `github-pages` `privacy-first`
 
 ## Contributing
 
